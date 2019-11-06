@@ -1,0 +1,14 @@
+{
+	"rules":{
+		"semicolon":true,
+		"indent":[true, "tabs"],
+		"typedef":[true, "call-signature", "parameter"],
+		"space-before-function-paren":[true, "never"],
+		"typedef-whitespace":[true, {
+			"call-signature":"nospace"
+		}],
+		"import-spacing":true,
+		"whitespace":[true, "check-branch", "check-preblock"]
+	},
+	"defaultSeverity": "error"
+}

@@ -61,4 +61,4 @@ typings/
 .next
 
 dist/*
-!dist/sample/index.html
+!dist/index.html

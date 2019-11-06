@@ -1,0 +1,36 @@
+{
+	"name": "scrapy-engine",
+	"version": "0.0.1",
+	"description": "A typescript WebGL game engine.",
+	"main": "dist/main.js",
+	"scripts": {
+		"serve": "webpack-dev-server",
+		"build": "webpack"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Kam1ni/scrapy-engine.git"
+	},
+	"keywords": [
+		"scrapy",
+		"game",
+		"engine",
+		"typescript"
+	],
+	"author": "Kamil Krzysztof Kulach",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/Kam1ni/scrapy-engine/issues"
+	},
+	"homepage": "https://github.com/Kam1ni/scrapy-engine#readme",
+	"devDependencies": {
+		"file-loader": "^4.2.0",
+		"raw-loader": "^3.1.0",
+		"ts-loader": "^6.2.1",
+		"tslint": "^5.20.1",
+		"typescript": "^3.7.2",
+		"webpack": "^4.41.2",
+		"webpack-cli": "^3.3.10",
+		"webpack-dev-server": "^3.9.0"
+	}
+}
