@@ -8,7 +8,8 @@
 			"call-signature":"nospace"
 		}],
 		"import-spacing":true,
-		"whitespace":[true, "check-branch", "check-preblock"]
+		"whitespace":[true, "check-branch", "check-preblock"],
+		"member-access":true
 	},
 	"defaultSeverity": "error"
 }

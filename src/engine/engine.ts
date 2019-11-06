@@ -1,3 +1,78 @@
+import { Color } from "./graphics/color";
+
 export class Engine{
+	private canvas:HTMLCanvasElement;
+	private _gl:WebGLRenderingContext;
+	private resizeSub:()=>void;
+	private running:boolean;
+	private prevFrameTime:number = 0;
+	private clearColor:Color = Color.black();
+
+	public constructor(canvas:HTMLCanvasElement) {
+		this.canvas = canvas;
+	}
+
+	public get gl():WebGLRenderingContext {
+		return this._gl;
+	}
+
+	public init():void {
+		this.initGL();
+
+		this.resizeSub = this.applyCanvasSize.bind(this);
+		window.addEventListener("resize", this.resizeSub);
+		this.applyCanvasSize();
+	}
+
+	public start():void {
+		if (this.running) return;
+		this.running = true;
+		this.prevFrameTime = new Date().getTime();
+		requestAnimationFrame(this.loop.bind(this));
+	}
+
+	public stop():void {
+		this.running = false;
+	}
+
+	public isRunning():boolean {
+		return this.running;
+	}
 	
+	public applyCanvasSize():void {
+		this.canvas.width = this.canvas.parentElement.clientWidth;
+		this.canvas.height = this.canvas.parentElement.clientHeight;
+	}
+	
+	public destroy():void {
+		window.removeEventListener("resize", this.resizeSub);
+	}
+
+	public getClearColor():Color {
+		return this.clearColor;
+	}
+
+	public setClearColor(color:Color):void {
+		this.clearColor = color;
+		if (this.gl) {
+			this.gl.clearColor(color.getRedFloat(), color.getGreenFloat(), color.getBlueFloat(), color.getAlphaFloat());
+		}
+	}
+
+	private loop():void {
+		if (!this.running) return;
+		let currentTime = new Date().getTime();
+		let dt = currentTime - this.prevFrameTime;
+		this.gl.clear(this.gl.COLOR_BUFFER_BIT);
+		requestAnimationFrame(this.loop.bind(this));
+	}
+
+	private initGL():void {
+		this._gl = this.canvas.getContext("webgl");
+		if (!this.gl) {
+			throw new Error("WebGL is not available in this browser");
+		}
+
+		this.setClearColor(this.clearColor);
+	}
 }
