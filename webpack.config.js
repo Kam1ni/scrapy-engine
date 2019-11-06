@@ -41,7 +41,7 @@ module.exports = {
 		libraryTarget:"umd"
 	},
 	devServer:{
-		contentBase:path.join(__dirname, "sample"),
+		contentBase:path.join(__dirname, "dist"),
 		compress:true,
 		port:8080,
 	},
