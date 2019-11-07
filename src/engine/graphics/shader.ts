@@ -52,6 +52,10 @@ export abstract class Shader {
 		this.detectAttributes();
 		this.detectUniforms();
 	}
+
+	public use():void {
+		this.engine.gl.useProgram(this.program);
+	}
 	
 	private detectAttributes():void {
 		let attribCount = this.engine.gl.getProgramParameter(this.program, this.engine.gl.ACTIVE_ATTRIBUTES);
@@ -67,5 +71,13 @@ export abstract class Shader {
 			let info = this.engine.gl.getActiveUniform(this.program, i);
 			this.uniforms[info.name] = this.engine.gl.getUniformLocation(this.program, info.name);
 		}
+	}
+
+	public getAttributeLocation(name:string):number {
+		return this.atributes[name];
+	}
+
+	public getUniformLocation(name:string):WebGLUniformLocation {
+		return this.uniforms[name];
 	}
 }

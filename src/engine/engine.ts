@@ -24,7 +24,9 @@ export class Engine{
 	public init():void {
 		this.initGL();
 		this.shader.load();
+		this.shader.use();
 
+		this.world.load();
 		this.resizeSub = this.applyCanvasSize.bind(this);
 		window.addEventListener("resize", this.resizeSub);
 		this.applyCanvasSize();
@@ -48,6 +50,7 @@ export class Engine{
 	public applyCanvasSize():void {
 		this.canvas.width = this.canvas.parentElement.clientWidth;
 		this.canvas.height = this.canvas.parentElement.clientHeight;
+		this._gl.viewport(0,0, this.canvas.width, this.canvas.height);
 	}
 	
 	public destroy():void {
@@ -70,6 +73,8 @@ export class Engine{
 		let currentTime = new Date().getTime();
 		let dt = currentTime - this.prevFrameTime;
 		this.gl.clear(this.gl.COLOR_BUFFER_BIT);
+		this.world.update(dt);
+		this.world.render();
 		requestAnimationFrame(this.loop.bind(this));
 	}
 
@@ -88,5 +93,17 @@ export class Engine{
 
 	public setShader(shader:Shader):void {
 		this.shader = shader;
+	}
+
+	public getWorld():GameWorld {
+		return this.world;
+	}
+
+	public setWorld(world:GameWorld):void {
+		if (this.world) {
+			this.world.destroy();
+		}
+		this.world = world;
+		this.world.load();
 	}
 }
