@@ -1,4 +1,7 @@
 import { Color } from "./graphics/color";
+import { Shader } from "./graphics/shader";
+import { BasicShader } from "./graphics/basic-shader";
+import { GameWorld } from "./world/game-world";
 
 export class Engine{
 	private canvas:HTMLCanvasElement;
@@ -7,6 +10,8 @@ export class Engine{
 	private running:boolean;
 	private prevFrameTime:number = 0;
 	private clearColor:Color = Color.black();
+	private shader:Shader = new BasicShader(this);
+	private world:GameWorld = new GameWorld(this);
 
 	public constructor(canvas:HTMLCanvasElement) {
 		this.canvas = canvas;
@@ -18,6 +23,7 @@ export class Engine{
 
 	public init():void {
 		this.initGL();
+		this.shader.load();
 
 		this.resizeSub = this.applyCanvasSize.bind(this);
 		window.addEventListener("resize", this.resizeSub);
@@ -74,5 +80,13 @@ export class Engine{
 		}
 
 		this.setClearColor(this.clearColor);
+	}
+
+	public getShader():Shader {
+		return this.shader;
+	}
+
+	public setShader(shader:Shader):void {
+		this.shader = shader;
 	}
 }
