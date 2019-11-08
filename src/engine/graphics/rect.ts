@@ -53,9 +53,12 @@ export class Rect extends Graphic {
 		let colorLocation = this.engine.getShader().getUniformLocation("u_color");
 		this.engine.gl.uniform4fv(colorLocation, this.color.toFloat32Array());
 
+		let transformLocation = this.engine.getShader().getUniformLocation("u_transform");
+		this.engine.gl.uniformMatrix4fv(transformLocation, false, transform.toFloat32Array());
+
 		this.buffer.bind();
 		this.buffer.draw();
-		this.buffer.unbind();
 		super.render(transform);
+		this.buffer.unbind();
 	}
 }

@@ -167,4 +167,10 @@ export class Matrix4x4 {
 	public toFloat32Array():Float32Array {
 		return new Float32Array(this.data);
 	}
+
+	public clone():Matrix4x4{
+		let m = new Matrix4x4();
+		m.copyFrom(this);
+		return m;
+	}
 }

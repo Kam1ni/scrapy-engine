@@ -8,6 +8,7 @@ let engine = new Engine(canvas);
 let rect = new SimpleRect(engine);
 
 rect.transform.position.y = 100;
+rect.transform.position.x = 100;
 
 engine.getWorld().addChild(rect);
 engine.init();

@@ -26,7 +26,7 @@ export abstract class GameContainer {
 		if (child.parent) {
 			throw new Error(`Cant add child ${child.id} to container ${this.id}. Child has a parent`);
 		}
-		this.parent = this;
+		child.parent = this;
 		this.children.push(child);
 	}
 

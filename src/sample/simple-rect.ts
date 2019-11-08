@@ -5,7 +5,7 @@ import { Color } from "@/engine/graphics/color";
 
 export class SimpleRect extends SimObject {
 	protected graphics:Graphic[] = [
-		new Rect(this.engine, 500, 200, Color.red())
+		new Rect(this.engine, 100, 100, Color.red())
 	];
 
 	public render():void {

@@ -2,6 +2,8 @@ import { Color } from "./graphics/color";
 import { Shader } from "./graphics/shader";
 import { BasicShader } from "./graphics/basic-shader";
 import { GameWorld } from "./world/game-world";
+import { OrthographicCamera } from "./world/orthographic-camera";
+import { Camera } from "./world/camera";
 
 export class Engine{
 	private canvas:HTMLCanvasElement;
@@ -12,6 +14,7 @@ export class Engine{
 	private clearColor:Color = Color.black();
 	private shader:Shader = new BasicShader(this);
 	private world:GameWorld = new GameWorld(this);
+	private camera:Camera = new OrthographicCamera(this);
 
 	public constructor(canvas:HTMLCanvasElement) {
 		this.canvas = canvas;
@@ -50,6 +53,7 @@ export class Engine{
 	public applyCanvasSize():void {
 		this.canvas.width = this.canvas.parentElement.clientWidth;
 		this.canvas.height = this.canvas.parentElement.clientHeight;
+		this.camera.updateMatrix();
 		this._gl.viewport(0,0, this.canvas.width, this.canvas.height);
 	}
 	
@@ -74,6 +78,14 @@ export class Engine{
 		let dt = currentTime - this.prevFrameTime;
 		this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 		this.world.update(dt);
+
+		let projectionPosition = this.shader.getUniformLocation("u_projection");
+		this.gl.uniformMatrix4fv(projectionPosition, false, this.camera.getMatrix().toFloat32Array());
+
+		let offsetPosition = this.shader.getUniformLocation("u_offset");
+		let offset = this.camera.transform.getTransformationMatrix();
+		this.gl.uniformMatrix4fv(offsetPosition, false, offset.toFloat32Array());
+
 		this.world.render();
 		requestAnimationFrame(this.loop.bind(this));
 	}
@@ -105,5 +117,9 @@ export class Engine{
 		}
 		this.world = world;
 		this.world.load();
+	}
+
+	public getCanvas():HTMLCanvasElement {
+		return this.canvas;
 	}
 }
