@@ -26,7 +26,7 @@ export class B3N extends SimObject {
 
 		let justIsLeft = this.engine.input.isKeyPressed(Keys.A);
 		let justIsRight = this.engine.input.isKeyPressed(Keys.D);
-		if (newTouch){
+		if (newTouch) {
 			justIsLeft = this.isTouchLeft(touch);
 			justIsRight = !justIsLeft;
 		}
@@ -45,7 +45,7 @@ export class B3N extends SimObject {
 
 		let goLeft = this.engine.input.isKeyDown(Keys.A);
 		let goRight = this.engine.input.isKeyDown(Keys.D);
-		if (touch){
+		if (touch) {
 			goLeft = this.isTouchLeft(touch);
 			goRight = !goLeft;
 		}

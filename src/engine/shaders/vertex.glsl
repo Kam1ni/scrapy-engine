@@ -8,6 +8,6 @@ uniform mat4 u_offset;
 varying vec2 v_texCoord;
 
 void main(){
-	gl_Position = u_projection * u_transform * u_offset * vec4(a_position, 1.0);
+	gl_Position = u_projection *  u_offset * u_transform * vec4(a_position, 1.0);
 	v_texCoord = a_texCoord;
 }
