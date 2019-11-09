@@ -3,7 +3,7 @@ import { Sprite } from "@/engine/graphics/sprite";
 import { Texture } from "@/engine/graphics/texture";
 import { B3NElement } from "./b3n-element";
 import { Vector3 } from "@/engine/math/vector3";
-import { Keys } from "@/engine/utils/input";
+import { Keys, ScrapyTouch } from "@/engine/utils/input";
 import { approach } from "@/engine/math/approach";
 
 export class B3N extends SimObject {
@@ -21,23 +21,39 @@ export class B3N extends SimObject {
 	public update(dt:number):void {
 		let speed = 100;
 		let animationPos = this.b3nObject.b3nSprite.getRenderedLocation();
+		let newTouch = this.engine.input.getNewTouches()[0];
+		let touch = this.engine.input.getTouches()[0];
+
+		let justIsLeft = this.engine.input.isKeyPressed(Keys.A);
+		let justIsRight = this.engine.input.isKeyPressed(Keys.D);
+		if (newTouch){
+			justIsLeft = this.isTouchLeft(touch);
+			justIsRight = !justIsLeft;
+		}
 		
-		if (this.engine.input.isKeyPressed(Keys.A)) {
+		if (justIsLeft) {
 			if (this.transform.scale.x == 1) {
 				this.transform.scale.x = -1;
 				this.transform.position.x += 16;
 			}
-		} else if (this.engine.input.isKeyPressed(Keys.D)) {
+		} else if (justIsRight) {
 			if (this.transform.scale.x == -1) {
 				this.transform.scale.x = 1;
 				this.transform.position.x -= 16;
 			}
 		}
+
+		let goLeft = this.engine.input.isKeyDown(Keys.A);
+		let goRight = this.engine.input.isKeyDown(Keys.D);
+		if (touch){
+			goLeft = this.isTouchLeft(touch);
+			goRight = !goLeft;
+		}
 		
-		if (this.engine.input.isKeyDown(Keys.A) || this.engine.input.isKeyDown(Keys.D)) {
-			if (this.engine.input.isKeyDown(Keys.A)) {
+		if (goLeft || goRight) {
+			if (goLeft) {
 				this.velocity.x = approach(this.velocity.x, -speed, dt / 3.0);
-			} else if (this.engine.input.isKeyDown(Keys.D)) {
+			} else if (goRight) {
 				this.velocity.x = approach(this.velocity.x, speed, dt / 3.0);
 			}
 			this.moveAnimationTimer+=dt;
@@ -71,5 +87,9 @@ export class B3N extends SimObject {
 		this.transform.position.x += this.velocity.x * (dt / 1000.0);
 
 		super.update(dt);
+	}
+
+	private isTouchLeft(touch:ScrapyTouch):boolean {
+		return touch.x < this.engine.getCanvas().width / 2;
 	}
 }

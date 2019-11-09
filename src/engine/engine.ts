@@ -22,6 +22,8 @@ export class Engine{
 
 	public constructor(canvas:HTMLCanvasElement) {
 		this.canvas = canvas;
+		this.canvas.style.userSelect = "none";
+		this.canvas.addEventListener("contextmenu", e=>e.preventDefault());
 	}
 
 	public get gl():WebGLRenderingContext {

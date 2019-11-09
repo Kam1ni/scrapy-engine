@@ -1,5 +1,13 @@
 import { Engine } from "../engine";
 
+export class ScrapyTouch {
+	public x:number = 0;
+	public y:number = 0;
+	public xDiff:number = 0;
+	public yDiff:number = 0;
+	public id:number;
+}
+
 // TODO: Add on destroy
 export class Input {
 	private engine:Engine;
@@ -16,6 +24,10 @@ export class Input {
 	private mousePos:{x:number, y:number} = {x:0, y:0};
 	private mouseDiff:{x:number, y:number, scroll:number} = {x:0, y:0, scroll:0};
 
+	private touches:ScrapyTouch[] = [];
+	private newTouches:ScrapyTouch[] = [];
+	private releasedTouches:ScrapyTouch[] = [];
+
 	constructor(engine:Engine) {
 		this.engine = engine;
 	}
@@ -26,10 +38,14 @@ export class Input {
 
 		window.addEventListener("keydown", this.onKeyDown.bind(this));
 		window.addEventListener("keyup", this.onKeyUp.bind(this));
-		window.addEventListener("mousedown", this.onMouseButtonDown.bind(this));
-		window.addEventListener("mouseup", this.onMouseButtonUp.bind(this));
-		window.addEventListener("mousemove", this.onMouseMove.bind(this));
+		this.engine.getCanvas().addEventListener("mousedown", this.onMouseButtonDown.bind(this));
+		this.engine.getCanvas().addEventListener("mouseup", this.onMouseButtonUp.bind(this));
+		this.engine.getCanvas().addEventListener("mousemove", this.onMouseMove.bind(this));
 		window.addEventListener("wheel", this.onScroll.bind(this));
+		this.engine.getCanvas().addEventListener("touchstart", this.onTouchStart.bind(this));
+		this.engine.getCanvas().addEventListener("touchend", this.onTouchEnd.bind(this));
+		this.engine.getCanvas().addEventListener("touchcancel", this.onTouchEnd.bind(this));
+		this.engine.getCanvas().addEventListener("touchmove", this.onTouchMove.bind(this));
 	}
 
 	private onKeyDown(event:KeyboardEvent):void {
@@ -72,6 +88,45 @@ export class Input {
 		this.mouseDiff.scroll = event.deltaY;
 	}
 
+	
+	private onTouchStart(event:TouchEvent):void {
+		for (let i = 0; i < event.changedTouches.length; i++) {
+			let touch = event.changedTouches.item(i);
+			let scrapyTouch = new ScrapyTouch();
+			scrapyTouch.x = touch.clientX;
+			scrapyTouch.y = touch.clientY;
+			scrapyTouch.xDiff = 0;
+			scrapyTouch.yDiff = 0;
+			scrapyTouch.id = touch.identifier;
+			this.touches.push(scrapyTouch);
+			this.newTouches.push(scrapyTouch);
+		}
+	}
+
+	private onTouchEnd(event:TouchEvent):void {
+		for (let i = 0; i < event.changedTouches.length; i++) {
+			let touch = event.changedTouches.item(i);
+			let index = this.touches.findIndex(t=>t.id == touch.identifier);
+			if (index != -1) {
+				this.releasedTouches.push(this.touches[i]);
+				this.touches.splice(index, 1);
+			}
+		}
+	}
+
+	private onTouchMove(event:TouchEvent):void {
+		for (let i = 0; i < event.changedTouches.length; i++) {
+			let touch = event.changedTouches.item(i);
+			let foundTouch = this.touches.find(t=>t.id == touch.identifier);
+			if (foundTouch) {
+				foundTouch.xDiff = foundTouch.x - touch.clientX;
+				foundTouch.yDiff = foundTouch.y - touch.clientY;
+				foundTouch.x = touch.clientX;
+				foundTouch.y = touch.clientY;
+			}
+		}
+	}
+
 	private static addToArray(array:any[], value:any):void {
 		if (array.indexOf(value) == -1) {
 			array.push(value);
@@ -85,12 +140,15 @@ export class Input {
 		}
 	}
 
+
 	public update():void {
 		this.keysPressed = [];
 		this.keysReleased = [];
 		this.mouseButtonsPressed = [];
 		this.mouseButtonsReleased = [];
 		this.mouseDiff = {x:0,y:0,scroll:0};
+		this.newTouches = [];
+		this.releasedTouches = [];
 	}
 
 	public isKeyDown(key:string):boolean {
@@ -135,6 +193,18 @@ export class Input {
 
 	public getMouseScroll():number {
 		return this.mouseDiff.scroll;
+	}
+
+	public getTouches():ScrapyTouch[] {
+		return this.touches;
+	}
+
+	public getNewTouches():ScrapyTouch[] {
+		return this.newTouches;
+	}
+
+	public getReleasedTouches():ScrapyTouch[] {
+		return this.releasedTouches;
 	}
 }
 
