@@ -1,5 +1,5 @@
 import { Engine } from "../engine";
-import { EventEmitter } from "events";
+import { EventEmitter } from "../utils/event-emitter";
 
 const LEVEL:number = 0;
 const BORDER:number = 0;

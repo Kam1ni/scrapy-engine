@@ -8,8 +8,6 @@ import { Color } from "./color";
 export class Sprite extends Graphic {
 	private texture:Texture;
 	private buffer:GLBuffer;
-	// TODO: Create proper subbing mechanism
-	private subs:{event:string, value:Function}[] = [];
 
 	constructor(engine:Engine, texture:Texture) {
 		super(engine);
@@ -18,9 +16,7 @@ export class Sprite extends Graphic {
 
 	public destroy():void {
 		this.buffer.destroy();
-		for (let sub of this.subs){
-			this.texture.off(sub.event, sub.value as any);
-		}
+		this.texture.offByBinding(this);
 	}
 
 	public load():void {
@@ -41,12 +37,7 @@ export class Sprite extends Graphic {
 		this.texture.load();
 
 		this.onTextureLoad();
-		let sub = {
-			event:"loaded",
-			value:this.onTextureLoad.bind(this)
-		};
-		this.texture.on("loaded", sub.value);
-		this.subs.push(sub);
+		this.texture.on("loaded", this.onTextureLoad, this);
 	}
 
 	
