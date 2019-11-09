@@ -30,7 +30,7 @@ export class Engine{
 		this.initGL();
 		this.shader.load();
 		this.shader.use();
-		
+
 		this.staticGraphics.load();
 
 		this.world.load();
@@ -100,6 +100,10 @@ export class Engine{
 			throw new Error("WebGL is not available in this browser");
 		}
 
+		// Enables transparency
+		this.gl.enable(this.gl.BLEND);
+		this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
+
 		this.setClearColor(this.clearColor);
 	}
 
@@ -121,6 +125,10 @@ export class Engine{
 		}
 		this.world = world;
 		this.world.load();
+	}
+
+	public getCamera():Camera {
+		return this.camera;
 	}
 
 	public getCanvas():HTMLCanvasElement {

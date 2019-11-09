@@ -1,18 +1,25 @@
 import { Engine } from "@/engine/engine";
 import { SimObject } from "@/engine/world/sim-object";
 import { SimpleRect } from "./simple-rect";
+import { World } from "./world";
 
 let canvas = document.createElement("canvas");
 document.body.append(canvas);
 let engine = new Engine(canvas);
 engine.init();
 
+/*
 let rect = new SimpleRect(engine);
 rect.transform.position.y = 100;
 rect.transform.position.x = 100;
 rect.transform.scale.x = 5;
 rect.transform.scale.y = 5;
 rect.load();
+*/
 
-engine.getWorld().addChild(rect);
+let world = new World(engine);
+world.transform.scale.x = 3;
+world.transform.scale.y = 3;
+world.transform.position.y = engine.getCanvas().height - 16 * 3;
+engine.setWorld(world);
 engine.start();

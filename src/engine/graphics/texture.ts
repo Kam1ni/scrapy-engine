@@ -3,7 +3,6 @@ import { EventEmitter } from "../utils/event-emitter";
 
 const LEVEL:number = 0;
 const BORDER:number = 0;
-const TEMP_IMAGE_DATA:Uint8Array = new Uint8Array([255,255,255,255, 0,0,0,255, 255,255,255,255, 0,0,0,255]);
 
 export enum TextureState{
 	INITIAL,
