@@ -8,10 +8,10 @@ let engine = new Engine(canvas);
 engine.init();
 
 let rect = new SimpleRect(engine);
-//rect.transform.position.y = 100;
-//rect.transform.position.x = 100;
-rect.transform.scale.x = 10;
-rect.transform.scale.y = 10;
+rect.transform.position.y = 100;
+rect.transform.position.x = 100;
+rect.transform.scale.x = 5;
+rect.transform.scale.y = 5;
 rect.load();
 
 engine.getWorld().addChild(rect);

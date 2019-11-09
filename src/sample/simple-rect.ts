@@ -7,8 +7,7 @@ import * as woodTexture from "assets/textures/wood.png";
 import { Texture } from "@/engine/graphics/texture";
 
 export class SimpleRect extends SimObject {
-	protected graphics:Graphic[] = [
-	//	new Rect(this.engine, 100, 100, Color.red()),
+	protected graphics:Graphic[] = [new Rect(this.engine, 100, 100, Color.red()),
 ];
 
 	public load():void {

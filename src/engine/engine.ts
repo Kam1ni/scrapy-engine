@@ -4,6 +4,7 @@ import { BasicShader } from "./graphics/basic-shader";
 import { GameWorld } from "./world/game-world";
 import { OrthographicCamera } from "./world/orthographic-camera";
 import { Camera } from "./world/camera";
+import { StaticGraphics } from "./graphics/static-graphics";
 
 export class Engine{
 	private canvas:HTMLCanvasElement;
@@ -15,6 +16,7 @@ export class Engine{
 	private shader:Shader = new BasicShader(this);
 	private world:GameWorld = new GameWorld(this);
 	private camera:Camera = new OrthographicCamera(this);
+	public staticGraphics = new StaticGraphics(this);
 
 	public constructor(canvas:HTMLCanvasElement) {
 		this.canvas = canvas;
@@ -28,6 +30,8 @@ export class Engine{
 		this.initGL();
 		this.shader.load();
 		this.shader.use();
+		
+		this.staticGraphics.load();
 
 		this.world.load();
 		this.resizeSub = this.applyCanvasSize.bind(this);

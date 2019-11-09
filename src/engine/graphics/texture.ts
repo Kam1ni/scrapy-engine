@@ -5,7 +5,7 @@ const LEVEL:number = 0;
 const BORDER:number = 0;
 const TEMP_IMAGE_DATA:Uint8Array = new Uint8Array([255,255,255,255, 0,0,0,255, 255,255,255,255, 0,0,0,255]);
 
-enum TextureState{
+export enum TextureState{
 	INITIAL,
 	LOADING,
 	LOADED
@@ -14,22 +14,16 @@ enum TextureState{
 export class Texture extends EventEmitter{
 	protected engine:Engine;
 	private textureUrl:string;
-	private loaded:boolean;
-	private handle:WebGLTexture;
-	private state:TextureState = TextureState.INITIAL;
+	protected handle:WebGLTexture;
+	protected state:TextureState = TextureState.INITIAL;
 	private width:number = 2;
 	private height:number = 2;
 
-	constructor(engine:Engine, textureUrl:string) {
+	constructor(engine:Engine, textureUrl?:string) {
 		super();
 		this.engine = engine;
 		this.textureUrl = textureUrl;
-		this.handle = engine.gl.createTexture();
 		
-		this.bind();
-		let gl = engine.gl;
-		gl.texImage2D(gl.TEXTURE_2D, LEVEL, gl.RGBA, 2,2, BORDER, gl.RGBA, gl.UNSIGNED_BYTE, TEMP_IMAGE_DATA);
-
 	}
 
 	public load():void {
@@ -38,11 +32,13 @@ export class Texture extends EventEmitter{
 
 		let img = new Image();
 		img.onload = ()=> {
+			this.state = TextureState.LOADED;
+			this.handle = this.engine.gl.createTexture();
+			this.bind();
+
 			this.width = img.width;
 			this.height = img.height;
 			let gl = this.engine.gl;
-		//	gl.deleteTexture(this.handle);
-		//	this.handle = gl.createTexture();
 
 			this.bind();
 			gl.texImage2D(gl.TEXTURE_2D, LEVEL, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
@@ -54,7 +50,6 @@ export class Texture extends EventEmitter{
 				gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
 			}
 			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-			this.state = TextureState.LOADED;
 			this.emit("loaded");
 		};
 		img.src = this.textureUrl;
@@ -66,11 +61,19 @@ export class Texture extends EventEmitter{
 	}
 
 	public bind():void {
-		this.engine.gl.bindTexture(this.engine.gl.TEXTURE_2D, this.handle);
+		if (this.state == TextureState.LOADED) {
+			this.engine.gl.bindTexture(this.engine.gl.TEXTURE_2D, this.handle);
+		}else {
+			this.engine.staticGraphics.getMissingTexture().bind();
+		}
 	}
 	
 	public unbind():void {
-		this.engine.gl.bindTexture(this.engine.gl.TEXTURE_2D, undefined);
+		if (this.state == TextureState.LOADED) {
+			this.engine.gl.bindTexture(this.engine.gl.TEXTURE_2D, undefined);
+		}else {
+			this.engine.staticGraphics.getMissingTexture().unbind();
+		}
 	}
 
 	public destroy():void {
