@@ -22,8 +22,6 @@ export class World extends GameWorld {
 
 		this.b3n = new B3N(this.engine);
 		this.b3n.transform.position.y = 16;
-		this.b3n.transform.position.x = 64;
-		this.b3n.transform.rotation.z = 1;
 		this.b3n.load();
 		
 		for (let i = 0; i < 25; i++) {

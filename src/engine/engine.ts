@@ -5,6 +5,7 @@ import { GameWorld } from "./world/game-world";
 import { OrthographicCamera } from "./world/orthographic-camera";
 import { Camera } from "./world/camera";
 import { StaticGraphics } from "./graphics/static-graphics";
+import { Input } from "./utils/input";
 
 export class Engine{
 	private canvas:HTMLCanvasElement;
@@ -17,6 +18,7 @@ export class Engine{
 	private world:GameWorld = new GameWorld(this);
 	private camera:Camera = new OrthographicCamera(this);
 	public staticGraphics = new StaticGraphics(this);
+	public input:Input = new Input(this);
 
 	public constructor(canvas:HTMLCanvasElement) {
 		this.canvas = canvas;
@@ -30,7 +32,8 @@ export class Engine{
 		this.initGL();
 		this.shader.load();
 		this.shader.use();
-
+		
+		this.input.init();
 		this.staticGraphics.load();
 
 		this.world.load();
@@ -95,6 +98,7 @@ export class Engine{
 		this.gl.uniformMatrix4fv(offsetPosition, false, offset.toFloat32Array());
 
 		this.world.render();
+		this.input.update();
 		requestAnimationFrame(this.loop.bind(this));
 	}
 
