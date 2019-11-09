@@ -6,8 +6,8 @@ import { Matrix4x4 } from "../math/matrix4x4";
 import { Color } from "./color";
 
 export class Sprite extends Graphic {
-	private texture:Texture;
-	private buffer:GLBuffer;
+	protected texture:Texture;
+	protected buffer:GLBuffer;
 
 	constructor(engine:Engine, texture:Texture) {
 		super(engine);
@@ -42,7 +42,7 @@ export class Sprite extends Graphic {
 
 	
 	
-	private onTextureLoad():void {
+	protected onTextureLoad():void {
 		let vertices = [
 			// x, y, x, u, v
 			0, 0, 0, 0, 0,

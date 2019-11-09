@@ -84,7 +84,7 @@ export class Engine{
 		let currentTime = new Date().getTime();
 		let dt = currentTime - this.prevFrameTime;
 		this.prevFrameTime = currentTime;
-		if (dt > 250){
+		if (dt > 250) {
 			dt = 250;
 		}
 		this.gl.clear(this.gl.COLOR_BUFFER_BIT);
