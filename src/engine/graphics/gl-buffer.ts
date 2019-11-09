@@ -61,6 +61,11 @@ export class GLBuffer {
 		this.data.push(...data);
 	}
 
+	public setData(data:number[]):void {
+		this.data.splice(0, this.data.length);
+		this.data.push(...data);
+	}
+
 	public upload():void {
 		this.engine.gl.bindBuffer(this.bufferType, this.buffer);
 		let bufferData:ArrayBuffer = GLBuffer.dataToArrayBuffer(this.engine.gl, this.dataType, this.data);

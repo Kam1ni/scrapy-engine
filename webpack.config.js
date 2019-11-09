@@ -37,8 +37,6 @@ module.exports = {
 	output:{
 		filename:"[name].js",
 		path: path.resolve(__dirname, "dist"),
-		library:"ex",
-		libraryTarget:"umd"
 	},
 	devServer:{
 		contentBase:path.join(__dirname, "dist"),
