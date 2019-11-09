@@ -81,6 +81,9 @@ export class World extends GameWorld {
 		}
 		let camWidth = this.engine.getCanvas().width / scale;
 		let margin = 100;
+		if (margin > camWidth / 2){
+			margin = camWidth / 4;
+		}
 		if (benPos < cameraPos + margin) {
 			this.engine.getCamera().transform.position.x = -(benPos - margin) * scale;
 		}
