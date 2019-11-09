@@ -58,7 +58,7 @@ export class Engine{
 		this.canvas.width = this.canvas.parentElement.clientWidth;
 		this.canvas.height = this.canvas.parentElement.clientHeight;
 		this.camera.updateMatrix();
-		this._gl.viewport(0,0, this.canvas.width, this.canvas.height);
+		this._gl.viewport(0, 0, this.canvas.width, this.canvas.height);
 	}
 	
 	public destroy():void {
@@ -80,6 +80,10 @@ export class Engine{
 		if (!this.running) return;
 		let currentTime = new Date().getTime();
 		let dt = currentTime - this.prevFrameTime;
+		this.prevFrameTime = currentTime;
+		if (dt > 250){
+			dt = 250;
+		}
 		this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 		this.world.update(dt);
 

@@ -39,7 +39,7 @@ export class Matrix4x4 {
 		let m = new Matrix4x4();
 		
 		m.data[12] = position.x;
-		m.data[13] = position.y;
+		m.data[13] = -position.y;
 		m.data[14] = position.z;
 
 		return m;

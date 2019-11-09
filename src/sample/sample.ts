@@ -18,8 +18,8 @@ rect.load();
 */
 
 let world = new World(engine);
-world.transform.scale.x = 3;
-world.transform.scale.y = 3;
-world.transform.position.y = engine.getCanvas().height - 16 * 3;
+world.transform.scale.x = 4;
+world.transform.scale.y = 4;
+world.transform.position.y = - engine.getCanvas().height + 64;
 engine.setWorld(world);
 engine.start();

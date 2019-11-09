@@ -21,10 +21,11 @@ export class World extends GameWorld {
 		this.grassSprite.load();
 
 		this.b3n = new B3N(this.engine);
-		this.addChild(this.b3n);
-		this.b3n.transform.position.y = -16;
+		this.b3n.transform.position.y = 16;
+		this.b3n.transform.position.x = 64;
+		this.b3n.transform.rotation.z = 1;
 		this.b3n.load();
-
+		
 		for (let i = 0; i < 25; i++) {
 			if (i > 10 && i < 15) {
 				this.addChild(this.createBlock(this.woodSprite, new Vector3(i * 16, 0,0)));
@@ -32,6 +33,7 @@ export class World extends GameWorld {
 				this.addChild(this.createBlock(this.grassSprite, new Vector3(i * 16, 0,0)));
 			}
 		}
+		this.addChild(this.b3n);
 	}
 
 	private createBlock(sprite:Sprite, position:Vector3):SimObject {
