@@ -9,8 +9,8 @@ import { Block } from "./block";
 import { Vector3 } from "@/engine/math/vector3";
 import { B3N } from "./b3n";
 import { LampPost } from "./lamp-post";
-import { LampPostLight } from "./lamp-post-light";
 import { Keys } from "@/engine/utils/input";
+import { Color } from "@/engine/graphics/color";
 
 export class World extends GameWorld {
 	private woodSprite:Sprite;
@@ -20,6 +20,7 @@ export class World extends GameWorld {
 	private b3n:B3N;
 
 	public load():void {
+		this.ambientLight = new Color(50,50,150);
 		this.woodSprite = new Sprite(this.engine, new Texture(this.engine, woodTexture));
 		this.grassSprite = new Sprite(this.engine, new Texture(this.engine, grassTexture));
 		this.treeSprite = new Sprite(this.engine, new Texture(this.engine, treeTexture));
@@ -94,7 +95,7 @@ export class World extends GameWorld {
 			this.engine.getCamera().transform.position.x = -(benPos - camWidth + margin) * scale;
 		}
 
-		if (this.engine.input.isKeyPressed(Keys.F12)){
+		if (this.engine.input.isKeyPressed(Keys.F12)) {
 			this.engine.stop();
 		}
 
