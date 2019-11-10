@@ -6,8 +6,8 @@
 	"configurations": [
 		{
 			"type": "chrome",
-			"request": "launch",
-			"name": "Launch to chrome",
+			"request": "attach",
+			"name": "Attach to chrome",
 			"url": "http://localhost:8080",
 			"webRoot": "${workspaceFolder}/",
 			"sourceMaps": true,

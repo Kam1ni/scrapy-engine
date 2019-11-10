@@ -10,6 +10,7 @@ import { Vector3 } from "@/engine/math/vector3";
 import { B3N } from "./b3n";
 import { LampPost } from "./lamp-post";
 import { LampPostLight } from "./lamp-post-light";
+import { Keys } from "@/engine/utils/input";
 
 export class World extends GameWorld {
 	private woodSprite:Sprite;
@@ -29,17 +30,20 @@ export class World extends GameWorld {
 		this.b3n = new B3N(this.engine);
 		this.b3n.transform.position.y = 16;
 		this.b3n.transform.position.x = 100;
+		this.b3n.transform.position.z = 0;
 		this.b3n.load();
-
+		this.addChild(this.b3n);
 		let lampPost = new LampPost(this.engine);
 		lampPost.load();
-		
-		let lampPostLight = new LampPostLight(this.engine);
-		lampPostLight.transform = lampPost.transform;
-		lampPostLight.load();
-		
+		this.addChild(lampPost);
+		//
+		//let lampPostLight = new LampPostLight(this.engine);
+		//lampPostLight.transform = lampPost.transform;
+		//lampPostLight.load();
+		//
 		lampPost.transform.position.y = 128;
 		lampPost.transform.position.x = 100;
+		lampPost.transform.position.z = -5;
 
 		let treeCount = this.randomInt(10,20);
 		let lastPos = -10;
@@ -48,7 +52,7 @@ export class World extends GameWorld {
 			let posDiff = this.randomInt(16, 32);
 			lastPos = lastPos + posDiff;
 
-			let tree = this.createBlock(this.treeSprite, new Vector3(lastPos, 128,0));
+			let tree = this.createBlock(this.treeSprite, new Vector3(lastPos, 128,-10));
 			trees.push(tree);
 		}
 		trees = this.shuffle(trees);
@@ -62,26 +66,25 @@ export class World extends GameWorld {
 
 		for (let i = 0; i < 25; i++) {
 			if (i > 10 && i < 15) {
-				this.addChild(this.createBlock(this.woodSprite, new Vector3(i * 16, 0,0)));
+				this.addChild(this.createBlock(this.woodSprite, new Vector3(i * 16, 0, -10)));
 			}else {
-				this.addChild(this.createBlock(this.grassSprite, new Vector3(i * 16, 0,0)));
+				this.addChild(this.createBlock(this.grassSprite, new Vector3(i * 16, 0, -10)));
 			}
 		}
-		this.addChild(lampPost);
-		this.addChild(this.b3n);
-		this.addChild(lampPostLight);
+	
+		//this.addChild(lampPostLight);
 	}
 
 	public update(dt:number):void {
 		let scale = this.engine.getCamera().transform.scale.x;
 		let cameraPos = -this.engine.getCamera().transform.position.x / scale;
 		let benPos = this.b3n.transform.position.x;
-		if (this.b3n.transform.scale.x == -1){
+		if (this.b3n.transform.scale.x == -1) {
 			benPos -= 16;
 		}
 		let camWidth = this.engine.getCanvas().width / scale;
 		let margin = 100;
-		if (margin > camWidth / 2){
+		if (margin > camWidth / 2) {
 			margin = camWidth / 4;
 		}
 		if (benPos < cameraPos + margin) {
@@ -89,6 +92,10 @@ export class World extends GameWorld {
 		}
 		if (benPos > cameraPos + camWidth - margin) {
 			this.engine.getCamera().transform.position.x = -(benPos - camWidth + margin) * scale;
+		}
+
+		if (this.engine.input.isKeyPressed(Keys.F12)){
+			this.engine.stop();
 		}
 
 		super.update(dt);

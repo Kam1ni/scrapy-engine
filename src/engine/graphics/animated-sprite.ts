@@ -22,8 +22,12 @@ export class AnimatedSprite extends Sprite {
 		let height = this.texture.getHeight() / this.rows;
 		let width = this.texture.getWidth() / this.cols;
 
-		let minV = (1 / this.rows) * (this.renderedLocation.y);
-		let minU = (1 / this.cols) * (this.renderedLocation.x);
+		// Fixes an anoying line that folows you
+		let minUOffset = 0.0001 * height * 2;
+		let minVOffset = 0.0001 * width * 2;
+
+		let minV = (1 / this.rows) * (this.renderedLocation.y) + minUOffset;
+		let minU = (1 / this.cols) * (this.renderedLocation.x) + minVOffset;
 
 		let v = (1 / this.rows) * (this.renderedLocation.y + 1);
 		let u = (1 / this.cols) * (this.renderedLocation.x + 1);

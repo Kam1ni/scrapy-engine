@@ -6,4 +6,7 @@ varying vec2 v_texCoord;
 
 void main(){
 	gl_FragColor = u_color * texture2D(u_diffuse, v_texCoord);
+	if (gl_FragColor.w == 0.0){
+		discard;
+	}
 }
