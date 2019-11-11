@@ -5,6 +5,9 @@ import { B3NElement } from "./b3n-element";
 import { Vector3 } from "@/engine/math/vector3";
 import { Keys, ScrapyTouch } from "@/engine/utils/input";
 import { approach } from "@/engine/math/approach";
+import { PointLight } from "@/engine/graphics/point-light";
+import { Color } from "@/engine/graphics/color";
+import { Transform } from "@/engine/math/transform";
 
 export class B3N extends SimObject {
 	private b3nObject:B3NElement;
@@ -15,6 +18,7 @@ export class B3N extends SimObject {
 	public load():void {
 		this.b3nObject = new B3NElement(this.engine);
 		this.addChild(this.b3nObject);
+		
 		super.load();
 	}
 
@@ -80,9 +84,9 @@ export class B3N extends SimObject {
 					pos = 1;
 				}
 				this.b3nObject.b3nSprite.setRenderedLocation(pos, 0);
-
 			}
 		}
+
 
 		this.transform.position.x += this.velocity.x * (dt / 1000.0);
 

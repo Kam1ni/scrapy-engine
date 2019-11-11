@@ -11,6 +11,7 @@ import { B3N } from "./b3n";
 import { LampPost } from "./lamp-post";
 import { Keys } from "@/engine/utils/input";
 import { Color } from "@/engine/graphics/color";
+import { PointLight } from "@/engine/graphics/point-light";
 
 export class World extends GameWorld {
 	private woodSprite:Sprite;
@@ -20,7 +21,7 @@ export class World extends GameWorld {
 	private b3n:B3N;
 
 	public load():void {
-		this.ambientLight = new Color(50,50,150);
+		this.ambientLight = new Color(25,25,25,255);
 		this.woodSprite = new Sprite(this.engine, new Texture(this.engine, woodTexture));
 		this.grassSprite = new Sprite(this.engine, new Texture(this.engine, grassTexture));
 		this.treeSprite = new Sprite(this.engine, new Texture(this.engine, treeTexture));
@@ -34,17 +35,14 @@ export class World extends GameWorld {
 		this.b3n.transform.position.z = 0;
 		this.b3n.load();
 		this.addChild(this.b3n);
+
 		let lampPost = new LampPost(this.engine);
 		lampPost.load();
 		this.addChild(lampPost);
-		//
-		//let lampPostLight = new LampPostLight(this.engine);
-		//lampPostLight.transform = lampPost.transform;
-		//lampPostLight.load();
-		//
 		lampPost.transform.position.y = 128;
 		lampPost.transform.position.x = 100;
 		lampPost.transform.position.z = -5;
+
 
 		let treeCount = this.randomInt(10,20);
 		let lastPos = -10;
@@ -73,10 +71,11 @@ export class World extends GameWorld {
 			}
 		}
 	
-		//this.addChild(lampPostLight);
 	}
 
 	public update(dt:number):void {
+		//this.engine.getCamera().transform.rotation.z += 0.001 * dt;
+		//this.transform.rotation.z += 0.0001 * dt;
 		let scale = this.engine.getCamera().transform.scale.x;
 		let cameraPos = -this.engine.getCamera().transform.position.x / scale;
 		let benPos = this.b3n.transform.position.x;
@@ -98,7 +97,6 @@ export class World extends GameWorld {
 		if (this.engine.input.isKeyPressed(Keys.F12)) {
 			this.engine.stop();
 		}
-
 		super.update(dt);
 	}
 

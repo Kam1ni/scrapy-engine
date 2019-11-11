@@ -1,4 +1,5 @@
 import { Vector3 } from "./vector3";
+import { Vector4 } from "./vector4";
 
 export class Matrix4x4 {
 	private data:number[] = [];
@@ -16,12 +17,35 @@ export class Matrix4x4 {
 		this.data = [...m.data];
 	}
 
+	public getData():number[] {
+		return [...this.data];
+	}
+
+	public getRow(row:number):Vector4 {
+		let offset = row * 4;
+		let result = new Vector4(0,0,0,0);
+		result.x = this.data[offset];
+		result.y = this.data[offset + 1];
+		result.z = this.data[offset + 2];
+		result.w = this.data[offset + 3];
+		return result;
+	}
+
+	public getCol(col:number):Vector4 {
+		let result = new Vector4(0,0,0,0);
+		result.x = this.data[col];
+		result.y = this.data[col+4];
+		result.z = this.data[col+8];
+		result.w = this.data[col+12];
+		return result;
+	}
+
 	public static identity():Matrix4x4 {
 		return new Matrix4x4();
 	}
 
 	public static orthographic(left:number, right:number, bottom:number, top:number, nearClip:number, farClip:number):Matrix4x4 {
-		let m = new Matrix4x4();
+		let m = Matrix4x4.identity();
 
 		// This is done with documentation. TUTORIAL IS WRONG
 		m.data[0] = 2 / (right - left);
@@ -31,7 +55,23 @@ export class Matrix4x4 {
 		m.data[12] = -(right + left) / (right -left);
 		m.data[13] = -(top + bottom) / (top - bottom);
 		m.data[14] = -(farClip + nearClip) / (farClip - nearClip);
+		m.data[15] = 1;
 
+		return m;
+	}
+
+	public static perspective(width:number, height:number, nearClip:number, farClip:number, fov:number):Matrix4x4 {
+		let ar = width / height;
+		let clipRange = nearClip - farClip;
+		let tanHalfFov = Math.tan(fov / 2);
+
+		let m = Matrix4x4.identity();
+		m.data[0] = 1 / (tanHalfFov * ar);
+		m.data[5] = 1 / tanHalfFov;
+		m.data[10] = (-nearClip - farClip) / clipRange;
+		m.data[11] = 2 * farClip * nearClip / clipRange;
+		m.data[15] = 0;
+		m.data[14] = 1;
 		return m;
 	}
 
@@ -108,9 +148,118 @@ export class Matrix4x4 {
 		return m;
 	}
 
+	public getTranslation():Vector3 {
+		let scale = this.getScaling();
+		return new Vector3(this.data[12], this.data[13], this.data[14]);
+	}
+
+	public getScaling():Vector3 {
+		let m11 = this.data[0];
+		let m12 = this.data[1];
+		let m13 = this.data[2];
+		let m21 = this.data[4];
+		let m22 = this.data[5];
+		let m23 = this.data[6];
+		let m31 = this.data[8];
+		let m32 = this.data[9];
+		let m33 = this.data[10];
+
+		return new Vector3(Math.hypot(m11,m12,m13), Math.hypot(m21,m22,m23), Math.hypot(m31,m32,m33));
+	}
+
+	public getRotation():Vector3 {		
+		let scaling = this.getScaling();
+
+		let is1 = 1 / scaling.x;
+		let is2 = 1 / scaling.y;
+		let is3 = 1 / scaling.z;
+
+		let sm11 = this.data[0] * is1;
+		let sm12 = this.data[1] * is2;
+		let sm13 = this.data[2] * is3;
+		let sm21 = this.data[4] * is1;
+		let sm22 = this.data[5] * is2;
+		let sm23 = this.data[6] * is3;
+		let sm31 = this.data[8] * is1;
+		let sm32 = this.data[9] * is2;
+		let sm33 = this.data[10] * is3;
+
+		let trace = sm11 + sm22 + sm33;
+
+		let quat = [];
+		if (trace > 0) {
+			let S = Math.sqrt(trace + 1.0) * 2;
+			quat[3] = 0.25 * S;
+			quat[0] = (sm23 - sm32) / S;
+			quat[1] = (sm31 - sm13) / S;
+			quat[2] = (sm12 - sm21) / S;
+		} else if ((sm11 > sm22) && (sm11 > sm33)) {
+			let S = Math.sqrt(1.0 + sm11 - sm22- sm33) * 2;
+			quat[3] = (sm23 - sm32) / S;
+			quat[0] = 0.25 * S;
+			quat[1] = (sm12 + sm21) / S;
+			quat[2] = (sm31 + sm13) / S;
+		} else if (sm22 > sm33) {
+			let S = Math.sqrt(1.0 + sm22 - sm11 - sm33) * 2;
+			quat[3] = (sm31 - sm13) / S;
+			quat[0] = (sm12 + sm21) / S;
+			quat[1] = 0.25 * S;
+			quat[2] = (sm23 + sm32) / S;
+		} else {
+			let S = Math.sqrt(1.0 + sm33 - sm11 - sm22) * 2;
+			quat[3] = (sm12 - sm21) / S;
+			quat[0] = (sm31 + sm13) / S;
+			quat[1] = (sm23 + sm32) / S;
+			quat[2] = 0.25 * S;
+		}
+
+		let rad = Math.acos(quat[3]) * 2;
+		let s = Math.sin(rad / 2);
+		if (s > 0) {
+			return new Vector3(quat[0] / s, quat[1] / s, quat[2] / s);
+		}
+		return new Vector3(0,0,0);
+	}
+
+	public static rowMajorMultiply(a:Matrix4x4, b:Matrix4x4):Matrix4x4 {
+		let m = new Matrix4x4();
+		let aRow0 = a.getRow(0);
+		let aRow1 = a.getRow(1);
+		let aRow2 = a.getRow(2);
+		let aRow3 = a.getRow(3);
+
+		let bCol0 = b.getCol(0);
+		let bCol1 = b.getCol(1);
+		let bCol2 = b.getCol(2);
+		let bCol3 = b.getCol(3);
+
+		m.data[0] = aRow0.multiplyAndAddToOneValue(bCol0);
+
+		m.data[1] = aRow0.multiplyAndAddToOneValue(bCol1);
+		m.data[4] = aRow1.multiplyAndAddToOneValue(bCol0);
+
+		m.data[2] = aRow0.multiplyAndAddToOneValue(bCol2);
+		m.data[5] = aRow1.multiplyAndAddToOneValue(bCol1);
+		m.data[8] = aRow2.multiplyAndAddToOneValue(bCol0);
+
+		m.data[3] = aRow0.multiplyAndAddToOneValue(bCol3);
+		m.data[6] = aRow1.multiplyAndAddToOneValue(bCol2);
+		m.data[9] = aRow2.multiplyAndAddToOneValue(bCol1);
+		m.data[12] = aRow3.multiplyAndAddToOneValue(bCol0);
+
+		m.data[7] = aRow1.multiplyAndAddToOneValue(bCol3);
+		m.data[10] = aRow2.multiplyAndAddToOneValue(bCol2);
+		m.data[13] = aRow3.multiplyAndAddToOneValue(bCol1);
+
+		m.data[11] = aRow2.multiplyAndAddToOneValue(bCol3);
+		m.data[14] = aRow3.multiplyAndAddToOneValue(bCol2);
+
+		m.data[15] = aRow3.multiplyAndAddToOneValue(bCol3);
+		return m;
+	}
+
 	public static multiply(a:Matrix4x4, b:Matrix4x4):Matrix4x4 {
 		let m = new Matrix4x4();
-
 		let b00 = b.data[0 * 4 + 0];
 		let b01 = b.data[0 * 4 + 1];
 		let b02 = b.data[0 * 4 + 2];
@@ -160,15 +309,86 @@ export class Matrix4x4 {
 		m.data[13] = b30 * a01 + b31 * a11 + b32 * a21 + b33 * a31;
 		m.data[14] = b30 * a02 + b31 * a12 + b32 * a22 + b33 * a32;
 		m.data[15] = b30 * a03 + b31 * a13 + b32 * a23 + b33 * a33;
-
 		return m;
+	}
+
+	public vectorMultiply(vec:Vector4):Vector4 {
+		let x0 = this.data[0] * vec.x;
+		let x1 = this.data[4] * vec.y;
+		let x2 = this.data[8] * vec.z;
+		let x3 = this.data[12] * vec.w;
+		let x = x0+x1+x2+x3;
+		
+		let y0 = this.data[1] * vec.x;
+		let y1 = this.data[5] * vec.y;
+		let y2 = this.data[9] * vec.z;
+		let y3 = this.data[13] * vec.w;
+		let y = y0 + y1 + y2 + y3;
+
+		let z0 = this.data[2] * vec.x;
+		let z1 = this.data[6] * vec.y;
+		let z2 = this.data[10] * vec.z;
+		let z3 = this.data[14] * vec.w;
+		let z = z0 + z1 + z2 + z3;
+
+		let w0 = this.data[3] * vec.x;
+		let w1 = this.data[7] * vec.y;
+		let w2 = this.data[11] * vec.z;
+		let w3 = this.data[15] * vec.w;
+		let w = w0 + w1 + w2 + w3;
+
+		return new Vector4(x,y,z,w);
+	}
+
+	public static test():void {
+		let mat1 = Matrix4x4.identity();
+		mat1.data[0] = 1;
+		mat1.data[1] = -2;
+		mat1.data[2] = 1;
+		mat1.data[3] = 4;
+		mat1.data[4] = 0;
+		mat1.data[5] = 1;
+		mat1.data[6] = 0;
+		mat1.data[7] = 1;
+		mat1.data[8] = 2;
+		mat1.data[9] = 3;
+		mat1.data[10] = 4;
+		mat1.data[11] = 1;
+		mat1.data[12] = 1;
+		mat1.data[13] = 5;
+		mat1.data[14] = 1;
+		mat1.data[15] = 1;
+
+		let mat2 = Matrix4x4.identity();
+		mat2.data[0] = 2;
+		mat2.data[1] = 5;
+		mat2.data[2] = 1;
+		mat2.data[3] = 1;
+		mat2.data[4] = 6;
+		mat2.data[5] = 7;
+		mat2.data[6] = 1;
+		mat2.data[7] = 1;
+		mat2.data[8] = 1;
+		mat2.data[9] = 8;
+		mat2.data[10] = 1;
+		mat2.data[11] = 1;
+		mat2.data[12] = 1;
+		mat2.data[13] = 1;
+		mat2.data[14] = 10;
+		mat2.data[15] = 1;
+
+		console.log(Matrix4x4.multiply(mat1, mat2));
 	}
 
 	public toFloat32Array():Float32Array {
 		return new Float32Array(this.data);
 	}
+	
+	public toColumnMajorFloat32Array():Float32Array {
+		return new Float32Array([...this.getCol(0).toArray(), ...this.getCol(1).toArray(), ...this.getCol(2).toArray(), ...this.getCol(3).toArray()]);
+	}
 
-	public clone():Matrix4x4{
+	public clone():Matrix4x4 {
 		let m = new Matrix4x4();
 		m.copyFrom(this);
 		return m;

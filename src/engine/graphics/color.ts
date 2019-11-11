@@ -35,8 +35,16 @@ export class Color {
 		return [this.getRedFloat(), this.getGreenFloat(), this.getBlueFloat(), this.getAlphaFloat()];
 	}
 
+	public toLightFloatArray():number[] {
+		return [this.getRedFloat(), this.getGreenFloat(), this.getBlueFloat()];
+	}
+
 	public toFloat32Array():Float32Array {
 		return new Float32Array(this.toFloatArray());
+	}
+
+	public toLightFloat32Array():Float32Array {
+		return new Float32Array(this.toLightFloatArray());
 	}
 
 	public static white():Color {

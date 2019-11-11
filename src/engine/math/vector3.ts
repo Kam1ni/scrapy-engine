@@ -13,7 +13,7 @@ export class Vector3 {
 		return [this.x, this.y, this.z];
 	}
 
-	public toFlaot32Array():Float32Array {
+	public toFloat32Array():Float32Array {
 		return new Float32Array(this.toArray());
 	}
 
@@ -21,6 +21,14 @@ export class Vector3 {
 		this.x = vector.x;
 		this.y = vector.y;
 		this.z = vector.z;
+	}
+
+	public multiply(vec:Vector3):Vector3 {
+		return new Vector3(this.x * vec.x, this.y * vec.y, this.z * vec.z);
+	}
+
+	public add(v:Vector3):Vector3 {
+		return new Vector3(this.x + v.x, this.y + v.y, this.z + v.z);
 	}
 
 	public static one():Vector3 {

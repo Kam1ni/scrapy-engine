@@ -2,6 +2,7 @@ import { Engine } from "../engine";
 import { Graphic } from "../graphics/graphic";
 import { Transform } from "../math/transform";
 import { Matrix4x4 } from "../math/matrix4x4";
+import { PointLight } from "../graphics/point-light";
 
 let currentId = 0;
 
@@ -12,10 +13,12 @@ export abstract class GameContainer {
 	private parent:GameContainer;
 	protected graphics:Graphic[] = [];
 
-	private localMatrix:Matrix4x4 = Matrix4x4.identity();
-	private worldMatrix:Matrix4x4 = Matrix4x4.identity();
+	protected localMatrix:Matrix4x4 = Matrix4x4.identity();
+	protected worldMatrix:Matrix4x4 = Matrix4x4.identity();
 	private loaded:boolean = false;
 	public transform:Transform = new Transform();
+
+	protected pointLights:PointLight[] = [];
 
 	public constructor(engine:Engine) {
 		this.engine = engine;
@@ -96,12 +99,23 @@ export abstract class GameContainer {
 		this.loaded = false;
 	}
 
+	public getPointLights():PointLight[] {
+		let lights = [...this.pointLights];
+		for (let child of this.children) {
+			lights.push(...child.getPointLights());
+		}
+		return lights;
+	}
+
 	
 	private updateWorldMatrix(parentWorldMatrix:Matrix4x4):void {
 		if (parentWorldMatrix) {
 			this.worldMatrix = Matrix4x4.multiply(parentWorldMatrix, this.localMatrix);
 		}else {
 			this.worldMatrix.copyFrom(this.localMatrix);
+		}
+		for (let light of this.pointLights) {
+			light.worldTransform = Matrix4x4.multiply(this.worldMatrix, light.transform.getTransformationMatrix());
 		}
 	}
 }

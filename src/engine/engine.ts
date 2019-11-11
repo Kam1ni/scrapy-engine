@@ -89,16 +89,12 @@ export class Engine{
 		if (dt > 250) {
 			dt = 250;
 		}
-		this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+		
 		this.world.update(dt);
-
+		this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 		let projectionPosition = this.shader.getUniformLocation("u_projection");
-		this.gl.uniformMatrix4fv(projectionPosition, false, this.camera.getMatrix().toFloat32Array());
-
-		let offsetPosition = this.shader.getUniformLocation("u_offset");
-		let offset = this.camera.transform.getTransformationMatrix();
-		this.gl.uniformMatrix4fv(offsetPosition, false, offset.toFloat32Array());
-
+		this.gl.uniformMatrix4fv(projectionPosition, false, this.camera.getViewMatrix().toFloat32Array());
+		
 		this.world.render();
 		this.input.update();
 		requestAnimationFrame(this.loop.bind(this));
@@ -143,6 +139,11 @@ export class Engine{
 
 	public getCamera():Camera {
 		return this.camera;
+	}
+
+	public setCamera(cam:Camera):void {
+		this.camera = cam;
+		cam.updateMatrix();
 	}
 
 	public getCanvas():HTMLCanvasElement {
