@@ -26,6 +26,8 @@ void main(){
 			}
 		}
 	}
+	
+
 	gl_FragColor = vec4(light, 1.0) * u_color * texture2D(u_diffuse, v_texCoord);
 	if (gl_FragColor.w == 0.0){
 		discard;

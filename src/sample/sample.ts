@@ -14,6 +14,7 @@ engine.setCamera(cam);
 let world = new World(engine);
 engine.getCamera().transform.scale.x = 4;
 engine.getCamera().transform.scale.y = 4;
+engine.getCamera().transform.scale.z = 4;
 engine.getCamera().transform.position.x = -600;
 engine.getCamera().transform.position.y = -180;
 engine.getCamera().transform.position.z = -200;

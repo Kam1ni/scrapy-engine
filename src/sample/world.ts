@@ -13,6 +13,9 @@ import { Keys, MouseButtons } from "@/engine/utils/input";
 import { Color } from "@/engine/graphics/color";
 import { PointLight } from "@/engine/graphics/point-light";
 import { degToRadians } from "@/engine/math/angles";
+import { Mesh } from "@/engine/graphics/mesh";
+import { ObjLoader } from "@/engine/loaders/obj-loader";
+import { Sphere } from "./sphere";
 
 export class World extends GameWorld {
 	private woodSprite:Sprite;
@@ -71,7 +74,10 @@ export class World extends GameWorld {
 				this.addChild(this.createBlock(this.grassSprite, new Vector3(i * 16, 0, -10)));
 			}
 		}
-	
+
+		let sphere = new Sphere(this.engine);
+		sphere.load();
+		this.addChild(sphere);
 	}
 
 	public update(dt:number):void {
@@ -95,7 +101,7 @@ export class World extends GameWorld {
 
 		this.engine.getCamera().transform.position.z -= this.engine.input.getMouseScroll() / 2;
 
-		if (this.engine.input.isMouseButtonDown(MouseButtons.Middle)){
+		if (this.engine.input.isMouseButtonDown(MouseButtons.Middle)) {
 			let dx = this.engine.input.getMouseDiffX();
 			let dy = this.engine.input.getMouseDiffY();
 			this.engine.getCamera().transform.rotation.x += dy / 100;

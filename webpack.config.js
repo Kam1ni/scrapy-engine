@@ -9,7 +9,7 @@ module.exports = {
 	module:{
 		rules:[
 			{
-				test:/\.glsl$/i,
+				test:/\.(glsl|obj)$/i,
 				use:"raw-loader"
 			},
 			{

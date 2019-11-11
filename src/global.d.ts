@@ -7,3 +7,8 @@ declare module '*.png'{
 	const content: string;
 	export=content;
 }
+
+declare module '*.obj'{
+	const content:string;
+	export=content;
+}

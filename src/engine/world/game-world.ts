@@ -20,11 +20,14 @@ export class GameWorld extends GameContainer {
 	private setPointLightUniforms(shader:Shader):void {
 		let lightPositions:number[] = [];
 		let lightColors:number[] = [];
-	
+		
 		let lights = this.getPointLights();
 		for (let light of lights) {
 			lightPositions.push(...light.worldTransform.getTranslation().toFloat32Array());
 			lightColors.push(...light.color.toFloatArray());
+		}
+		if (lights.length == 0) {
+			return;
 		}
 	
 		let lightPositionLocation = shader.getUniformLocation("u_point_light_positions[0]");
