@@ -9,9 +9,10 @@ import { Block } from "./block";
 import { Vector3 } from "@/engine/math/vector3";
 import { B3N } from "./b3n";
 import { LampPost } from "./lamp-post";
-import { Keys } from "@/engine/utils/input";
+import { Keys, MouseButtons } from "@/engine/utils/input";
 import { Color } from "@/engine/graphics/color";
 import { PointLight } from "@/engine/graphics/point-light";
+import { degToRadians } from "@/engine/math/angles";
 
 export class World extends GameWorld {
 	private woodSprite:Sprite;
@@ -91,6 +92,22 @@ export class World extends GameWorld {
 		} else if (this.engine.input.isKeyDown(Keys.Equal)) {
 			this.engine.getCamera().transform.position.z += 1 * dt;
 		}
+
+		this.engine.getCamera().transform.position.z -= this.engine.input.getMouseScroll() / 2;
+
+		if (this.engine.input.isMouseButtonDown(MouseButtons.Middle)){
+			let dx = this.engine.input.getMouseDiffX();
+			let dy = this.engine.input.getMouseDiffY();
+			this.engine.getCamera().transform.rotation.x += dy / 100;
+			this.engine.getCamera().transform.rotation.y += dx / 100;
+		}
+
+		let rightAngleRad = degToRadians(90);
+
+		let camRotation = this.engine.getCamera().transform.rotation;
+		camRotation.x = Math.max(camRotation.x, -rightAngleRad);
+		camRotation.x = Math.min(camRotation.x, rightAngleRad);
+
 
 		super.update(dt);
 	}

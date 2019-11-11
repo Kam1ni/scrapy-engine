@@ -84,7 +84,7 @@ export class Input {
 	}
 
 	private onScroll(event:WheelEvent):void {
-		event.preventDefault();
+		//event.preventDefault();
 		this.mouseDiff.scroll = event.deltaY;
 	}
 
