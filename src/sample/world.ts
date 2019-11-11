@@ -74,29 +74,24 @@ export class World extends GameWorld {
 	}
 
 	public update(dt:number):void {
-		//this.engine.getCamera().transform.rotation.z += 0.001 * dt;
-		//this.transform.rotation.z += 0.0001 * dt;
-		let scale = this.engine.getCamera().transform.scale.x;
-		let cameraPos = -this.engine.getCamera().transform.position.x / scale;
-		let benPos = this.b3n.transform.position.x;
-		if (this.b3n.transform.scale.x == -1) {
-			benPos -= 16;
-		}
-		let camWidth = this.engine.getCanvas().width / scale;
-		let margin = 100;
-		if (margin > camWidth / 2) {
-			margin = camWidth / 4;
-		}
-		if (benPos < cameraPos + margin) {
-			this.engine.getCamera().transform.position.x = -(benPos - margin) * scale;
-		}
-		if (benPos > cameraPos + camWidth - margin) {
-			this.engine.getCamera().transform.position.x = -(benPos - camWidth + margin) * scale;
+		if (this.engine.input.isKeyDown(Keys.ArrowDown)) {
+			this.engine.getCamera().transform.position.y += 1 * dt;
+		}else if (this.engine.input.isKeyDown(Keys.ArrowUp)) {
+			this.engine.getCamera().transform.position.y -= 1 * dt;
 		}
 
-		if (this.engine.input.isKeyPressed(Keys.F12)) {
-			this.engine.stop();
+		if (this.engine.input.isKeyDown(Keys.ArrowLeft)) {
+			this.engine.getCamera().transform.position.x += 1 * dt;
+		}else if (this.engine.input.isKeyDown(Keys.ArrowRight)) {
+			this.engine.getCamera().transform.position.x -= 1 * dt;
 		}
+
+		if (this.engine.input.isKeyDown(Keys.Minus)) {
+			this.engine.getCamera().transform.position.z -= 1 * dt;
+		} else if (this.engine.input.isKeyDown(Keys.Equal)) {
+			this.engine.getCamera().transform.position.z += 1 * dt;
+		}
+
 		super.update(dt);
 	}
 

@@ -47,31 +47,36 @@ export class Matrix4x4 {
 	public static orthographic(left:number, right:number, bottom:number, top:number, nearClip:number, farClip:number):Matrix4x4 {
 		let m = Matrix4x4.identity();
 
-		// This is done with documentation. TUTORIAL IS WRONG
 		m.data[0] = 2 / (right - left);
 		m.data[5] = 2 / (top - bottom);
 		m.data[10] = -2 / (farClip - nearClip);
 
-		m.data[12] = -(right + left) / (right -left);
-		m.data[13] = -(top + bottom) / (top - bottom);
-		m.data[14] = -(farClip + nearClip) / (farClip - nearClip);
+		m.data[12] = -((right + left) / (right -left));
+		m.data[13] = -((top + bottom) / (top - bottom));
+		m.data[14] = -((farClip + nearClip) / (farClip - nearClip));
 		m.data[15] = 1;
 
 		return m;
 	}
 
-	public static perspective(width:number, height:number, nearClip:number, farClip:number, fov:number):Matrix4x4 {
-		let ar = width / height;
-		let clipRange = nearClip - farClip;
-		let tanHalfFov = Math.tan(fov / 2);
+	public static perspective(left:number, right:number, bottom:number, top:number, nearClip:number, farClip:number, fov:number):Matrix4x4 {
+		let width = right - left;
+		let height = top - bottom;
+
+		let aspect = width / height;
+		let f = Math.tan(Math.PI * 0.5 - 0.5 * fov);
+		let rangeInv = 1.0 / (nearClip - farClip);
+
 
 		let m = Matrix4x4.identity();
-		m.data[0] = 1 / (tanHalfFov * ar);
-		m.data[5] = 1 / tanHalfFov;
-		m.data[10] = (-nearClip - farClip) / clipRange;
-		m.data[11] = 2 * farClip * nearClip / clipRange;
+		m.data[0] = f / aspect;
+		m.data[5] = -f;
+		m.data[10] = (nearClip + farClip) * rangeInv;
+		m.data[14] = -1;
+
+		m.data[11] = nearClip * farClip * rangeInv * 2;
 		m.data[15] = 0;
-		m.data[14] = 1;
+	
 		return m;
 	}
 
@@ -221,43 +226,6 @@ export class Matrix4x4 {
 		return new Vector3(0,0,0);
 	}
 
-	public static rowMajorMultiply(a:Matrix4x4, b:Matrix4x4):Matrix4x4 {
-		let m = new Matrix4x4();
-		let aRow0 = a.getRow(0);
-		let aRow1 = a.getRow(1);
-		let aRow2 = a.getRow(2);
-		let aRow3 = a.getRow(3);
-
-		let bCol0 = b.getCol(0);
-		let bCol1 = b.getCol(1);
-		let bCol2 = b.getCol(2);
-		let bCol3 = b.getCol(3);
-
-		m.data[0] = aRow0.multiplyAndAddToOneValue(bCol0);
-
-		m.data[1] = aRow0.multiplyAndAddToOneValue(bCol1);
-		m.data[4] = aRow1.multiplyAndAddToOneValue(bCol0);
-
-		m.data[2] = aRow0.multiplyAndAddToOneValue(bCol2);
-		m.data[5] = aRow1.multiplyAndAddToOneValue(bCol1);
-		m.data[8] = aRow2.multiplyAndAddToOneValue(bCol0);
-
-		m.data[3] = aRow0.multiplyAndAddToOneValue(bCol3);
-		m.data[6] = aRow1.multiplyAndAddToOneValue(bCol2);
-		m.data[9] = aRow2.multiplyAndAddToOneValue(bCol1);
-		m.data[12] = aRow3.multiplyAndAddToOneValue(bCol0);
-
-		m.data[7] = aRow1.multiplyAndAddToOneValue(bCol3);
-		m.data[10] = aRow2.multiplyAndAddToOneValue(bCol2);
-		m.data[13] = aRow3.multiplyAndAddToOneValue(bCol1);
-
-		m.data[11] = aRow2.multiplyAndAddToOneValue(bCol3);
-		m.data[14] = aRow3.multiplyAndAddToOneValue(bCol2);
-
-		m.data[15] = aRow3.multiplyAndAddToOneValue(bCol3);
-		return m;
-	}
-
 	public static multiply(a:Matrix4x4, b:Matrix4x4):Matrix4x4 {
 		let m = new Matrix4x4();
 		let b00 = b.data[0 * 4 + 0];
@@ -384,10 +352,6 @@ export class Matrix4x4 {
 		return new Float32Array(this.data);
 	}
 	
-	public toColumnMajorFloat32Array():Float32Array {
-		return new Float32Array([...this.getCol(0).toArray(), ...this.getCol(1).toArray(), ...this.getCol(2).toArray(), ...this.getCol(3).toArray()]);
-	}
-
 	public clone():Matrix4x4 {
 		let m = new Matrix4x4();
 		m.copyFrom(this);

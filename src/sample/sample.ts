@@ -9,20 +9,13 @@ document.body.append(canvas);
 let engine = new Engine(canvas);
 engine.init();
 let cam = new PerspectiveCamera(engine);
-//engine.setCamera(cam);
-
-/*
-let rect = new SimpleRect(engine);
-rect.transform.position.y = 100;
-rect.transform.position.x = 100;
-rect.transform.scale.x = 5;
-rect.transform.scale.y = 5;
-rect.load();
-*/
+engine.setCamera(cam);
 
 let world = new World(engine);
 engine.getCamera().transform.scale.x = 4;
 engine.getCamera().transform.scale.y = 4;
-engine.getCamera().transform.position.y = -(engine.getCanvas().height - 16 * 4);
+engine.getCamera().transform.position.x = -600;
+engine.getCamera().transform.position.y = -180;
+engine.getCamera().transform.position.z = -200;
 engine.setWorld(world);
 engine.start();
