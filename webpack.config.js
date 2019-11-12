@@ -9,7 +9,7 @@ module.exports = {
 	module:{
 		rules:[
 			{
-				test:/\.(glsl|obj)$/i,
+				test:/\.(glsl|obj|mtl)$/i,
 				use:"raw-loader"
 			},
 			{
@@ -19,11 +19,10 @@ module.exports = {
 			},
 			{
 				test:/\.(png|jpe?g|gif)$/i,
-				use:[
-					{
-						loader:'file-loader'
-					}
-				]
+				loader:'file-loader',
+				options:{
+					name:"[path][name].[ext]"
+				}
 			}
 		]
 	},

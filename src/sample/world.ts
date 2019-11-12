@@ -13,9 +13,8 @@ import { Keys, MouseButtons } from "@/engine/utils/input";
 import { Color } from "@/engine/graphics/color";
 import { PointLight } from "@/engine/graphics/point-light";
 import { degToRadians } from "@/engine/math/angles";
-import { Mesh } from "@/engine/graphics/mesh";
-import { ObjLoader } from "@/engine/loaders/obj-loader";
-import { Sphere } from "./sphere";
+import { MeshPart } from "@/engine/graphics/mesh-part";
+import { MaterialsTest } from "./materials-test";
 
 export class World extends GameWorld {
 	private woodSprite:Sprite;
@@ -75,9 +74,9 @@ export class World extends GameWorld {
 			}
 		}
 
-		let sphere = new Sphere(this.engine);
-		sphere.load();
-		this.addChild(sphere);
+		let matTest = new MaterialsTest(this.engine);
+		matTest.load();
+		this.addChild(matTest);
 	}
 
 	public update(dt:number):void {

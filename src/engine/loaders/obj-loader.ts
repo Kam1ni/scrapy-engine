@@ -1,102 +1,158 @@
 import { Vector3 } from "../math/vector3";
+import { Engine } from "../engine";
+import { TextureSrcModifier, loadMtl } from "./mtl-loader";
+import { Mesh } from "../graphics/mesh";
+import { MeshPart } from "../graphics/mesh-part";
+import { Material } from "../graphics/material";
 
 enum LineType {
 	UNUSED,
 	VERTEX,
 	UV_COORDS,
+	USE_MTL,
 	FACE
 }
 
-export class ObjLoader{
-	public load(file:string):number[] {
-		let vertices:Vector3[] = [];
-		let uvCoords:Vector3[] = [];
-		let lines = file.split("\n");
-		let result:number[] = [];
+interface IMeshVericesAndUVs {
+	vertices:Vector3[];
+	uvCoords:Vector3[];
+}
 
-		for (let line of lines) {
-			let lineType = this.getLineType(line);
-			if (lineType == LineType.VERTEX) {
-				vertices.push(this.decodeVertexLine(line));
-			}
-			if (lineType == LineType.UV_COORDS) {
-				uvCoords.push(this.decodeUVCoordLine(line));
-			}
-		}
-		
-		for (let line of lines) {
-			let lineType = this.getLineType(line);
-			if (lineType == LineType.FACE) {
-				result.push(...this.decodeFaceLine(line, vertices, uvCoords));
-			}
-		}
-		
+export function loadObjTriangles(file:string):number[] {
+	let lines = file.split("\n");
+	let result:number[] = [];
 
-		return result;
+	let faces = getMeshVerticesAndUVs(file);
+
+	for (let line of lines) {
+		let lineType = getLineType(line);
+		if (lineType == LineType.FACE) {
+			result.push(...decodeFaceLine(line, faces));
+		}
 	}
-
-	private getLineType(line:string):LineType {
-		if (line.match(/^v\s/)) {
-			return LineType.VERTEX;
-		}
-
-		if (line.match(/^f\s/)) {
-			return LineType.FACE;
-		}
-
-		if (line.match(/^vt\s/)) {
-			return LineType.UV_COORDS;
-		}
-		return LineType.UNUSED;
-	}
-
-
-	private decodeVertexLine(line:string):Vector3 {
-		let vec = new Vector3();
-		let part = line.split(" ");
-		vec.x = parseFloat(part[1]);
-		vec.y = parseFloat(part[2]);
-		vec.z = parseFloat(part[3]);
-		return vec;
-	}
-
-	private decodeUVCoordLine(line:string):Vector3 {
-		let vec = new Vector3();
-		let part = line.split(" ");
-		vec.x = parseFloat(part[1]);
-		vec.y = parseFloat(part[2]);
-		vec.z = parseFloat(part[3]) || 0;
-		return vec;
-	}
-
-	private decodeFaceLine(line:string, vertices:Vector3[], uvCoords:Vector3[]):number[] {
-		let parts = line.split(" ");
-		let v1 = this.decodeFacePart(parts[1]);
-		let v2 = this.decodeFacePart(parts[2]);
-		let v3 = this.decodeFacePart(parts[3]);
-		let uv1 = this.decodeFaceUVPart(parts[1]);
-		let uv2 = this.decodeFaceUVPart(parts[2]);
-		let uv3 = this.decodeFaceUVPart(parts[3]);
 	
-		return [
-			...vertices[v1-1].toArray(), ...this.getUVs(uvCoords[uv1-1]),
-			...vertices[v2-1].toArray(), ...this.getUVs(uvCoords[uv2-1]),
-			...vertices[v3-1].toArray(), ...this.getUVs(uvCoords[uv3-1]),
-		];
+	return result;
+}
 
+function getMeshVerticesAndUVs(obj:string):IMeshVericesAndUVs {
+	let vertices:Vector3[] = [];
+	let uvCoords:Vector3[] = [];
+	let lines = obj.split("\n");
+	for (let line of lines) {
+		let lineType = getLineType(line);
+		if (lineType == LineType.VERTEX) {
+			vertices.push(decodeVertexLine(line));
+		}
+		if (lineType == LineType.UV_COORDS) {
+			uvCoords.push(decodeUVCoordLine(line));
+		}
 	}
 
-	private decodeFacePart(part:string):number {
-		let parts = part.split("/");
-		return parseFloat(parts[0]);
+	return {
+		vertices,
+		uvCoords
+	};
+}
+
+function getLineType(line:string):LineType {
+	if (line.match(/^v\s/)) {
+		return LineType.VERTEX;
 	}
 
-	private decodeFaceUVPart(part:string):number {
-		let parts = part.split("/");
-		return parseFloat(parts[1]);
+	if (line.match(/^f\s/)) {
+		return LineType.FACE;
 	}
 
-	private getUVs(vector:Vector3):number[] {
-		return [vector.x, vector.y];
+	if (line.match(/^vt\s/)) {
+		return LineType.UV_COORDS;
 	}
+	if (line.match(/^usemtl\s/)) {
+		return LineType.USE_MTL;
+	}
+	return LineType.UNUSED;
+}
+
+
+function decodeVertexLine(line:string):Vector3 {
+	let vec = new Vector3();
+	let part = line.split(" ");
+	vec.x = parseFloat(part[1]);
+	vec.y = parseFloat(part[2]);
+	vec.z = parseFloat(part[3]);
+	return vec;
+}
+
+function decodeUVCoordLine(line:string):Vector3 {
+	let vec = new Vector3();
+	let part = line.split(" ");
+	vec.x = parseFloat(part[1]);
+	vec.y = parseFloat(part[2]);
+	vec.z = parseFloat(part[3]) || 0;
+	return vec;
+}
+
+function decodeFaceLine(line:string, faces:IMeshVericesAndUVs):number[] {
+	let parts = line.split(" ");
+	let v1 = decodeFacePart(parts[1]);
+	let v2 = decodeFacePart(parts[2]);
+	let v3 = decodeFacePart(parts[3]);
+	let uv1 = decodeFaceUVPart(parts[1]);
+	let uv2 = decodeFaceUVPart(parts[2]);
+	let uv3 = decodeFaceUVPart(parts[3]);
+
+	return [
+		...faces.vertices[v1-1].toArray(), ...getUVs(faces.uvCoords[uv1-1]),
+		...faces.vertices[v2-1].toArray(), ...getUVs(faces.uvCoords[uv2-1]),
+		...faces.vertices[v3-1].toArray(), ...getUVs(faces.uvCoords[uv3-1]),
+	];
+
+}
+
+function decodeFacePart(part:string):number {
+	let parts = part.split("/");
+	return parseFloat(parts[0]);
+}
+
+function decodeFaceUVPart(part:string):number {
+	let parts = part.split("/");
+	return parseFloat(parts[1]);
+}
+
+function getUVs(vector:Vector3):number[] {
+	return [vector.x, -vector.y];
+}
+
+function getMaterialName(line:string):string {
+	return line.split(" ")[1];
+}
+
+
+export function loadObjWithMtl(engine:Engine, obj:string, mtl:string, textureSrc:TextureSrcModifier):Mesh {
+	let meshParts:MeshPart[] = [];
+	let materials = loadMtl(engine, mtl, textureSrc);
+	let verticesAndUVs = getMeshVerticesAndUVs(obj);
+	let lines = obj.split("\n");
+
+	let meshVertices:number[];
+	let meshMaterial:Material;
+	for (let line of lines) {
+		let lineType = getLineType(line);
+		if (lineType == LineType.USE_MTL) {
+			if (meshVertices) {
+				meshParts.push(new MeshPart(engine, meshVertices, meshMaterial));
+			}
+			meshVertices = [];
+			meshMaterial = materials.find(m=>m.getName() == getMaterialName(line));
+		}
+		if (lineType == LineType.FACE) {
+			meshVertices.push(...decodeFaceLine(line, verticesAndUVs));
+		}
+	}
+
+	if (meshVertices) {
+		meshParts.push(new MeshPart(engine, meshVertices, meshMaterial));
+	}
+
+	let mesh = new Mesh(engine, meshParts);
+	return mesh;
 }
