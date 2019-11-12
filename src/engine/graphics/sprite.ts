@@ -45,13 +45,13 @@ export class Sprite extends Graphic {
 	protected onTextureLoad():void {
 		let vertices = [
 			// x, y, x, u, v
-			0, 0, 0, 0, 0,
-			0, this.texture.getHeight(), 0, 0, 1.0,
-			this.texture.getWidth(), this.texture.getHeight(), 0, 1.0, 1.0,
+			0, 0, 0, 1.0, 1.0,
+			0, this.texture.getHeight(), 0, 1.0, 0.0,
+			this.texture.getWidth(), this.texture.getHeight(), 0, 0.0, 0.0,
 
-			this.texture.getWidth(), this.texture.getHeight(), 0, 1.0, 1.0,
-			this.texture.getWidth(), 0, 0, 1.0, 0,
-			0, 0, 0, 0, 0,
+			this.texture.getWidth(), this.texture.getHeight(), 0, 0.0, 0.0,
+			this.texture.getWidth(), 0, 0, 0.0, 1.0,
+			0, 0, 0, 1.0, 1.0,
 		];
 		
 		this.buffer.setData(vertices);

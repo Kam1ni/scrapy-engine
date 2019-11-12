@@ -8,8 +8,7 @@ let canvas = document.createElement("canvas");
 document.body.append(canvas);
 let engine = new Engine(canvas);
 engine.init();
-let cam = new PerspectiveCamera(engine);
-engine.setCamera(cam);
+
 
 let world = new World(engine);
 engine.getCamera().transform.scale.x = 4;

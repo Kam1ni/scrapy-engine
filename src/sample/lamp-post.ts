@@ -19,7 +19,7 @@ export class LampPost extends SimObject {
 
 		this.light = new PointLight(this.engine);
 		this.light.transform.position.x = 64;
-		this.light.transform.position.y = -64;
+		this.light.transform.position.y = 64;
 		this.light.color = new Color(255,255,255,30000);
 		
 		this.pointLights.push(this.light);

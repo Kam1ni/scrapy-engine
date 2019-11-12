@@ -70,7 +70,7 @@ export class Matrix4x4 {
 
 		let m = Matrix4x4.identity();
 		m.data[0] = f / aspect;
-		m.data[5] = -f;
+		m.data[5] = f;
 		m.data[10] = (nearClip + farClip) * rangeInv;
 		m.data[14] = -1;
 
@@ -84,7 +84,7 @@ export class Matrix4x4 {
 		let m = new Matrix4x4();
 		
 		m.data[12] = position.x;
-		m.data[13] = -position.y;
+		m.data[13] = position.y;
 		m.data[14] = position.z;
 
 		return m;

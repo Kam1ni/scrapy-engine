@@ -26,10 +26,10 @@ export class AnimatedSprite extends Sprite {
 		let minUOffset = 0.0001 * height * 2;
 		let minVOffset = 0.0001 * width * 2;
 
-		let minV = (1 / this.rows) * (this.renderedLocation.y) + minUOffset;
+		let v = (1 / this.rows) * (this.renderedLocation.y) + minUOffset;
 		let minU = (1 / this.cols) * (this.renderedLocation.x) + minVOffset;
 
-		let v = (1 / this.rows) * (this.renderedLocation.y + 1);
+		let minV = (1 / this.rows) * (this.renderedLocation.y + 1);
 		let u = (1 / this.cols) * (this.renderedLocation.x + 1);
 
 		let vertices = [

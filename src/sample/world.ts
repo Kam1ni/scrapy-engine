@@ -15,6 +15,8 @@ import { PointLight } from "@/engine/graphics/point-light";
 import { degToRadians } from "@/engine/math/angles";
 import { MeshPart } from "@/engine/graphics/mesh-part";
 import { MaterialsTest } from "./materials-test";
+import { Camera } from "@/engine/world/camera";
+import { PerspectiveCamera } from "@/engine/world/perspective-camera";
 
 export class World extends GameWorld {
 	private woodSprite:Sprite;
@@ -22,6 +24,8 @@ export class World extends GameWorld {
 	private treeSprite:Sprite;
 
 	private b3n:B3N;
+
+	private cam:Camera;
 
 	public load():void {
 		this.ambientLight = new Color(25,25,25,255);
@@ -33,16 +37,21 @@ export class World extends GameWorld {
 		this.treeSprite.load();
 
 		this.b3n = new B3N(this.engine);
-		this.b3n.transform.position.y = 16;
+		this.b3n.transform.position.y = 0;
 		this.b3n.transform.position.x = 100;
 		this.b3n.transform.position.z = 0;
 		this.b3n.load();
 		this.addChild(this.b3n);
 
+		let cam = new PerspectiveCamera(this.engine);
+		this.cam = this.engine.getCamera();
+		this.engine.setCamera(cam);
+		cam.transform = this.cam.transform;
+
 		let lampPost = new LampPost(this.engine);
 		lampPost.load();
 		this.addChild(lampPost);
-		lampPost.transform.position.y = 128;
+		lampPost.transform.position.y = 0;
 		lampPost.transform.position.x = 100;
 		lampPost.transform.position.z = -5;
 
@@ -54,7 +63,7 @@ export class World extends GameWorld {
 			let posDiff = this.randomInt(16, 32);
 			lastPos = lastPos + posDiff;
 
-			let tree = this.createBlock(this.treeSprite, new Vector3(lastPos, 128,-10));
+			let tree = this.createBlock(this.treeSprite, new Vector3(lastPos, 0,-10));
 			trees.push(tree);
 		}
 		trees = this.shuffle(trees);
@@ -68,9 +77,9 @@ export class World extends GameWorld {
 
 		for (let i = 0; i < 25; i++) {
 			if (i > 10 && i < 15) {
-				this.addChild(this.createBlock(this.woodSprite, new Vector3(i * 16, 0, -10)));
+				this.addChild(this.createBlock(this.woodSprite, new Vector3(i * 16, -16, -10)));
 			}else {
-				this.addChild(this.createBlock(this.grassSprite, new Vector3(i * 16, 0, -10)));
+				this.addChild(this.createBlock(this.grassSprite, new Vector3(i * 16, -16, -10)));
 			}
 		}
 
@@ -96,6 +105,12 @@ export class World extends GameWorld {
 			this.engine.getCamera().transform.position.z -= 1 * dt;
 		} else if (this.engine.input.isKeyDown(Keys.Equal)) {
 			this.engine.getCamera().transform.position.z += 1 * dt;
+		}
+
+		if (this.engine.input.isKeyReleased(Keys.Numpad5)){
+			let cam = this.engine.getCamera();
+			this.engine.setCamera(this.cam);
+			this.cam = cam;
 		}
 
 		this.engine.getCamera().transform.position.z -= this.engine.input.getMouseScroll() / 2;
