@@ -17,6 +17,7 @@ import { MeshPart } from "@/engine/graphics/mesh-part";
 import { MaterialsTest } from "./materials-test";
 import { Camera } from "@/engine/world/camera";
 import { PerspectiveCamera } from "@/engine/world/perspective-camera";
+import { Transform } from "stream";
 
 export class World extends GameWorld {
 	private woodSprite:Sprite;
@@ -26,6 +27,7 @@ export class World extends GameWorld {
 	private b3n:B3N;
 
 	private cam:Camera;
+	private camTransform:Transform;
 
 	public load():void {
 		this.ambientLight = new Color(25,25,25,255);
@@ -43,7 +45,7 @@ export class World extends GameWorld {
 		this.b3n.load();
 		this.addChild(this.b3n);
 
-		let cam = new PerspectiveCamera(this.engine);
+		let cam = new PerspectiveCamera(this.engine, 90);
 		this.cam = this.engine.getCamera();
 		this.engine.setCamera(cam);
 		cam.transform = this.cam.transform;
@@ -113,7 +115,7 @@ export class World extends GameWorld {
 			this.cam = cam;
 		}
 
-		this.engine.getCamera().transform.position.z -= this.engine.input.getMouseScroll() / 2;
+		this.engine.getCamera().transform.position.z -= this.engine.input.getMouseScroll();
 
 		if (this.engine.input.isMouseButtonDown(MouseButtons.Middle)) {
 			let dx = this.engine.input.getMouseDiffX();
@@ -121,6 +123,7 @@ export class World extends GameWorld {
 			this.engine.getCamera().transform.rotation.x += dy / 100;
 			this.engine.getCamera().transform.rotation.y += dx / 100;
 		}
+
 
 		let rightAngleRad = degToRadians(90);
 

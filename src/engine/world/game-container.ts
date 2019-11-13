@@ -110,12 +110,12 @@ export abstract class GameContainer {
 	
 	private updateWorldMatrix(parentWorldMatrix:Matrix4x4):void {
 		if (parentWorldMatrix) {
-			this.worldMatrix = Matrix4x4.multiply(parentWorldMatrix, this.localMatrix);
+			this.worldMatrix = parentWorldMatrix.multiply(this.localMatrix);
 		}else {
 			this.worldMatrix.copyFrom(this.localMatrix);
 		}
 		for (let light of this.pointLights) {
-			light.worldTransform = Matrix4x4.multiply(this.worldMatrix, light.transform.getTransformationMatrix());
+			light.worldTransform = this.worldMatrix.multiply(light.transform.getTransformationMatrix());
 		}
 	}
 }

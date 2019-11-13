@@ -23,6 +23,7 @@ export class B3N extends SimObject {
 	}
 
 	public update(dt:number):void {
+		this.transform.rotation.y += 0.001 * dt;
 		let speed = 100;
 		let animationPos = this.b3nObject.b3nSprite.getRenderedLocation();
 		let newTouch = this.engine.input.getNewTouches()[0];

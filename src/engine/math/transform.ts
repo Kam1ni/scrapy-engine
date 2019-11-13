@@ -15,9 +15,17 @@ export class Transform {
 
 	public getTransformationMatrix():Matrix4x4 {
 		let translation = Matrix4x4.translation(this.position);
-		let rotation = Matrix4x4.rotationXYZ(this.rotation.x,this.rotation.y,this.rotation.z);
+		let rotation = Matrix4x4.rotationXYZ(this.rotation);
 		let scale = Matrix4x4.scale(this.scale);
 
-		return Matrix4x4.multiply(Matrix4x4.multiply(translation, rotation), scale);
+		return translation.multiply(rotation).multiply(scale);
+	}
+
+	public getInvertedTransformationMatrix():Matrix4x4 {
+		let translation = Matrix4x4.translation(this.position);
+		let rotation = Matrix4x4.rotationXYZ(this.rotation);
+		let scale = Matrix4x4.scale(this.scale);
+
+		return rotation.multiply(translation).multiply(scale);
 	}
 }

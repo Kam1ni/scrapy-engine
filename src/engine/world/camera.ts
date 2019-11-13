@@ -18,6 +18,6 @@ export abstract class Camera{
 	public abstract updateMatrix():void;
 
 	public getViewMatrix():Matrix4x4 {
-		return Matrix4x4.multiply(this.getMatrix(), this.transform.getTransformationMatrix());
+		return this.getMatrix().multiply(this.transform.getInvertedTransformationMatrix());
 	}
 }
