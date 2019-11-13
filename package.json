@@ -5,7 +5,8 @@
 	"main": "dist/main.js",
 	"scripts": {
 		"serve": "webpack-dev-server",
-		"build": "webpack"
+		"build": "webpack",
+		"lint": "tslint --project ."
 	},
 	"repository": {
 		"type": "git",
@@ -25,6 +26,7 @@
 	"homepage": "https://github.com/Kam1ni/scrapy-engine#readme",
 	"devDependencies": {
 		"file-loader": "^4.2.0",
+		"husky": "^3.0.9",
 		"raw-loader": "^3.1.0",
 		"ts-loader": "^6.2.1",
 		"tslint": "^5.20.1",
@@ -32,5 +34,10 @@
 		"webpack": "^4.41.2",
 		"webpack-cli": "^3.3.10",
 		"webpack-dev-server": "^3.9.0"
+	},
+	"husky":{
+		"hooks":{
+			"pre-commit":"npm run lint"
+		}
 	}
 }
