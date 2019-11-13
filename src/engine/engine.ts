@@ -94,7 +94,13 @@ export class Engine{
 		this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 		let projectionPosition = this.shader.getUniformLocation("u_projection");
 		this.gl.uniformMatrix4fv(projectionPosition, false, this.camera.getViewMatrix().toFloat32Array());
-		
+
+		let uvOffset = this.shader.getUniformLocation("u_uvOffset");
+		this.gl.uniform2fv(uvOffset, new Float32Array([0.0,0.0]));
+
+		let uvSize = this.shader.getUniformLocation("u_uvSize");
+		this.gl.uniform2fv(uvSize, new Float32Array([1.0,1.0]));
+
 		this.world.render();
 		this.input.update();
 		requestAnimationFrame(this.loop.bind(this));
