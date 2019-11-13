@@ -1,7 +1,7 @@
 import { Engine } from "../engine";
 import { Texture } from "./texture";
 import { MissingTexture } from "./missing-texture";
-import { DiffuseTexture } from "./diffuseTexture";
+import { DiffuseTexture } from "./diffuse-texture";
 
 
 export class StaticGraphics {

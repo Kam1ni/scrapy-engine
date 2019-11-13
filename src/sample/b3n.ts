@@ -39,12 +39,10 @@ export class B3N extends SimObject {
 		if (justIsLeft) {
 			if (this.transform.scale.x == 1) {
 				this.transform.scale.x = -1;
-				this.transform.position.x += 16;
 			}
 		} else if (justIsRight) {
 			if (this.transform.scale.x == -1) {
 				this.transform.scale.x = 1;
-				this.transform.position.x -= 16;
 			}
 		}
 

@@ -27,7 +27,6 @@ export class World extends GameWorld {
 	private b3n:B3N;
 
 	private cam:Camera;
-	private camTransform:Transform;
 
 	public load():void {
 		this.ambientLight = new Color(25,25,25,255);
@@ -109,7 +108,7 @@ export class World extends GameWorld {
 			this.engine.getCamera().transform.position.z += 1 * dt;
 		}
 
-		if (this.engine.input.isKeyReleased(Keys.Numpad5)){
+		if (this.engine.input.isKeyReleased(Keys.Numpad5)) {
 			let cam = this.engine.getCamera();
 			this.engine.setCamera(this.cam);
 			this.cam = cam;

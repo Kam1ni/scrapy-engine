@@ -3,6 +3,7 @@ import { Graphic } from "../graphics/graphic";
 import { Transform } from "../math/transform";
 import { Matrix4x4 } from "../math/matrix4x4";
 import { PointLight } from "../graphics/point-light";
+import { Vector3 } from "../math/vector3";
 
 let currentId = 0;
 
@@ -17,8 +18,10 @@ export abstract class GameContainer {
 	protected worldMatrix:Matrix4x4 = Matrix4x4.identity();
 	private loaded:boolean = false;
 	public transform:Transform = new Transform();
+	public origin:Vector3 = Vector3.zero();
 
 	protected pointLights:PointLight[] = [];
+
 
 	public constructor(engine:Engine) {
 		this.engine = engine;
@@ -67,8 +70,9 @@ export abstract class GameContainer {
 	}
 
 	public render():void {
+		let matrix = this.worldMatrix.multiply(Matrix4x4.translation(this.origin));
 		for (let graphic of this.graphics) {
-			graphic.render(this.worldMatrix);
+			graphic.render(matrix);
 		}
 		for (let child of this.children) {
 			child.render();

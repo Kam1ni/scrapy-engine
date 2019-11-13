@@ -14,6 +14,7 @@ export class MaterialsTest extends SimObject{
 		this.transform.scale.y = 8;
 		this.transform.scale.z = 8;
 		this.transform.position.x = 100;
+		this.transform.position.z = -5;
 		super.load();
 	}
 }
