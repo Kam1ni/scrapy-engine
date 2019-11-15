@@ -40,6 +40,18 @@ export class Matrix4x4 {
 		return result;
 	}
 
+	public translate(vector:Vector3):Matrix4x4{
+		return this.multiply(Matrix4x4.translation(vector));
+	}
+
+	public rotateXYZ(rotation:Vector3):Matrix4x4{
+		return this.multiply(Matrix4x4.rotationXYZ(rotation));
+	}
+
+	public scale(scale:Vector3):Matrix4x4{
+		return this.multiply(Matrix4x4.scale(scale));
+	}
+
 	public multiply(b:Matrix4x4):Matrix4x4 {
 		let m = new Matrix4x4();
 		let a = this;
@@ -205,15 +217,6 @@ export class Matrix4x4 {
 			0,0, (nearClip + farClip) * rangeInv, - 1,
 			0,0, nearClip * farClip * rangeInv * 2, 0
 		];
-		/*
-		m.data[0] = f / aspect;
-		m.data[5] = f;
-		m.data[10] = (nearClip + farClip) * rangeInv;
-		m.data[14] = -1;
-
-		m.data[11] = nearClip * farClip * rangeInv * 2;
-		m.data[15] = 0;
-		*/
 		return m;
 	}
 

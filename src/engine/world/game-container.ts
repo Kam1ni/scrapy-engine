@@ -1,9 +1,9 @@
 import { Engine } from "../engine";
-import { Graphic } from "../graphics/graphic";
 import { Transform } from "../math/transform";
 import { Matrix4x4 } from "../math/matrix4x4";
 import { PointLight } from "../graphics/point-light";
 import { Vector3 } from "../math/vector3";
+import { Graphic } from "../graphics/graphic";
 
 let currentId = 0;
 
@@ -60,10 +60,7 @@ export abstract class GameContainer {
 	public update(dt:number):void {
 		this.localMatrix = this.transform.getTransformationMatrix();
 		this.updateWorldMatrix(this.parent ? this.parent.worldMatrix : null);
-		
-		for (let graphic of this.graphics) {
-			graphic.update(dt);	
-		}
+
 		for (let child of this.children) {
 			child.update(dt);
 		}
@@ -82,7 +79,7 @@ export abstract class GameContainer {
 	public load():void {
 		if (this.loaded) return;
 		for (let g of this.graphics) {
-			g.load();
+			// load if necessary
 		}
 		for (let child of this.children) {
 			child.load();
@@ -92,7 +89,7 @@ export abstract class GameContainer {
 	public destroy():void {
 		if (!this.loaded) return;
 		for (let g of this.graphics) {
-			g.destroy();
+			// destroy if necessary
 		}
 		if (this.parent) {
 			this.remove();

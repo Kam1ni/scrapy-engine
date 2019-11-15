@@ -1,17 +1,17 @@
-import { Color } from "./color";
+import { Color } from "../graphics/color";
 import { Texture } from "./texture";
 import { Engine } from "../engine";
+import { Asset } from "./asset";
 
-export class Material {
+export class Material extends Asset {
 	private name:string;
-	public engine:Engine;
 	public diffuserColor:Color = Color.white();
 	public texture:Texture;
 
 	public constructor(engine:Engine, name:string) {
-		this.engine = engine;
+		super(engine);
 		this.name = name;
-		this.texture = engine.staticGraphics.getDiffusetTexture();
+		this.texture = engine.staticGraphics.getDiffuseTexture();
 	}
 
 	public getName():string {

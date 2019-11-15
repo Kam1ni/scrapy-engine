@@ -4,7 +4,7 @@ import { Sprite } from "@/engine/graphics/sprite";
 import * as woodTexture from "assets/textures/wood.png";
 import * as grassTexture from "assets/textures/grass.png";
 import * as treeTexture from "assets/textures/tree.png";
-import { Texture } from "@/engine/graphics/texture";
+import { Texture } from "@/engine/assets/texture";
 import { Block } from "./block";
 import { Vector3 } from "@/engine/math/vector3";
 import { B3N } from "./b3n";
@@ -13,7 +13,7 @@ import { Keys, MouseButtons } from "@/engine/utils/input";
 import { Color } from "@/engine/graphics/color";
 import { PointLight } from "@/engine/graphics/point-light";
 import { degToRadians } from "@/engine/math/angles";
-import { MeshPart } from "@/engine/graphics/mesh-part";
+import { MeshPart } from "@/engine/assets/mesh-part";
 import { MaterialsTest } from "./materials-test";
 import { Camera } from "@/engine/world/camera";
 import { PerspectiveCamera } from "@/engine/world/perspective-camera";
@@ -30,12 +30,15 @@ export class World extends GameWorld {
 
 	public load():void {
 		this.ambientLight = new Color(25,25,25,255);
-		this.woodSprite = new Sprite(this.engine, new Texture(this.engine, woodTexture));
-		this.grassSprite = new Sprite(this.engine, new Texture(this.engine, grassTexture));
-		this.treeSprite = new Sprite(this.engine, new Texture(this.engine, treeTexture));
-		this.woodSprite.load();
-		this.grassSprite.load();
-		this.treeSprite.load();
+		let woodTex = new Texture(this.engine, woodTexture);
+		woodTex.load();
+		let grassTex = new Texture(this.engine, grassTexture);
+		grassTex.load();
+		let treeTex = new Texture(this.engine, treeTexture);
+		treeTex.load();
+		this.woodSprite = new Sprite(this.engine, woodTex);
+		this.grassSprite = new Sprite(this.engine, grassTex);
+		this.treeSprite = new Sprite(this.engine, treeTex);
 
 		this.b3n = new B3N(this.engine);
 		this.b3n.transform.position.y = 0;
@@ -85,7 +88,7 @@ export class World extends GameWorld {
 		}
 
 		let matTest = new MaterialsTest(this.engine);
-		matTest.load();
+		matTest.load();	
 		this.addChild(matTest);
 	}
 

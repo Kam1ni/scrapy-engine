@@ -1,9 +1,9 @@
 import { Vector3 } from "../math/vector3";
 import { Engine } from "../engine";
 import { TextureSrcModifier, loadMtl } from "./mtl-loader";
-import { Mesh } from "../graphics/mesh";
-import { MeshPart } from "../graphics/mesh-part";
-import { Material } from "../graphics/material";
+import { Mesh } from "../assets/mesh";
+import { MeshPart } from "../assets/mesh-part";
+import { Material } from "../assets/material";
 
 enum LineType {
 	UNUSED,

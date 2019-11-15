@@ -1,7 +1,7 @@
-import { Material } from "../graphics/material";
+import { Material } from "../assets/material";
 import { Color } from "../graphics/color";
 import { Engine } from "../engine";
-import { Texture } from "../graphics/texture";
+import { Texture } from "../assets/texture";
 
 enum LineType {
 	NEW_MATERIAL,

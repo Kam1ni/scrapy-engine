@@ -8,7 +8,6 @@ uniform vec3 u_point_light_positions[64];
 uniform vec4 u_point_light_color[64];
 
 varying vec2 v_texCoord;
-varying vec4 v_point_light_positions[64];
 varying vec4 v_worldCoord;
 
 void main(){

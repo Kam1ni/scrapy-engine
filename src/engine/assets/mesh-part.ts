@@ -1,11 +1,11 @@
 import { Engine } from "../engine";
-import { GLBuffer, AttributeInfo } from "./gl-buffer";
-import { Graphic } from "./graphic";
-import { Color } from "./color";
+import { GLBuffer, AttributeInfo } from "../graphics/gl-buffer";
+import { Asset } from "./asset";
+import { Color } from "../graphics/color";
 import { Matrix4x4 } from "../math/matrix4x4";
 import { Material } from "./material";
 
-export class MeshPart extends Graphic {
+export class MeshPart extends Asset {
 	protected buffer:GLBuffer;
 	protected vertices:number[];
 	public material:Material;
@@ -39,9 +39,9 @@ export class MeshPart extends Graphic {
 		this.buffer.unbind();
 
 		let gl = this.engine.gl;
-		this.engine.staticGraphics.getDiffusetTexture().bind();
+		this.engine.staticGraphics.getDiffuseTexture().bind();
 		gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1,1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([255,255,255,255]));
-		this.engine.staticGraphics.getDiffusetTexture().unbind();
+		this.engine.staticGraphics.getDiffuseTexture().unbind();
 		this.material.load();
 	}
 
@@ -57,7 +57,6 @@ export class MeshPart extends Graphic {
 
 		this.buffer.bind();
 		this.buffer.draw();
-		super.render(transform);
 		this.buffer.unbind();
 		this.material.unbind();
 	}

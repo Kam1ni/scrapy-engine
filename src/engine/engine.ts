@@ -4,7 +4,7 @@ import { BasicShader } from "./graphics/basic-shader";
 import { GameWorld } from "./world/game-world";
 import { OrthographicCamera } from "./world/orthographic-camera";
 import { Camera } from "./world/camera";
-import { StaticGraphics } from "./graphics/static-graphics";
+import { StaticAssets } from "./assets/static-assets";
 import { Input } from "./utils/input";
 
 export class Engine{
@@ -17,7 +17,7 @@ export class Engine{
 	private shader:Shader = new BasicShader(this);
 	private world:GameWorld = new GameWorld(this);
 	private camera:Camera = new OrthographicCamera(this);
-	public staticGraphics = new StaticGraphics(this);
+	public staticGraphics = new StaticAssets(this);
 	public input:Input = new Input(this);
 
 	public constructor(canvas:HTMLCanvasElement) {
@@ -117,7 +117,6 @@ export class Engine{
 		this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
 		// Enables depth
 		this.gl.getExtension("EXT_frag_depth");
-		let extensions = this.gl.getSupportedExtensions();
 		this.gl.enable(this.gl.DEPTH_TEST);
 
 		this.setClearColor(this.clearColor);

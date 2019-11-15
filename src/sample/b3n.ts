@@ -1,6 +1,6 @@
 import { SimObject } from "@/engine/world/sim-object";
 import { Sprite } from "@/engine/graphics/sprite";
-import { Texture } from "@/engine/graphics/texture";
+import { Texture } from "@/engine/assets/texture";
 import { B3NElement } from "./b3n-element";
 import { Vector3 } from "@/engine/math/vector3";
 import { Keys, ScrapyTouch } from "@/engine/utils/input";

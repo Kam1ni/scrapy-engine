@@ -1,18 +1,14 @@
+import { Asset } from "../assets/asset";
 import { Engine } from "../engine";
 import { Matrix4x4 } from "../math/matrix4x4";
-import { Vector3 } from "../math/vector3";
 
 export abstract class Graphic {
 	protected engine:Engine;
+	protected assets:Asset[] = [];
 
-	constructor(engine:Engine) {
+	public constructor(engine:Engine) {
 		this.engine = engine;
 	}
 
-	public load():void {}
-
-	public update(dt:number):void {}
-
-	public render(transform:Matrix4x4):void {}
-	public destroy():void {}
+	public abstract render(transform:Matrix4x4):void;
 }
