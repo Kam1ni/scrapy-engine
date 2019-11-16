@@ -19,7 +19,7 @@ export class Texture extends Asset{
 	private width:number = 2;
 	private height:number = 2;
 
-	constructor(engine:Engine, name:string, textureUrl?:string) {
+	public constructor(engine:Engine, name:string, textureUrl?:string) {
 		super(engine, name);
 		this.textureUrl = textureUrl;
 		

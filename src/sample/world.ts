@@ -11,10 +11,12 @@ import { MaterialsTest } from "./materials-test";
 import { Camera } from "@/engine/world/camera";
 import { PerspectiveCamera } from "@/engine/world/perspective-camera";
 import { Engine } from "@/engine/engine";
+import { Audio } from "@/engine/assets/audio";
 
 export class World extends GameWorld {
 
 	private b3n:B3N;
+	private audio:Audio;
 
 	public constructor(engine:Engine) {
 		super(engine);
@@ -63,6 +65,15 @@ export class World extends GameWorld {
 
 		let matTest = new MaterialsTest(this.engine);
 		this.addChild(matTest);
+		this.audio = this.engine.assetLoaders.audioLoader.getAsset("test-audio.wav");
+
+	}
+	
+	public update(dt:number):void {
+		if (this.engine.input.isKeyPressed(Keys.P)) {
+			this.audio.play();
+		}
+		super.update(dt);
 	}
 
 	private createBlock(textureName:string, position:Vector3):Sprite {

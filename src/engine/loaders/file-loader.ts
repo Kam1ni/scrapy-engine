@@ -11,7 +11,7 @@ export class FileLoader extends AssetLoader<File>{
 			{
 				if (rawFile.status === 200 || rawFile.status == 0)
 				{
-					var allText = rawFile.responseText;
+					let allText = rawFile.responseText;
 					file.load(allText);
 					this.emit(`/loaded/${asset}`);	
 				}

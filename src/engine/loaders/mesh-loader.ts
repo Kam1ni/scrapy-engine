@@ -38,6 +38,7 @@ export class MeshLoader extends AssetLoader<Mesh>{
 
 		this.meshNameToObjConverter(this.engine, asset).then((obj)=> {
 			this.loadObjWithMtl(mesh, obj);
+			this.emit(`/loaded/${asset}`);
 		});
 
 		return {
