@@ -6,6 +6,7 @@ import { OrthographicCamera } from "./world/orthographic-camera";
 import { Camera } from "./world/camera";
 import { StaticAssets } from "./assets/static-assets";
 import { Input } from "./utils/input";
+import { AssetLoaderBundle } from "./loaders/asset-loader-bundle";
 
 export class Engine{
 	private canvas:HTMLCanvasElement;
@@ -19,6 +20,7 @@ export class Engine{
 	private camera:Camera = new OrthographicCamera(this);
 	public staticGraphics = new StaticAssets(this);
 	public input:Input = new Input(this);
+	public assetLoaders:AssetLoaderBundle = new AssetLoaderBundle(this);
 
 	public constructor(canvas:HTMLCanvasElement) {
 		this.canvas = canvas;

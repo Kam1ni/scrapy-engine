@@ -10,13 +10,16 @@ export class MeshPart extends Asset {
 	protected vertices:number[];
 	public material:Material;
 
-	public constructor(engine:Engine, vertices:number[], material:Material) {
-		super(engine);
+	public constructor(engine:Engine, vertices:number[], materialName:string) {
+		super(engine, "mesh-part");
 		this.vertices = vertices;
-		this.material = material;
+		this.material = this.engine.assetLoaders.materialLoader.getAsset(materialName);
 	}
 
-	public load():void {
+	public async load():Promise<void> {
+		if (this.loaded) {
+			return;
+		}
 		this.buffer = new GLBuffer(this.engine, 5);
 		this.buffer.bind();
 
@@ -43,10 +46,12 @@ export class MeshPart extends Asset {
 		gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1,1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([255,255,255,255]));
 		this.engine.staticGraphics.getDiffuseTexture().unbind();
 		this.material.load();
+		this.loaded = true;
 	}
 
 	public destroy():void {
 		this.buffer.destroy();
+		this.engine.assetLoaders.materialLoader.release(this.material);
 	}
 
 	public render(transform:Matrix4x4):void {

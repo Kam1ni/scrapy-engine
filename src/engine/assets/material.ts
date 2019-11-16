@@ -4,25 +4,29 @@ import { Engine } from "../engine";
 import { Asset } from "./asset";
 
 export class Material extends Asset {
-	private name:string;
 	public diffuserColor:Color = Color.white();
 	public texture:Texture;
 
 	public constructor(engine:Engine, name:string) {
-		super(engine);
-		this.name = name;
+		super(engine, name);
 		this.texture = engine.staticGraphics.getDiffuseTexture();
 	}
 
-	public getName():string {
-		return this.name;
-	}
-
-	public load():void {
+	public async load():Promise<void> {
+		if (this.loaded) {
+			return;
+		}
 		this.texture.load();
+		this.loaded = true;
 	}
 
 	public destroy():void {
+		if (this.texture == this.engine.staticGraphics.getDiffuseTexture()) {
+			return;
+		}
+		if (this.texture == this.engine.staticGraphics.getMissingTexture()) {
+			return;
+		}
 		this.texture.destroy();
 	}
 

@@ -1,6 +1,5 @@
 import { Sprite } from "./sprite";
 import { Engine } from "../engine";
-import { Texture } from "../assets/texture";
 import { Vector2 } from "@/engine/math/vector2";
 import { Matrix4x4 } from "@/engine/math/matrix4x4";
 import { Color } from "./color";
@@ -12,7 +11,7 @@ export class AnimatedSprite extends Sprite {
 	private uvOffset:Vector2 = Vector2.zero();
 	private uvSize:Vector2 = Vector2.one();
 
-	constructor(engine:Engine, texture:Texture, rows:number, cols:number) {
+	constructor(engine:Engine, texture:string, rows:number, cols:number) {
 		super(engine, texture);
 		this.rows = rows;
 		this.cols = cols;

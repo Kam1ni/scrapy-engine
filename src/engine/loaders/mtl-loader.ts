@@ -1,3 +1,4 @@
+/*
 import { Material } from "../assets/material";
 import { Color } from "../graphics/color";
 import { Engine } from "../engine";
@@ -73,4 +74,4 @@ function getDiffuseColor(line:string):Color {
 
 function getTextureSrc(line:string, srcModifier:TextureSrcModifier):string {
 	return srcModifier(line.split(" ")[1]);
-}
+}*/

@@ -40,15 +40,15 @@ export class Matrix4x4 {
 		return result;
 	}
 
-	public translate(vector:Vector3):Matrix4x4{
+	public translate(vector:Vector3):Matrix4x4 {
 		return this.multiply(Matrix4x4.translation(vector));
 	}
 
-	public rotateXYZ(rotation:Vector3):Matrix4x4{
+	public rotateXYZ(rotation:Vector3):Matrix4x4 {
 		return this.multiply(Matrix4x4.rotationXYZ(rotation));
 	}
 
-	public scale(scale:Vector3):Matrix4x4{
+	public scale(scale:Vector3):Matrix4x4 {
 		return this.multiply(Matrix4x4.scale(scale));
 	}
 

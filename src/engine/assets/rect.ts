@@ -10,16 +10,15 @@ export class Rect extends Asset{
 	private buffer:GLBuffer;
 
 	public constructor(engine:Engine) {
-		super(engine);
+		super(engine, "static-rect");
 	}
 
 	public destroy():void {
 		if (!this.loaded) return;
-		super.destroy();
 		this.buffer.destroy();
 	}
 
-	public load():void {
+	public async load():Promise<void> {
 		if (this.loaded) return;
 		this.buffer = new GLBuffer(this.engine, 5);
 		let positionAttribute = this.engine.getShader().getAttributeLocation("a_position");

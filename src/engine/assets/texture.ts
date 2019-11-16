@@ -1,5 +1,6 @@
 import { Engine } from "../engine";
 import { EventEmitter } from "../utils/event-emitter";
+import { Asset } from "./asset";
 
 const LEVEL:number = 0;
 const BORDER:number = 0;
@@ -10,7 +11,7 @@ export enum TextureState{
 	LOADED
 }
 
-export class Texture extends EventEmitter{
+export class Texture extends Asset{
 	protected engine:Engine;
 	private textureUrl:string;
 	protected handle:WebGLTexture;
@@ -18,14 +19,13 @@ export class Texture extends EventEmitter{
 	private width:number = 2;
 	private height:number = 2;
 
-	constructor(engine:Engine, textureUrl?:string) {
-		super();
-		this.engine = engine;
+	constructor(engine:Engine, name:string, textureUrl?:string) {
+		super(engine, name);
 		this.textureUrl = textureUrl;
 		
 	}
 
-	public load():void {
+	public async load():Promise<void> {
 		if (this.state != TextureState.INITIAL) return;
 		this.state = TextureState.LOADING;
 
@@ -49,7 +49,6 @@ export class Texture extends EventEmitter{
 				gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
 			}
 			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-			this.emit("loaded");
 		};
 		img.src = this.textureUrl;
 	}
@@ -94,6 +93,10 @@ export class Texture extends EventEmitter{
 
 	public getWidth():number {
 		return this.width;
+	}
+
+	public isLoaded():boolean {
+		return this.state == TextureState.LOADED;
 	}
 
 }

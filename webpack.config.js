@@ -1,4 +1,5 @@
 const path = require("path");
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
 	entry:{
@@ -41,5 +42,11 @@ module.exports = {
 		contentBase:path.join(__dirname, "dist"),
 		compress:true,
 		port:8080,
+		writeToDisk:true
 	},
+	plugins:[
+		new CopyPlugin([
+			{from:path.resolve(__dirname, "public"), to:path.resolve(__dirname, "dist")}
+		])
+	]
 }

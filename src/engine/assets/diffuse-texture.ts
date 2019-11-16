@@ -4,10 +4,10 @@ import { Engine } from "../engine";
 export class DiffuseTexture extends Texture{
 	
 	constructor(engine:Engine) {
-		super(engine);
+		super(engine, "diffuse");
 	}
 
-	public load():void {
+	public async load():Promise<void> {
 		if (this.state != TextureState.INITIAL) return;
 		this.state = TextureState.LOADING;
 		this.handle = this.engine.gl.createTexture();
@@ -19,7 +19,6 @@ export class DiffuseTexture extends Texture{
 	
 		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
 		this.state = TextureState.LOADED;
-		this.emit("loaded");
 	}
 
 	public bind():void {

@@ -10,5 +10,7 @@ export abstract class Graphic {
 		this.engine = engine;
 	}
 
+	public destroy():void {}
+
 	public abstract render(transform:Matrix4x4):void;
 }

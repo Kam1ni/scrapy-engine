@@ -9,9 +9,13 @@ import { Graphic } from "./graphic";
 export class Sprite extends Graphic {
 	protected texture:Texture;
 
-	constructor(engine:Engine, texture:Texture) {
+	constructor(engine:Engine, texture:string) {
 		super(engine);
-		this.texture = texture;
+		this.texture = this.engine.assetLoaders.textureLoader.getAsset(texture);
+	}
+
+	public destroy():void {
+		this.engine.assetLoaders.textureLoader.release(this.texture);
 	}
 
 	public render(transform:Matrix4x4):void {

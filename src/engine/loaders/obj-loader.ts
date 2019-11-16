@@ -1,4 +1,4 @@
-import { Vector3 } from "../math/vector3";
+/*import { Vector3 } from "../math/vector3";
 import { Engine } from "../engine";
 import { TextureSrcModifier, loadMtl } from "./mtl-loader";
 import { Mesh } from "../assets/mesh";
@@ -153,6 +153,6 @@ export function loadObjWithMtl(engine:Engine, obj:string, mtl:string, textureSrc
 		meshParts.push(new MeshPart(engine, meshVertices, meshMaterial));
 	}
 
-	let mesh = new Mesh(engine, meshParts);
+	let mesh = new Mesh(engine, "TODO: SET NAME", meshParts);
 	return mesh;
-}
+}*/

@@ -1,20 +1,14 @@
 import { SimObject } from "@/engine/world/sim-object";
-import * as lampPostTexture from "assets/textures/lamp-post.png";
 import { Sprite } from "@/engine/graphics/sprite";
 import { Texture } from "@/engine/assets/texture";
 import { PointLight } from "@/engine/graphics/point-light";
 import { Color } from "@/engine/graphics/color";
-import { Matrix4x4 } from "@/engine/math/matrix4x4";
-import { Vector3 } from "@/engine/math/vector3";
-import { Transform } from "@/engine/math/transform";
 
 export class LampPost extends SimObject {
 	private light:PointLight;
 
 	public load():void {
-		let lampTexture = new Texture(this.engine, lampPostTexture);
-		lampTexture.load();
-		let lampPostSprite = new Sprite(this.engine, lampTexture);
+		let lampPostSprite = new Sprite(this.engine, "lamp-post.png");
 			
 		this.transform.scale.x = 1;
 
