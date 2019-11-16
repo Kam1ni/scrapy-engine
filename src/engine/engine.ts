@@ -11,7 +11,6 @@ import { AssetLoaderBundle } from "./loaders/asset-loader-bundle";
 export class Engine{
 	private canvas:HTMLCanvasElement;
 	private _gl:WebGLRenderingContext;
-	private resizeSub:()=>void;
 	private running:boolean;
 	private prevFrameTime:number = 0;
 	private clearColor:Color = Color.black();
@@ -21,6 +20,7 @@ export class Engine{
 	public staticGraphics = new StaticAssets(this);
 	public input:Input = new Input(this);
 	public assetLoaders:AssetLoaderBundle = new AssetLoaderBundle(this);
+	private hasPointerLock:boolean = false;
 
 	public constructor(canvas:HTMLCanvasElement) {
 		this.canvas = canvas;
@@ -40,8 +40,10 @@ export class Engine{
 		this.input.init();
 		this.staticGraphics.load();
 
-		this.resizeSub = this.applyCanvasSize.bind(this);
-		window.addEventListener("resize", this.resizeSub);
+		this.applyCanvasSize = this.applyCanvasSize.bind(this);
+		this.onPointerLockChanged = this.onPointerLockChanged.bind(this);
+		window.addEventListener("resize", this.applyCanvasSize);
+		document.addEventListener("pointerlockchange",this.onPointerLockChanged, false);
 		this.applyCanvasSize();
 	}
 
@@ -66,9 +68,10 @@ export class Engine{
 		this.camera.updateMatrix();
 		this._gl.viewport(0, 0, this.canvas.width, this.canvas.height);
 	}
-	
+
 	public destroy():void {
-		window.removeEventListener("resize", this.resizeSub);
+		window.removeEventListener("resize", this.applyCanvasSize);
+		document.removeEventListener("pointerlockchange", this.onPointerLockChanged, false);
 	}
 
 	public getClearColor():Color {
@@ -92,6 +95,7 @@ export class Engine{
 		}
 		
 		this.world.update(dt);
+		this.camera.update(dt);
 		this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 		let projectionPosition = this.shader.getUniformLocation("u_projection");
 		this.gl.uniformMatrix4fv(projectionPosition, false, this.camera.getViewMatrix().toFloat32Array());
@@ -121,6 +125,10 @@ export class Engine{
 		this.gl.enable(this.gl.DEPTH_TEST);
 
 		this.setClearColor(this.clearColor);
+	}
+
+	private onPointerLockChanged():void {
+		this.hasPointerLock = document.pointerLockElement == this.canvas;
 	}
 
 	public getShader():Shader {
@@ -153,5 +161,17 @@ export class Engine{
 
 	public getCanvas():HTMLCanvasElement {
 		return this.canvas;
+	}
+
+	public isPointerLocked():boolean {
+		return this.hasPointerLock;
+	}
+
+	public requestPointerLock():void {
+		this.canvas.requestPointerLock();
+	}
+
+	public releasePointerLock():void {
+		document.exitPointerLock();
 	}
 }

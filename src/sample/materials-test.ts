@@ -6,7 +6,7 @@ import { Engine } from "@/engine/engine";
 export class MaterialsTest extends Object3D{
 
 	public constructor(engine:Engine) {
-		super(engine, "material_test");
+		super(engine, "materials_test");
 		this.transform.scale.x = 8;
 		this.transform.scale.y = 8;
 		this.transform.scale.z = 8;

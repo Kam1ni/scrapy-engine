@@ -2,12 +2,13 @@ import { Engine } from "@/engine/engine";
 import { SimObject } from "@/engine/world/sim-object";
 import { SimpleRect } from "./simple-rect";
 import { World } from "./world";
-import { PerspectiveCamera } from "@/engine/world/perspective-camera";
+import { FreeCamera } from "@/engine/world/free-camera";
 
 let canvas = document.createElement("canvas");
 document.body.append(canvas);
 let engine = new Engine(canvas);
 engine.init();
+engine.setCamera(new FreeCamera(engine, 90));
 
 
 let world = new World(engine);

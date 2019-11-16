@@ -28,4 +28,12 @@ export class Transform {
 
 		return rotation.multiply(translation).multiply(scale);
 	}
+
+	public static fromMatrix(matrix:Matrix4x4):Transform {
+		let t = new Transform();
+		t.position = matrix.getTranslation();
+		t.rotation = matrix.getRotation();
+		t.scale = matrix.getScaling();
+		return t;
+	}
 }

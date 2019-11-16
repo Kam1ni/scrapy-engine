@@ -5,6 +5,7 @@ import { Engine } from "../engine";
 export abstract class Camera{
 	public transform:Transform = new Transform();
 	public engine:Engine;
+	public worldMatrix:Matrix4x4;
 	protected matrix:Matrix4x4;
 
 	constructor(engine:Engine) {
@@ -18,6 +19,10 @@ export abstract class Camera{
 	public abstract updateMatrix():void;
 
 	public getViewMatrix():Matrix4x4 {
-		return this.getMatrix().multiply(this.transform.getInvertedTransformationMatrix());
+		return this.getMatrix().multiply(this.worldMatrix);
+	}
+	
+	public update(dt:number):void {
+		this.worldMatrix = this.transform.getInvertedTransformationMatrix();
 	}
 }

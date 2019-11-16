@@ -5,7 +5,7 @@ export class FileLoader extends AssetLoader<File>{
 	protected loadAsset(asset: string):ILoadedAsset<File> {
 		let file = new File(this.engine, asset);
 		let rawFile = new XMLHttpRequest();
-		rawFile.open("GET", asset, false);
+		rawFile.open("GET", asset, true);
 		rawFile.onreadystatechange = ()=> {
 			if (rawFile.readyState === 4)
 			{

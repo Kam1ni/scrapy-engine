@@ -79,8 +79,8 @@ export class Input {
 			x:event.clientX,
 			y:event.clientY
 		};
-		this.mouseDiff.x = currentPos.x - event.clientX;
-		this.mouseDiff.y = currentPos.y - event.clientY;
+		this.mouseDiff.x = event.movementX;
+		this.mouseDiff.y = event.movementY;
 	}
 
 	private onScroll(event:WheelEvent):void {

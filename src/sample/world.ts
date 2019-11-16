@@ -16,11 +16,9 @@ export class World extends GameWorld {
 
 	private b3n:B3N;
 
-	private cam:Camera;
-
 	public constructor(engine:Engine) {
 		super(engine);
-		//this.ambientLight = new Color(25,25,25,255);
+		this.ambientLight = new Color(25,25,25,255);
 
 		this.b3n = new B3N(this.engine);
 		this.b3n.transform.position.y = 0;
@@ -28,10 +26,6 @@ export class World extends GameWorld {
 		this.b3n.transform.position.z = 0;
 		this.addChild(this.b3n);
 
-		let cam = new PerspectiveCamera(this.engine, 90);
-		this.cam = this.engine.getCamera();
-		this.engine.setCamera(cam);
-		cam.transform = this.cam.transform;
 
 		let lampPost = new LampPost(this.engine);
 		this.addChild(lampPost);
@@ -69,51 +63,6 @@ export class World extends GameWorld {
 
 		let matTest = new MaterialsTest(this.engine);
 		this.addChild(matTest);
-	}
-
-	public update(dt:number):void {
-		if (this.engine.input.isKeyDown(Keys.ArrowDown)) {
-			this.engine.getCamera().transform.position.y += 1 * dt;
-		}else if (this.engine.input.isKeyDown(Keys.ArrowUp)) {
-			this.engine.getCamera().transform.position.y -= 1 * dt;
-		}
-
-		if (this.engine.input.isKeyDown(Keys.ArrowLeft)) {
-			this.engine.getCamera().transform.position.x += 1 * dt;
-		}else if (this.engine.input.isKeyDown(Keys.ArrowRight)) {
-			this.engine.getCamera().transform.position.x -= 1 * dt;
-		}
-
-		if (this.engine.input.isKeyDown(Keys.Minus)) {
-			this.engine.getCamera().transform.position.z -= 1 * dt;
-		} else if (this.engine.input.isKeyDown(Keys.Equal)) {
-			this.engine.getCamera().transform.position.z += 1 * dt;
-		}
-
-		if (this.engine.input.isKeyReleased(Keys.Numpad5)) {
-			let cam = this.engine.getCamera();
-			this.engine.setCamera(this.cam);
-			this.cam = cam;
-		}
-
-		this.engine.getCamera().transform.position.z -= this.engine.input.getMouseScroll();
-
-		if (this.engine.input.isMouseButtonDown(MouseButtons.Middle)) {
-			let dx = this.engine.input.getMouseDiffX();
-			let dy = this.engine.input.getMouseDiffY();
-			this.engine.getCamera().transform.rotation.x += dy / 100;
-			this.engine.getCamera().transform.rotation.y += dx / 100;
-		}
-
-
-		let rightAngleRad = degToRadians(90);
-
-		let camRotation = this.engine.getCamera().transform.rotation;
-		camRotation.x = Math.max(camRotation.x, -rightAngleRad);
-		camRotation.x = Math.min(camRotation.x, rightAngleRad);
-
-
-		super.update(dt);
 	}
 
 	private createBlock(textureName:string, position:Vector3):Sprite {

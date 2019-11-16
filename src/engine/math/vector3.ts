@@ -1,3 +1,6 @@
+import { Matrix4x4 } from "./matrix4x4";
+import { Vector4 } from "./vector4";
+
 export class Vector3 {
 	public x:number;
 	public y:number;
@@ -29,6 +32,32 @@ export class Vector3 {
 
 	public add(v:Vector3):Vector3 {
 		return new Vector3(this.x + v.x, this.y + v.y, this.z + v.z);
+	}
+
+	public getLength():number {
+		let num = this.x * this.x + this.y * this.y + this.z * this.z;
+		return Math.sqrt(num);
+	}
+	
+	public rotateX(angle:number):Vector3 {
+		let m = Matrix4x4.rotationX(angle);
+		let v4 = new Vector4(this.x, this.y, this.z, 0);
+		v4 = m.vectorMultiply(v4);
+		return new Vector3(v4.x,v4.y,v4.z);
+	}
+
+	public rotateY(angle:number):Vector3 {
+		let m = Matrix4x4.rotationY(angle);
+		let v4 = new Vector4(this.x, this.y, this.z, 0);
+		v4 = m.vectorMultiply(v4);
+		return new Vector3(v4.x,v4.y,v4.z);
+	}
+
+	public rotateZ(angle:number):Vector3 {
+		let m = Matrix4x4.rotationZ(angle);
+		let v4 = new Vector4(this.x, this.y, this.z, 0);
+		v4 = m.vectorMultiply(v4);
+		return new Vector3(v4.x,v4.y,v4.z);
 	}
 
 	public static one():Vector3 {

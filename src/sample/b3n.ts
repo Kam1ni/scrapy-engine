@@ -42,8 +42,8 @@ export class B3N extends SimObject {
 			}
 		}
 
-		let goLeft = this.engine.input.isKeyDown(Keys.A);
-		let goRight = this.engine.input.isKeyDown(Keys.D);
+		let goLeft = this.engine.input.isKeyDown(Keys.ArrowLeft);
+		let goRight = this.engine.input.isKeyDown(Keys.ArrowRight);
 		if (touch) {
 			goLeft = this.isTouchLeft(touch);
 			goRight = !goLeft;

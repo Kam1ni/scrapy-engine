@@ -96,7 +96,7 @@ export abstract class GameContainer {
 		}
 	}
 
-	public getChildren():GameContainer[]{
+	public getChildren():GameContainer[] {
 		return [...this.children];
 	}
 }

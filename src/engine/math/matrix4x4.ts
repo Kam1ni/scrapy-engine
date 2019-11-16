@@ -238,8 +238,8 @@ export class Matrix4x4 {
 		let s = Math.sin(angleInRadians);
 
 		m.data[5] = c;
-		m.data[6] = -s;
-		m.data[9] = s;
+		m.data[6] = s;
+		m.data[9] = -s;
 		m.data[10] = c;
 
 		return m;
@@ -253,8 +253,8 @@ export class Matrix4x4 {
 		let s = Math.sin(angleInRadians);
 
 		m.data[0] = c;
-		m.data[2] = s;
-		m.data[8] = -s;
+		m.data[2] = -s;
+		m.data[8] = s;
 		m.data[10] = c;
 
 		return m;
@@ -267,8 +267,8 @@ export class Matrix4x4 {
 		let s = Math.sin(angleInRadians);
 
 		m.data[0] = c;
-		m.data[1] = -s;
-		m.data[4] = s;
+		m.data[1] = s;
+		m.data[4] = -s;
 		m.data[5] = c;
 
 		return m;
@@ -298,6 +298,13 @@ export class Matrix4x4 {
 	}
 
 	public getScaling():Vector3 {
+		
+		let x = new Vector3(this.data[0], this.data[1], this.data[2]).getLength();
+		let y = new Vector3(this.data[4], this.data[5], this.data[6]).getLength();
+		let z = new Vector3(this.data[8], this.data[9], this.data[10]).getLength();
+		
+		return new Vector3(x,y,z);
+		
 		let m11 = this.data[0];
 		let m12 = this.data[1];
 		let m13 = this.data[2];
@@ -307,62 +314,43 @@ export class Matrix4x4 {
 		let m31 = this.data[8];
 		let m32 = this.data[9];
 		let m33 = this.data[10];
-
 		return new Vector3(Math.hypot(m11,m12,m13), Math.hypot(m21,m22,m23), Math.hypot(m31,m32,m33));
 	}
 
+	public getRotationMatrix():Matrix4x4 {
+		let scale = this.getScaling();
+		let m = new Matrix4x4();
+		
+		m.data[0] = this.data[0] / scale.x;
+		m.data[1] = this.data[1] / scale.x;
+		m.data[2] = this.data[2] / scale.x;
+		m.data[3] = 0;
+
+		m.data[4] = this.data[4] / scale.y;
+		m.data[5] = this.data[5] / scale.y;
+		m.data[6] = this.data[6] / scale.y;
+		m.data[7] = 0;
+	
+		m.data[8] = this.data[8] / scale.z;
+		m.data[9] = this.data[9] / scale.z;
+		m.data[10] = this.data[10] / scale.z;
+		m.data[11] = 0;
+	
+		m.data[12] = 0;
+		m.data[13] = 0;
+		m.data[14] = 0;
+		m.data[15] = 1;
+
+		return m;		
+	}
+
 	public getRotation():Vector3 {		
-		let scaling = this.getScaling();
-
-		let is1 = 1 / scaling.x;
-		let is2 = 1 / scaling.y;
-		let is3 = 1 / scaling.z;
-
-		let sm11 = this.data[0] * is1;
-		let sm12 = this.data[1] * is2;
-		let sm13 = this.data[2] * is3;
-		let sm21 = this.data[4] * is1;
-		let sm22 = this.data[5] * is2;
-		let sm23 = this.data[6] * is3;
-		let sm31 = this.data[8] * is1;
-		let sm32 = this.data[9] * is2;
-		let sm33 = this.data[10] * is3;
-
-		let trace = sm11 + sm22 + sm33;
-
-		let quat = [];
-		if (trace > 0) {
-			let S = Math.sqrt(trace + 1.0) * 2;
-			quat[3] = 0.25 * S;
-			quat[0] = (sm23 - sm32) / S;
-			quat[1] = (sm31 - sm13) / S;
-			quat[2] = (sm12 - sm21) / S;
-		} else if ((sm11 > sm22) && (sm11 > sm33)) {
-			let S = Math.sqrt(1.0 + sm11 - sm22- sm33) * 2;
-			quat[3] = (sm23 - sm32) / S;
-			quat[0] = 0.25 * S;
-			quat[1] = (sm12 + sm21) / S;
-			quat[2] = (sm31 + sm13) / S;
-		} else if (sm22 > sm33) {
-			let S = Math.sqrt(1.0 + sm22 - sm11 - sm33) * 2;
-			quat[3] = (sm31 - sm13) / S;
-			quat[0] = (sm12 + sm21) / S;
-			quat[1] = 0.25 * S;
-			quat[2] = (sm23 + sm32) / S;
-		} else {
-			let S = Math.sqrt(1.0 + sm33 - sm11 - sm22) * 2;
-			quat[3] = (sm12 - sm21) / S;
-			quat[0] = (sm31 + sm13) / S;
-			quat[1] = (sm23 + sm32) / S;
-			quat[2] = 0.25 * S;
-		}
-
-		let rad = Math.acos(quat[3]) * 2;
-		let s = Math.sin(rad / 2);
-		if (s > 0) {
-			return new Vector3(quat[0] / s, quat[1] / s, quat[2] / s);
-		}
-		return new Vector3(0,0,0);
+		// TODO: IS UNSTABLE
+		let m = this.getRotationMatrix();
+		let rx = Math.atan2(this.data[6], this.data[10]);
+		let ry = Math.atan2(-this.data[2], Math.sqrt(this.data[6] * this.data[6] + this.data[10] * this.data[10]));
+		let rz = Math.atan2(this.data[1], this.data[0]);
+		return new Vector3(rx, ry, -rz);
 	}
 
 	public vectorMultiply(vec:Vector4):Vector4 {
