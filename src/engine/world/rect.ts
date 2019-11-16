@@ -1,9 +1,8 @@
 import { Engine } from "../engine";
-import { Color } from "./color";
-import { Matrix4x4 } from "../math/matrix4x4";
-import { Graphic } from "./graphic";
+import { Color } from "../graphics/color";
+import { SimObject } from "./sim-object";
 
-export class Rect extends Graphic{
+export class Rect extends SimObject{
 	private width:number;
 	private height:number;
 	public color:Color = Color.white();
@@ -15,8 +14,9 @@ export class Rect extends Graphic{
 		this.color = color;
 	}
 
-	public render(transform:Matrix4x4):void {
-		this.engine.staticGraphics.getRect().render(transform, this.width, this.height, this.color);
+	public render():void {
+		this.engine.staticGraphics.getRect().render(this.worldMatrix, this.width, this.height, this.color);
+		super.render();
 	}
 
 	

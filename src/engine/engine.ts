@@ -40,7 +40,6 @@ export class Engine{
 		this.input.init();
 		this.staticGraphics.load();
 
-		this.world.load();
 		this.resizeSub = this.applyCanvasSize.bind(this);
 		window.addEventListener("resize", this.resizeSub);
 		this.applyCanvasSize();
@@ -141,7 +140,6 @@ export class Engine{
 			this.world.destroy();
 		}
 		this.world = world;
-		this.world.load();
 	}
 
 	public getCamera():Camera {

@@ -1,19 +1,9 @@
-import { SimObject } from "@/engine/world/sim-object";
-import { Rect } from "@/engine/graphics/rect";
+import { Rect } from "@/engine/world/rect";
 import { Color } from "@/engine/graphics/color";
-import { Sprite } from "@/engine/graphics/sprite";
-import { Graphic } from "@/engine/graphics/graphic";
+import { Engine } from "@/engine/engine";
 
-export class SimpleRect extends SimObject {
-	protected graphics:Graphic[] = [new Rect(this.engine, 100, 100, Color.red())];
-
-	public load():void {
-		super.load();
-		let sprite = new Sprite(this.engine, "wood.png");
-		this.graphics.push(sprite);
-	}
-
-	public render():void {
-		super.render();
+export class SimpleRect extends Rect {
+	public constructor(engine:Engine) {
+		super(engine, 100, 100, Color.red());
 	}
 }

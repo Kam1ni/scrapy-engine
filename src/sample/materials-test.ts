@@ -1,16 +1,16 @@
 import { SimObject } from "@/engine/world/sim-object";
 import { Mesh } from "@/engine/assets/mesh";
-import { Object3D } from "@/engine/graphics/object-3d";
+import { Object3D } from "@/engine/world/object-3d";
+import { Engine } from "@/engine/engine";
 
-export class MaterialsTest extends SimObject{
-	public load():void {
-		let mesh = this.engine.assetLoaders.meshLoader.getAsset("materials_test");
-		this.graphics.push(new Object3D(this.engine, mesh));
+export class MaterialsTest extends Object3D{
+
+	public constructor(engine:Engine) {
+		super(engine, "material_test");
 		this.transform.scale.x = 8;
 		this.transform.scale.y = 8;
 		this.transform.scale.z = 8;
 		this.transform.position.x = 100;
 		this.transform.position.z = -5;
-		super.load();
 	}
 }

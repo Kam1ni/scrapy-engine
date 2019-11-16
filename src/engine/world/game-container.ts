@@ -2,8 +2,6 @@ import { Engine } from "../engine";
 import { Transform } from "../math/transform";
 import { Matrix4x4 } from "../math/matrix4x4";
 import { PointLight } from "../graphics/point-light";
-import { Vector3 } from "../math/vector3";
-import { Graphic } from "../graphics/graphic";
 
 let currentId = 0;
 
@@ -12,13 +10,10 @@ export abstract class GameContainer {
 	private id:number;
 	private children:GameContainer[] = [];
 	private parent:GameContainer;
-	protected graphics:Graphic[] = [];
 
 	protected localMatrix:Matrix4x4 = Matrix4x4.identity();
 	protected worldMatrix:Matrix4x4 = Matrix4x4.identity();
-	private loaded:boolean = false;
 	public transform:Transform = new Transform();
-	public origin:Vector3 = Vector3.zero();
 
 	protected pointLights:PointLight[] = [];
 
@@ -67,37 +62,18 @@ export abstract class GameContainer {
 	}
 
 	public render():void {
-		let matrix = this.worldMatrix.multiply(Matrix4x4.translation(this.origin));
-		for (let graphic of this.graphics) {
-			graphic.render(matrix);
-		}
 		for (let child of this.children) {
 			child.render();
 		}
 	}
 
-	public load():void {
-		if (this.loaded) return;
-		for (let g of this.graphics) {
-			// load if necessary
-		}
-		for (let child of this.children) {
-			child.load();
-		}
-	}
-
 	public destroy():void {
-		if (!this.loaded) return;
-		for (let g of this.graphics) {
-			// destroy if necessary
-		}
 		if (this.parent) {
 			this.remove();
 		}
 		for (let child of this.children) {
 			child.destroy();
 		}
-		this.loaded = false;
 	}
 
 	public getPointLights():PointLight[] {
@@ -118,5 +94,9 @@ export abstract class GameContainer {
 		for (let light of this.pointLights) {
 			light.worldTransform = this.worldMatrix.multiply(light.transform.getTransformationMatrix());
 		}
+	}
+
+	public getChildren():GameContainer[]{
+		return [...this.children];
 	}
 }

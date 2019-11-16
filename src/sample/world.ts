@@ -1,8 +1,6 @@
 import { GameWorld } from "@/engine/world/game-world";
 import { SimObject } from "@/engine/world/sim-object";
-import { Sprite } from "@/engine/graphics/sprite";
-import { Texture } from "@/engine/assets/texture";
-import { Block } from "./block";
+import { Sprite } from "@/engine/world/sprite";
 import { Vector3 } from "@/engine/math/vector3";
 import { B3N } from "./b3n";
 import { LampPost } from "./lamp-post";
@@ -12,27 +10,22 @@ import { degToRadians } from "@/engine/math/angles";
 import { MaterialsTest } from "./materials-test";
 import { Camera } from "@/engine/world/camera";
 import { PerspectiveCamera } from "@/engine/world/perspective-camera";
+import { Engine } from "@/engine/engine";
 
 export class World extends GameWorld {
-	private woodSprite:Sprite;
-	private grassSprite:Sprite;
-	private treeSprite:Sprite;
 
 	private b3n:B3N;
 
 	private cam:Camera;
 
-	public load():void {
-		this.ambientLight = new Color(25,25,25,255);
-		this.woodSprite = new Sprite(this.engine, "wood.png");
-		this.grassSprite = new Sprite(this.engine, "grass.png");
-		this.treeSprite = new Sprite(this.engine, "tree.png");
+	public constructor(engine:Engine) {
+		super(engine);
+		//this.ambientLight = new Color(25,25,25,255);
 
 		this.b3n = new B3N(this.engine);
 		this.b3n.transform.position.y = 0;
 		this.b3n.transform.position.x = 100;
 		this.b3n.transform.position.z = 0;
-		this.b3n.load();
 		this.addChild(this.b3n);
 
 		let cam = new PerspectiveCamera(this.engine, 90);
@@ -41,7 +34,6 @@ export class World extends GameWorld {
 		cam.transform = this.cam.transform;
 
 		let lampPost = new LampPost(this.engine);
-		lampPost.load();
 		this.addChild(lampPost);
 		lampPost.transform.position.y = 0;
 		lampPost.transform.position.x = 100;
@@ -55,7 +47,7 @@ export class World extends GameWorld {
 			let posDiff = this.randomInt(16, 32);
 			lastPos = lastPos + posDiff;
 
-			let tree = this.createBlock(this.treeSprite, new Vector3(lastPos, 0,-10));
+			let tree = this.createBlock("tree.png", new Vector3(lastPos, 0,-10));
 			trees.push(tree);
 		}
 		trees = this.shuffle(trees);
@@ -69,14 +61,13 @@ export class World extends GameWorld {
 
 		for (let i = 0; i < 25; i++) {
 			if (i > 10 && i < 15) {
-				this.addChild(this.createBlock(this.woodSprite, new Vector3(i * 16, -16, -10)));
+				this.addChild(this.createBlock("wood.png", new Vector3(i * 16, -16, -10)));
 			}else {
-				this.addChild(this.createBlock(this.grassSprite, new Vector3(i * 16, -16, -10)));
+				this.addChild(this.createBlock("grass.png", new Vector3(i * 16, -16, -10)));
 			}
 		}
 
 		let matTest = new MaterialsTest(this.engine);
-		matTest.load();	
 		this.addChild(matTest);
 	}
 
@@ -125,8 +116,8 @@ export class World extends GameWorld {
 		super.update(dt);
 	}
 
-	private createBlock(sprite:Sprite, position:Vector3):SimObject {
-		let block = new Block(this.engine, sprite);
+	private createBlock(textureName:string, position:Vector3):Sprite {
+		let block = new Sprite(this.engine, textureName);
 		block.transform.position.copyFrom(position);
 		return block;
 	}

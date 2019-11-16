@@ -1,8 +1,7 @@
 import { Sprite } from "./sprite";
 import { Engine } from "../engine";
 import { Vector2 } from "@/engine/math/vector2";
-import { Matrix4x4 } from "@/engine/math/matrix4x4";
-import { Color } from "./color";
+import { Color } from "../graphics/color";
 
 export class AnimatedSprite extends Sprite {
 	private rows:number = 1;
@@ -32,17 +31,19 @@ export class AnimatedSprite extends Sprite {
 		};
 	}
 
-	public render(transform:Matrix4x4):void {
+	public render():void {
 		let uvOffset = this.engine.getShader().getUniformLocation("u_uvOffset");
 		this.engine.gl.uniform2fv(uvOffset, this.uvOffset.toFloat32Array());
-
 		let uvSize = this.engine.getShader().getUniformLocation("u_uvSize");
 		this.engine.gl.uniform2fv(uvSize, this.uvSize.toFloat32Array());
 
-		this.engine.staticGraphics.getRect().render(transform, this.uvSize.x * this.texture.getWidth(), this.uvSize.x * this.texture.getWidth(), Color.white(), this.texture);
-
-
+		this.engine.staticGraphics.getRect().render(this.worldMatrix, this.uvSize.x * this.texture.getWidth(), this.uvSize.x * this.texture.getWidth(), Color.white(), this.texture);
+		
 		this.engine.gl.uniform2fv(uvOffset, new Float32Array([0.0,0.0]));
 		this.engine.gl.uniform2fv(uvSize, new Float32Array([1.0,1.0]));
+
+		for (let child of this.getChildren()) {
+			child.render();
+		}
 	}
 }

@@ -1,31 +1,27 @@
-import { SimObject } from "@/engine/world/sim-object";
-import { Sprite } from "@/engine/graphics/sprite";
-import { Texture } from "@/engine/assets/texture";
-import { B3NElement } from "./b3n-element";
 import { Vector3 } from "@/engine/math/vector3";
 import { Keys, ScrapyTouch } from "@/engine/utils/input";
 import { approach } from "@/engine/math/approach";
-import { PointLight } from "@/engine/graphics/point-light";
-import { Color } from "@/engine/graphics/color";
-import { Transform } from "@/engine/math/transform";
+import { AnimatedSprite } from "@/engine/world/animated-sprite";
+import { Engine } from "@/engine/engine";
+import { SimObject } from "@/engine/world/sim-object";
 
 export class B3N extends SimObject {
-	private b3nObject:B3NElement;
 	private velocity:Vector3 = new Vector3();
 	private idlAnimationTimer = 0;
 	private moveAnimationTimer = 0;
+	private sprite:AnimatedSprite;
 
-	public load():void {
-		this.b3nObject = new B3NElement(this.engine);
-		this.addChild(this.b3nObject);
-		
-		super.load();
+	public constructor(engine:Engine) {
+		super(engine);
+		this.sprite = new AnimatedSprite(engine, "b3n-animated.png", 2,2);
+		this.sprite.transform.position.x = -8;
+		this.addChild(this.sprite);
 	}
 
 	public update(dt:number):void {
 		this.transform.rotation.y += 0.001 * dt;
 		let speed = 100;
-		let animationPos = this.b3nObject.b3nSprite.getRenderedLocation();
+		let animationPos = this.sprite.getRenderedLocation();
 		let newTouch = this.engine.input.getNewTouches()[0];
 		let touch = this.engine.input.getTouches()[0];
 
@@ -68,7 +64,7 @@ export class B3N extends SimObject {
 				}else {
 					pos = 1;
 				}
-				this.b3nObject.b3nSprite.setRenderedLocation(pos, 1);
+				this.sprite.setRenderedLocation(pos, 1);
 			}
 
 		} else {
@@ -82,7 +78,7 @@ export class B3N extends SimObject {
 				}else {
 					pos = 1;
 				}
-				this.b3nObject.b3nSprite.setRenderedLocation(pos, 0);
+				this.sprite.setRenderedLocation(pos, 0);
 			}
 		}
 
