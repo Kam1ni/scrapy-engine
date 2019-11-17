@@ -53,6 +53,7 @@
 	"files":[
 		"dist/engine/*",
 		"dist/main.js",
-		"dist/main.js.map"
+		"dist/main.js.map",
+		"dist/main.d.ts"
 	]
 }
