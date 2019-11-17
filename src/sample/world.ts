@@ -6,7 +6,7 @@ import { B3N } from "./b3n";
 import { LampPost } from "./lamp-post";
 import { Keys, MouseButtons } from "@/engine/utils/input";
 import { Color } from "@/engine/graphics/color";
-import { degToRadians } from "@/engine/math/angles";
+import { degToRad } from "@/engine/math/angles";
 import { MaterialsTest } from "./materials-test";
 import { Camera } from "@/engine/world/camera";
 import { PerspectiveCamera } from "@/engine/world/perspective-camera";
