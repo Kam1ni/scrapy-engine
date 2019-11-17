@@ -72,6 +72,7 @@ export class Engine{
 	public destroy():void {
 		window.removeEventListener("resize", this.applyCanvasSize);
 		document.removeEventListener("pointerlockchange", this.onPointerLockChanged, false);
+		this.world.destroy();
 	}
 
 	public getClearColor():Color {
