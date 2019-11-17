@@ -1,22 +1,22 @@
 const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
+const {CleanWebpackPlugin} = require("clean-webpack-plugin");
 
-module.exports = {
+let config = {
 	entry:{
 		main:"./src/main.ts",
-		sample:"./src/sample/sample.ts"
 	},
 	devtool: "source-map",
 	module:{
 		rules:[
 			{
-				test:/\.(glsl|obj|mtl)$/i,
-				use:"raw-loader"
-			},
-			{
 				test:/\.tsx?$/,
 				use:"ts-loader",
 				exclude: /node_modules/
+			},
+			{
+				test:/\.(glsl|obj|mtl)$/i,
+				use:"raw-loader"
 			},
 			{
 				test:/\.(png|jpe?g|gif)$/i,
@@ -44,9 +44,22 @@ module.exports = {
 		port:8080,
 		writeToDisk:true
 	},
-	plugins:[
-		new CopyPlugin([
-			{from:path.resolve(__dirname, "public"), to:path.resolve(__dirname, "dist")}
-		])
-	]
+}
+
+module.exports = (env, argv) => {
+	if (argv.mode == "development"){
+		config.entry.sample = "./src/sample/sample.ts";
+		config.plugins=[
+			new CopyPlugin([
+				{from:path.resolve(__dirname, "public"), to:path.resolve(__dirname, "dist")}
+			])
+		]
+	}else{
+		config.plugins = [
+			new CleanWebpackPlugin()
+		];
+		config.module.rules[0].exclude = /(node_modules|src\/sample)/
+	}
+	
+	return config;
 }

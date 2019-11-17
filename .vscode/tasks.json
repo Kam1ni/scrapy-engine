@@ -5,22 +5,9 @@
 	"tasks": [
 		{
 			"type": "npm",
-			"script": "build",
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			}
-		},
-		{
-			"type": "npm",
-			"script": "serve",
-			"isBackground": true,
-			"problemMatcher": [],
-			"presentation": {
-				"focus": true,
-				"panel": "dedicated"
-			},
-			"group": "build"
+			"script": "build-release",
+			"group": "build",
+			"problemMatcher": []
 		}
 	]
 }
