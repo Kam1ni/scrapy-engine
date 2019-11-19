@@ -41,3 +41,10 @@ export {
 	SimObject,
 	Sprite
 } from "./engine/world";
+
+export {
+	Input,
+	Keys,
+	MouseButtons,
+	ScrapyTouch
+} from "./engine/utils/input";
