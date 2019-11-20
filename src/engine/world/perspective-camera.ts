@@ -5,7 +5,7 @@ import { degToRad } from "../math/angles";
 
 export class PerspectiveCamera extends Camera{
 	public nearClip:number = 1;
-	public farClip:number = 10000;
+	public farClip:number = 10000000;
 	public fovDeg = 90;
 
 	public constructor(engine:Engine, fovDeg:number = 60) {

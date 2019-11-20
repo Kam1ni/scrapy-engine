@@ -73,6 +73,14 @@ export class World extends GameWorld {
 		if (this.engine.input.isKeyPressed(Keys.P)) {
 			this.audio.play();
 		}
+
+		if (this.engine.input.getMouseScroll()){
+			let cam = this.engine.getCamera() as PerspectiveCamera;
+			cam.fovDeg += (this.engine.input.getMouseScroll()/100);
+			console.log(cam.fovDeg);
+			cam.updateMatrix();
+		}
+
 		super.update(dt);
 	}
 

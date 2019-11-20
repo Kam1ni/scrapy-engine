@@ -2,9 +2,9 @@ import { Vector3 } from "./vector3";
 import { Vector4 } from "./vector4";
 
 export class Matrix4x4 {
-	private data:number[] = [];
+	protected data:number[] = [];
 
-	private constructor() {
+	protected constructor() {
 		this.data = [
 			1, 0, 0, 0,
 			0, 1, 0, 0,
@@ -202,6 +202,7 @@ export class Matrix4x4 {
 	}
 
 	public static perspective(left:number, right:number, bottom:number, top:number, nearClip:number, farClip:number, fov:number):Matrix4x4 {
+		fov = Math.PI - fov;
 		let width = right - left;
 		let height = top - bottom;
 

@@ -56,7 +56,10 @@ module.exports = (env, argv) => {
 			new CopyPlugin([
 				{from:path.resolve(__dirname, "public"), to:path.resolve(__dirname, "dist")}
 			])
-		]
+		],
+		config.target = undefined;
+		config.output.library = undefined;
+		config.output.libraryTarget = undefined;
 	}else{
 		config.plugins = [
 			new CleanWebpackPlugin()
