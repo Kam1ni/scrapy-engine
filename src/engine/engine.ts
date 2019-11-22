@@ -7,8 +7,10 @@ import { Camera } from "./world/camera";
 import { StaticAssets } from "./assets/static-assets";
 import { Input } from "./utils/input";
 import { AssetLoaderBundle } from "./loaders/asset-loader-bundle";
+import { Vector2 } from "./math";
 
 export class Engine{
+	private canvasSize:Vector2;
 	private canvas:HTMLCanvasElement;
 	private _gl:WebGLRenderingContext;
 	private running:boolean;
@@ -63,8 +65,13 @@ export class Engine{
 	}
 	
 	public applyCanvasSize():void {
-		this.canvas.width = this.canvas.parentElement.clientWidth;
-		this.canvas.height = this.canvas.parentElement.clientHeight;
+		if (this.canvasSize) {
+			this.canvas.width = this.canvasSize.x;
+			this.canvas.height = this.canvasSize.y;
+		} else {
+			this.canvas.width = this.canvas.parentElement.clientWidth;
+			this.canvas.height = this.canvas.parentElement.clientHeight;
+		}
 		this.camera.updateMatrix();
 		this._gl.viewport(0, 0, this.canvas.width, this.canvas.height);
 	}
@@ -174,5 +181,14 @@ export class Engine{
 
 	public releasePointerLock():void {
 		document.exitPointerLock();
+	}
+
+	public getCanvasSize():Vector2 {
+		return this.canvasSize;
+	}
+
+	public setCanvasSize(size:Vector2):void {
+		this.canvasSize = size;
+		this.applyCanvasSize();
 	}
 }

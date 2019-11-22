@@ -16,5 +16,13 @@ void main(){
 	vec3 position = vec3(u_vertexScale, 1.0) * a_position;
 	gl_Position = u_projection * u_transform * vec4(position, 1.0);
 	v_worldCoord = u_transform * vec4(position, 1.0);
-	v_texCoord = (a_texCoord * u_uvSize) + u_uvOffset;
+	vec2 texCoord = a_texCoord;
+	if (texCoord.x == 0.0){
+		texCoord.x = 0.01;
+	}
+	if (texCoord.y == 0.0){
+		texCoord.y = 0.01;
+	}
+	
+	v_texCoord = (texCoord * u_uvSize) + u_uvOffset;
 }
