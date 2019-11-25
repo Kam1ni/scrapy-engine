@@ -1,26 +1,21 @@
 import { Asset } from "./asset";
-import { Color } from "../graphics/color";
-import { GLBuffer, AttributeInfo } from "../graphics/gl-buffer";
-import { Engine } from "../engine";
-import { Matrix4x4 } from "../math/matrix4x4";
-import { Vector3 } from "../math/vector3";
+import { Vector3, Matrix4x4 } from "../math";
+import { GLBuffer, Color } from "../graphics";
+import { AttributeInfo } from "../graphics/gl-buffer";
 import { Texture } from "./texture";
+import { Engine } from "../engine";
 
-export class Rect extends Asset{
-	private buffer:GLBuffer;
+export class Box extends Asset {
+	protected buffer:GLBuffer;
 
 	public constructor(engine:Engine) {
-		super(engine, "static-rect");
-	}
-
-	public destroy():void {
-		if (!this.loaded) return;
-		this.buffer.destroy();
+		super(engine, "box");
 	}
 
 	public async load():Promise<void> {
 		if (this.loaded) return;
-		this.buffer = new GLBuffer(this.engine, 5);
+		let gl = this.engine.gl;
+		this.buffer = new GLBuffer(this.engine, 5, gl.FLOAT, gl.ARRAY_BUFFER, gl.LINES);
 		let positionAttribute = this.engine.getShader().getAttributeLocation("a_position");
 		let info = new AttributeInfo();
 		info.location = positionAttribute;
@@ -28,6 +23,7 @@ export class Rect extends Asset{
 		info.offset = 0;
 		this.buffer.addAttributeLocation(info);
 
+		
 		let textCoordAttribute = this.engine.getShader().getAttributeLocation("a_texCoord");
 		info = new AttributeInfo();
 		info.location = textCoordAttribute;
@@ -36,27 +32,57 @@ export class Rect extends Asset{
 		this.buffer.addAttributeLocation(info);
 
 		let vertices = [
-			0, 0, 0, 0, 1,
-			0, 1, 0, 0, 0,
-			1, 1, 0, 1, 0,
-			1, 1, 0, 1, 0,
-			1, 0, 0, 1, 1,
-			0, 0, 0, 0, 1
+			-0.5, -0.5, -0.5, 0, 0,
+			0.5, -0.5, -0.5, 1, 1,
+
+			-0.5, -0.5, -0.5, 0, 0,
+			-0.5,  0.5, -0.5, 1, 1,
+
+			-0.5, -0.5, -0.5, 0, 0,
+			-0.5, -0.5,  0.5, 1, 1,
+
+			0.5,  0.5,  0.5, 0, 0,
+			-0.5,  0.5,  0.5, 1, 1,
+
+			0.5,  0.5,  0.5, 0, 0,
+			0.5, -0.5,  0.5, 1, 1,
+
+			0.5,  0.5,  0.5, 0, 0,
+			0.5,  0.5, -0.5, 1, 1,
+
+			0.5, -0.5, -0.5, 0, 0,
+			0.5, -0.5,  0.5, 1, 1,
+
+			-0.5, -0.5,  0.5, 0, 0,
+			0.5, -0.5,  0.5, 1, 1,
+
+			-0.5,  0.5, -0.5, 0, 0,
+			0.5,  0.5, -0.5, 1, 1,
+
+			-0.5,  0.5, -0.5, 0, 0,
+			-0.5,  0.5,  0.5, 1, 1,
+
+			-0.5, -0.5,  0.5, 0, 0,
+			-0.5,  0.5,  0.5, 1, 1,
+
+			0.5, -0.5, -0.5, 0, 0,
+			0.5,  0.5, -0.5, 1, 1,
 		];
 
-		let gl = this.engine.gl;
 		this.buffer.pushBackData(vertices);
 		this.buffer.upload();
 		this.buffer.unbind();
 		
-		this.engine.staticGraphics.getDiffuseTexture().bind();
-		gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1,1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([255,255,255,255]));
-		this.engine.staticGraphics.getDiffuseTexture().unbind();
-		
 		this.loaded = true;
 	}
 
-	public render(transform:Matrix4x4, width:number, height:number, color:Color, texture:Texture = this.engine.staticGraphics.getDiffuseTexture()):void {
+	public destroy():void {
+		this.buffer.destroy();
+	}
+
+	public render(transform:Matrix4x4, size:Vector3, color:Color):void {
+		let texture:Texture = this.engine.staticGraphics.getDiffuseTexture();
+
 		let colorLocation = this.engine.getShader().getUniformLocation("u_color");
 		this.engine.gl.uniform4fv(colorLocation, color.toFloat32Array());
 
@@ -68,7 +94,7 @@ export class Rect extends Asset{
 		this.engine.gl.uniform1i(diffuseLocation, 0);
 
 		let vertexScaleLocation = this.engine.getShader().getUniformLocation("u_vertexScale");
-		this.engine.gl.uniform3f(vertexScaleLocation, width, height, 1.0);
+		this.engine.gl.uniform3f(vertexScaleLocation, size.x, size.y, size.z);
 
 		this.buffer.bind();
 		this.buffer.draw();

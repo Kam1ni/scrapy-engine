@@ -29,7 +29,7 @@ export class Mesh extends Asset{
 
 	public render(transform:Matrix4x4):void {
 		let vertexScaleLocation = this.engine.getShader().getUniformLocation("u_vertexScale");
-		this.engine.gl.uniform2f(vertexScaleLocation, 1, 1);
+		this.engine.gl.uniform3f(vertexScaleLocation, 1, 1, 1);
 		for (let part of this.meshParts) {
 			part.render(transform);
 		}

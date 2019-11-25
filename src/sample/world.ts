@@ -12,6 +12,7 @@ import { Camera } from "@/engine/world/camera";
 import { PerspectiveCamera } from "@/engine/world/perspective-camera";
 import { Engine } from "@/engine/engine";
 import { Audio } from "@/engine/assets/audio";
+import { BoundingBox } from "@/engine/world/bounding-box";
 
 export class World extends GameWorld {
 
@@ -66,7 +67,6 @@ export class World extends GameWorld {
 		let matTest = new MaterialsTest(this.engine);
 		this.addChild(matTest);
 		this.audio = this.engine.assetLoaders.audioLoader.getAsset("test-audio.wav");
-
 	}
 	
 	public update(dt:number):void {

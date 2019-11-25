@@ -4,18 +4,25 @@ import { approach } from "@/engine/math/approach";
 import { AnimatedSprite } from "@/engine/world/animated-sprite";
 import { Engine } from "@/engine/engine";
 import { SimObject } from "@/engine/world/sim-object";
+import { BoundingBox } from "@/engine/world/bounding-box";
 
 export class B3N extends SimObject {
 	private velocity:Vector3 = new Vector3();
 	private idlAnimationTimer = 0;
 	private moveAnimationTimer = 0;
 	private sprite:AnimatedSprite;
+	private boundingBox:BoundingBox;
 
 	public constructor(engine:Engine) {
 		super(engine);
 		this.sprite = new AnimatedSprite(engine, "b3n-animated.png", 2,2);
 		this.sprite.transform.position.x = -8;
 		this.addChild(this.sprite);
+
+		let box = new BoundingBox(this.engine);
+		box.transform.position.y = 8;
+		this.boundingBox = box;
+		this.addChild(box);
 	}
 
 	public update(dt:number):void {
