@@ -2,9 +2,12 @@ import { Sprite } from "@/engine/world/sprite";
 import { PointLight } from "@/engine/graphics/point-light";
 import { Color } from "@/engine/graphics/color";
 import { Engine } from "@/engine/engine";
+import { BoundingBox } from "@/engine/world/bounding-box";
+import { Vector3 } from "@/engine/math";
 
 export class LampPost extends Sprite {
 	private light:PointLight;
+	public boundingBox:BoundingBox;
 
 	public constructor(engine:Engine) {
 		super(engine, "lamp-post.png");
@@ -17,6 +20,11 @@ export class LampPost extends Sprite {
 		this.light.color = new Color(255,255,255,30000);
 		
 		this.pointLights.push(this.light);
-		
+
+		this.boundingBox = new BoundingBox(this.engine);
+		this.boundingBox.size = new Vector3(16, 64, 16);
+		this.boundingBox.transform.position.x = 64;
+		this.boundingBox.transform.position.y = 32;
+		this.addChild(this.boundingBox);
 	}
 }

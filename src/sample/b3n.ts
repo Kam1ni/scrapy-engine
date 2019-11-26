@@ -11,7 +11,7 @@ export class B3N extends SimObject {
 	private idlAnimationTimer = 0;
 	private moveAnimationTimer = 0;
 	private sprite:AnimatedSprite;
-	private boundingBox:BoundingBox;
+	public boundingBox:BoundingBox;
 
 	public constructor(engine:Engine) {
 		super(engine);
@@ -55,6 +55,16 @@ export class B3N extends SimObject {
 			goLeft = this.isTouchLeft(touch);
 			goRight = !goLeft;
 		}
+
+		let goUp = this.engine.input.isKeyDown(Keys.ArrowUp);
+		let goDown = this.engine.input.isKeyDown(Keys.ArrowDown);
+		if (goUp) {
+			this.velocity.y = approach(this.velocity.y, speed, dt / 3.0);
+		}else if (goDown) {
+			this.velocity.y = approach(this.velocity.y, -speed, dt / 3.0);
+		}else {
+			this.velocity.y = approach(this.velocity.y, 0, dt / 3.0);
+		}
 		
 		if (goLeft || goRight) {
 			if (goLeft) {
@@ -91,6 +101,7 @@ export class B3N extends SimObject {
 
 
 		this.transform.position.x += this.velocity.x * (dt / 1000.0);
+		this.transform.position.y += this.velocity.y * (dt / 1000.0);
 
 		super.update(dt);
 	}

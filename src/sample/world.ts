@@ -17,6 +17,7 @@ import { BoundingBox } from "@/engine/world/bounding-box";
 export class World extends GameWorld {
 
 	private b3n:B3N;
+	private lampPost:LampPost;
 	private audio:Audio;
 
 	public constructor(engine:Engine) {
@@ -35,6 +36,7 @@ export class World extends GameWorld {
 		lampPost.transform.position.y = 0;
 		lampPost.transform.position.x = 100;
 		lampPost.transform.position.z = -5;
+		this.lampPost = lampPost;
 
 
 		let treeCount = this.randomInt(10,20);
@@ -80,6 +82,17 @@ export class World extends GameWorld {
 			console.log(cam.fovDeg);
 			cam.updateMatrix();
 		}
+
+		let touchPos = this.b3n.boundingBox.isTouching(this.lampPost.boundingBox);
+		if (touchPos) {
+			console.log(touchPos);
+			this.b3n.boundingBox.color = Color.red();
+			this.lampPost.boundingBox.color = Color.red();
+		}else {
+			this.b3n.boundingBox.color = Color.white();
+			this.lampPost.boundingBox.color = Color.white();
+		}
+
 
 		super.update(dt);
 	}
