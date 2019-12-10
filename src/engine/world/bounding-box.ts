@@ -8,7 +8,7 @@ export class BoundingBox extends SimObject {
 	public shouldRender:boolean = false;
 
 	public render():void {
-		if (this.shouldRender || this.engine.renderBoundingBoxes){
+		if (this.shouldRender || this.engine.renderBoundingBoxes) {
 			let m = Matrix4x4.translation(this.worldMatrix.getTranslation());
 			this.engine.staticGraphics.getBox().render(m, this.size, this.color);
 		}

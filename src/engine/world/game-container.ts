@@ -55,7 +55,7 @@ export abstract class GameContainer {
 	public updateMatrices():void {
 		this.localMatrix = this.transform.getTransformationMatrix();
 		this.updateWorldMatrix(this.parent ? this.parent.worldMatrix : null);
-		for (let child of this.children){
+		for (let child of this.children) {
 			child.updateMatrices();
 		}
 	}
