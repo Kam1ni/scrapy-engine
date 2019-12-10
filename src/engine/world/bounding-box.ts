@@ -5,11 +5,13 @@ import { Color } from "../graphics";
 export class BoundingBox extends SimObject {
 	public size:Vector3 = new Vector3(16, 16, 16);
 	public color:Color = Color.white();
-
+	public shouldRender:boolean = false;
 
 	public render():void {
-		let m = Matrix4x4.translation(this.worldMatrix.getTranslation());
-		this.engine.staticGraphics.getBox().render(m, this.size, this.color);
+		if (this.shouldRender || this.engine.renderBoundingBoxes){
+			let m = Matrix4x4.translation(this.worldMatrix.getTranslation());
+			this.engine.staticGraphics.getBox().render(m, this.size, this.color);
+		}
 	}
 	
 	public getMinPoint():Vector3 {
@@ -31,8 +33,8 @@ export class BoundingBox extends SimObject {
 	}
 	
 	public isTouching(box:BoundingBox):Vector3 {
-		let a = this.getMinPoint();
-		let b = box.getMinPoint();
+		let b = this.getMinPoint();
+		let a = box.getMinPoint();
 	
 		let xCollisionPoint = a.x - b.x;
 		if ((Math.abs(xCollisionPoint) * 2) > (this.size.x + box.size.x)) {
@@ -49,6 +51,20 @@ export class BoundingBox extends SimObject {
 			return null;
 		}
 
-		return new Vector3(-xCollisionPoint, -yCollisionPoint, -zCollisionPoint);
+		let halfSizeX = this.size.x;
+		let halfSizeY = this.size.y;
+		let halfSizeZ = this.size.z;
+
+		if (xCollisionPoint < 0) {
+			halfSizeX = -halfSizeX;
+		}
+		if (yCollisionPoint < 0) {
+			halfSizeY = -halfSizeY;
+		}
+		if (zCollisionPoint < 0) {
+			halfSizeZ = -halfSizeZ;
+		}
+
+		return new Vector3(halfSizeX-xCollisionPoint, halfSizeY-yCollisionPoint, halfSizeZ-zCollisionPoint);
 	}
 }

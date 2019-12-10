@@ -9,3 +9,4 @@ export {PerspectiveCamera} from "./perspective-camera";
 export {Rect} from "./rect";
 export {SimObject} from "./sim-object";
 export {Sprite} from "./sprite";
+export {BoundingBox} from "./bounding-box";

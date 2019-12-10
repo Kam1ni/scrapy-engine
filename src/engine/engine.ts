@@ -22,6 +22,7 @@ export class Engine{
 	public staticGraphics = new StaticAssets(this);
 	public input:Input = new Input(this);
 	public assetLoaders:AssetLoaderBundle = new AssetLoaderBundle(this);
+	public renderBoundingBoxes:boolean = false;
 	private hasPointerLock:boolean = false;
 
 	public constructor(canvas:HTMLCanvasElement) {

@@ -52,9 +52,16 @@ export abstract class GameContainer {
 		return this.parent;
 	}
 
-	public update(dt:number):void {
+	public updateMatrices():void {
 		this.localMatrix = this.transform.getTransformationMatrix();
 		this.updateWorldMatrix(this.parent ? this.parent.worldMatrix : null);
+		for (let child of this.children){
+			child.updateMatrices();
+		}
+	}
+
+	public update(dt:number):void {
+		this.updateMatrices();
 
 		for (let child of this.children) {
 			child.update(dt);

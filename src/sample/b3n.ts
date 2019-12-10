@@ -7,7 +7,7 @@ import { SimObject } from "@/engine/world/sim-object";
 import { BoundingBox } from "@/engine/world/bounding-box";
 
 export class B3N extends SimObject {
-	private velocity:Vector3 = new Vector3();
+	public velocity:Vector3 = new Vector3();
 	private idlAnimationTimer = 0;
 	private moveAnimationTimer = 0;
 	private sprite:AnimatedSprite;

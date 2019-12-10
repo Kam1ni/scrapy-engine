@@ -39,7 +39,8 @@ export {
 	PerspectiveCamera,
 	Rect,
 	SimObject,
-	Sprite
+	Sprite,
+	BoundingBox
 } from "./engine/world";
 
 export {

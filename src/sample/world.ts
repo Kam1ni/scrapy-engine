@@ -83,18 +83,24 @@ export class World extends GameWorld {
 			cam.updateMatrix();
 		}
 
+		if (this.engine.input.isKeyReleased(Keys.F1)) {
+			this.engine.renderBoundingBoxes = !this.engine.renderBoundingBoxes;
+		}
+
+		super.update(dt);
+
 		let touchPos = this.b3n.boundingBox.isTouching(this.lampPost.boundingBox);
 		if (touchPos) {
 			console.log(touchPos);
 			this.b3n.boundingBox.color = Color.red();
 			this.lampPost.boundingBox.color = Color.red();
+			this.b3n.transform.position.x -= touchPos.x;
+			this.b3n.velocity.x = 0;
+			this.b3n.updateMatrices();
 		}else {
 			this.b3n.boundingBox.color = Color.white();
 			this.lampPost.boundingBox.color = Color.white();
 		}
-
-
-		super.update(dt);
 	}
 
 	private createBlock(textureName:string, position:Vector3):Sprite {
