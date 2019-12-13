@@ -91,7 +91,6 @@ export class World extends GameWorld {
 
 		let touchPos = this.b3n.boundingBox.isTouching(this.lampPost.boundingBox);
 		if (touchPos) {
-			console.log(touchPos);
 			this.b3n.boundingBox.color = Color.red();
 			this.lampPost.boundingBox.color = Color.red();
 			this.b3n.transform.position.x -= touchPos.x;

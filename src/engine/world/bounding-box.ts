@@ -13,13 +13,22 @@ export class BoundingBox extends SimObject {
 			this.engine.staticGraphics.getBox().render(m, this.size, this.color);
 		}
 	}
+
+	public getCenterPoint():Vector3 {
+		let result = new Vector3();
+		let pos = this.worldMatrix.getTranslation();
+		result.x = pos.x;
+		result.y = pos.y;
+		result.z = pos.z;
+		return result;
+	}
 	
 	public getMinPoint():Vector3 {
 		let result = new Vector3();
 		let pos = this.worldMatrix.getTranslation();
-		result.x = pos.x - this.size.x / 2;
-		result.y = pos.y;
-		result.z = pos.z - this.size.z / 2;
+		result.x = pos.x - (this.size.x / 2);
+		result.y = pos.y - (this.size.y / 2);
+		result.z = pos.z - (this.size.z / 2);
 		return result;
 	}
 
@@ -27,15 +36,15 @@ export class BoundingBox extends SimObject {
 		let result = new Vector3();
 		let pos = this.worldMatrix.getTranslation();
 		result.x = pos.x + this.size.x / 2;
-		result.y = pos.y + this.size.y;
+		result.y = pos.y + this.size.y / 2;
 		result.z = pos.z + this.size.z / 2;
 		return result;
 	}
 	
 	public isTouching(box:BoundingBox):Vector3 {
-		let b = this.getMinPoint();
-		let a = box.getMinPoint();
-	
+		let b = this.getCenterPoint();
+		let a = box.getCenterPoint();
+
 		let xCollisionPoint = a.x - b.x;
 		if ((Math.abs(xCollisionPoint) * 2) > (this.size.x + box.size.x)) {
 			return null;
