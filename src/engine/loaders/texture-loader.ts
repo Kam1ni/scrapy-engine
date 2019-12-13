@@ -2,10 +2,10 @@ import { AssetLoader, ILoadedAsset } from "./asset-loader";
 import { Texture } from "../assets/texture";
 import { Engine } from "../engine";
 
-export type TextureNameToUrlConverter = (textureName:string)=>string;
+export type TextureNameToUrlConverter = (textureName:string, baseUrl:string)=>string;
 
-function defaultTextureNameToUrlConverter(textureName:string):string {
-	return `/assets/textures/${textureName}`;
+function defaultTextureNameToUrlConverter(textureName:string, baseUrl:string):string {
+	return `${baseUrl}/assets/textures/${textureName}`;
 }
 
 export class TextureLoader extends AssetLoader<Texture>{
@@ -17,7 +17,7 @@ export class TextureLoader extends AssetLoader<Texture>{
 	}
 
 	protected loadAsset(asset: string): ILoadedAsset<Texture> {
-		let texture = new Texture(this.engine, asset, this.urlConverter(asset));
+		let texture = new Texture(this.engine, asset, this.urlConverter(asset, this.engine.assetLoaders.getBaseUrl()));
 		let result = {
 			asset:texture,
 			refCount:0,

@@ -7,7 +7,7 @@ export type MaterialNameToMtlConverter = (engine:Engine, name:string)=>Promise<s
 
 async function defaultMaterialNameToMtlConverer(engine:Engine, name:string):Promise<string> {
 	let fileName = name.split("/")[0];
-	let file = await engine.assetLoaders.fileLoader.getLoadedAsset(`/assets/models/${fileName}`);
+	let file = await engine.assetLoaders.fileLoader.getLoadedAsset(`${engine.assetLoaders.getBaseUrl()}/assets/models/${fileName}`);
 	return file.getContent();
 }
 	

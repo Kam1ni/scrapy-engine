@@ -3,10 +3,10 @@ import { Audio } from "../assets/audio";
 import { Engine } from "../engine";
 
 
-export type AudioNameToUrlConverter = (audioName:string)=>string;
+export type AudioNameToUrlConverter = (audioName:string, baseUrl:string)=>string;
 
-function defaultAudioNameToUrlConverter(audioName:string):string {
-	return `/assets/audio/${audioName}`;
+function defaultAudioNameToUrlConverter(audioName:string, baseUrl:string):string {
+	return `${baseUrl}/assets/audio/${audioName}`;
 }
 
 export class AudioLoader extends AssetLoader<Audio>{
@@ -19,7 +19,7 @@ export class AudioLoader extends AssetLoader<Audio>{
 	}
 
 	protected loadAsset(asset: string):ILoadedAsset<Audio> {
-		let audio = new Audio(this.engine, asset, this.converter(asset));
+		let audio = new Audio(this.engine, asset, this.converter(asset, this.engine.assetLoaders.getBaseUrl()));
 		audio.load().then(()=> {
 			this.emit(`/loaded/${asset}`);
 		});

@@ -22,7 +22,7 @@ interface IMeshVericesAndUVs {
 }
 
 async function defaultMeshNameToObjConverter(engine:Engine,name:string):Promise<string> {
-	return (await engine.assetLoaders.fileLoader.getLoadedAsset(`/assets/models/${name}.obj`)).getContent();
+	return (await engine.assetLoaders.fileLoader.getLoadedAsset(`${engine.assetLoaders.getBaseUrl()}/assets/models/${name}.obj`)).getContent();
 }
 
 export class MeshLoader extends AssetLoader<Mesh>{
