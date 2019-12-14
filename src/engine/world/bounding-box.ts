@@ -42,38 +42,51 @@ export class BoundingBox extends SimObject {
 	}
 	
 	public isTouching(box:BoundingBox):Vector3 {
-		let b = this.getCenterPoint();
-		let a = box.getCenterPoint();
+		let bMin = box.getMinPoint();
+		let bMax = box.getMaxPoint();
+		let bCenter = box.getCenterPoint();
+		let aMin = this.getMinPoint();
+		let aMax = this.getMaxPoint();
+		let aCenter = this.getCenterPoint();
 
-		let xCollisionPoint = a.x - b.x;
-		if ((Math.abs(xCollisionPoint) * 2) > (this.size.x + box.size.x)) {
+		let tx = bCenter.x - aCenter.x;
+		let ty = bCenter.y - aCenter.y;
+		let tz = bCenter.z - aCenter.z;
+
+		let aExtent = this.size.x / 2;
+		let bExtent = box.size.x / 2;
+		let xOverlap = aExtent + bExtent - Math.abs(tx);
+		if (xOverlap < 0) {
 			return null;
 		}
-	
-		let yCollisionPoint = a.y - b.y;
-		if ((Math.abs(yCollisionPoint) * 2) > (this.size.y + box.size.y)) {
+
+		aExtent = this.size.y / 2;
+		bExtent = box.size.y / 2;
+		let yOverlap = aExtent + bExtent - Math.abs(ty);
+		if (yOverlap < 0) {
 			return null;
 		}
 
-		let zCollisionPoint = a.z - b.z;
-		if ((Math.abs(zCollisionPoint) * 2) > (this.size.z + box.size.z)) {
+		aExtent = this.size.z / 2;
+		bExtent = box.size.z / 2;
+		let zOverlap = aExtent + bExtent - Math.abs(tz);
+		if (zOverlap < 0) {
 			return null;
 		}
-
-		let halfSizeX = this.size.x;
-		let halfSizeY = this.size.y;
-		let halfSizeZ = this.size.z;
-
-		if (xCollisionPoint < 0) {
-			halfSizeX = -halfSizeX;
-		}
-		if (yCollisionPoint < 0) {
-			halfSizeY = -halfSizeY;
-		}
-		if (zCollisionPoint < 0) {
-			halfSizeZ = -halfSizeZ;
+		
+		if (Math.abs(aMin.x - bMax.x) < Math.abs(bMin.x - aMax.x)) {
+			xOverlap = -xOverlap;
 		}
 
-		return new Vector3(halfSizeX-xCollisionPoint, halfSizeY-yCollisionPoint, halfSizeZ-zCollisionPoint);
+		if (Math.abs(aMin.y - bMax.y) < Math.abs(bMin.y - aMax.y)) {
+			yOverlap = -yOverlap;
+		}
+
+		if (Math.abs(aMin.z - bMax.z) < Math.abs(bMin.z - aMax.z)) {
+			zOverlap = -zOverlap;
+		}
+
+		return new Vector3(xOverlap, yOverlap, zOverlap);
 	}
+
 }

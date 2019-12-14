@@ -22,7 +22,7 @@ export class LampPost extends Sprite {
 		this.pointLights.push(this.light);
 
 		this.boundingBox = new BoundingBox(this.engine);
-		this.boundingBox.size = new Vector3(16, 64, 16);
+		this.boundingBox.size = new Vector3(32, 64, 16);
 		this.boundingBox.transform.position.x = 64;
 		this.boundingBox.transform.position.y = 32;
 		this.addChild(this.boundingBox);

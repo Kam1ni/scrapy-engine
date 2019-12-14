@@ -93,7 +93,11 @@ export class World extends GameWorld {
 		if (touchPos) {
 			this.b3n.boundingBox.color = Color.red();
 			this.lampPost.boundingBox.color = Color.red();
-			this.b3n.transform.position.x -= touchPos.x;
+			if (Math.abs(touchPos.x) > Math.abs(touchPos.y)) {
+				this.b3n.transform.position.y -= touchPos.y;
+			}else {
+				this.b3n.transform.position.x -= touchPos.x;
+			}
 			this.b3n.velocity.x = 0;
 			this.b3n.updateMatrices();
 		}else {
