@@ -22,14 +22,15 @@ export class GameWorld extends GameContainer {
 		let lightColors:number[] = [];
 		
 		let lights = this.getPointLights();
-		for (let light of lights) {
-			lightPositions.push(...light.worldTransform.getTranslation().toFloat32Array());
-			lightColors.push(...light.color.toFloatArray());
-		}
-
-		if (lights.length == 0) {
-			lightPositions = [0,0,0,0];
-			lightColors = [0,0,0,0];
+		for (let i = 0; i < 64; i++) {
+			let light = lights[i];
+			if (light) {
+				lightPositions.push(...light.worldTransform.getTranslation().toFloat32Array());
+				lightColors.push(...light.color.toFloat32Array());
+			}else {
+				lightPositions.push(...new Float32Array([0.0,0.0,0.0]));
+				lightColors.push(...new Float32Array([0.0,0.0,0.0,0.0]));
+			}
 		}
 
 		let lightPositionLocation = shader.getUniformLocation("u_point_light_positions[0]");
