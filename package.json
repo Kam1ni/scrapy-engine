@@ -1,6 +1,6 @@
 {
 	"name": "scrapy-engine",
-	"version": "0.0.12",
+	"version": "0.0.13",
 	"description": "A typescript WebGL game engine.",
 	"main": "dist/main.js",
 	"scripts": {

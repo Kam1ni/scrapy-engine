@@ -27,6 +27,11 @@ export class GameWorld extends GameContainer {
 			lightColors.push(...light.color.toFloatArray());
 		}
 
+		if (lights.length == 0) {
+			lightPositions = [0,0,0,0];
+			lightColors = [0,0,0,0];
+		}
+
 		let lightPositionLocation = shader.getUniformLocation("u_point_light_positions[0]");
 		let lightColorLocation = shader.getUniformLocation("u_point_light_color[0]");
 		this.engine.gl.uniform3fv(lightPositionLocation, new Float32Array(lightPositions));
