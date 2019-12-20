@@ -50,7 +50,7 @@
 			"pre-commit": "lint-staged"
 		}
 	},
-	"files":[
+	"files": [
 		"dist/engine/*",
 		"dist/main.js",
 		"dist/main.js.map",
