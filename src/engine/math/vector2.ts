@@ -29,6 +29,10 @@ export class Vector2 {
 		return new Vector2(this.x + v.x, this.y + v.y);
 	}
 
+	public sub(v:Vector2):Vector2 {
+		return new Vector2(this.x - v.y, this.y - v.y);
+	}
+
 	public static one():Vector2 {
 		return new Vector2(1,1);
 	}

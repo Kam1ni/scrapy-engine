@@ -32,6 +32,10 @@ export class Vector4{
 		return new Vector4(this.x + v.x, this.y + v.y, this.z + v.z, v.w);
 	}
 
+	public sub(v:Vector4):Vector4 {
+		return new Vector4(this.x - v.y, this.y - v.y, this.z - v.z, this.w - v.w);
+	}
+
 	public static one():Vector4 {
 		return new Vector4(1,1,1, 1);
 	}

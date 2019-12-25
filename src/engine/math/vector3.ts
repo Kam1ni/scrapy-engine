@@ -34,6 +34,10 @@ export class Vector3 {
 		return new Vector3(this.x + v.x, this.y + v.y, this.z + v.z);
 	}
 
+	public sub(v:Vector3):Vector3 {
+		return new Vector3(this.x - v.y, this.y - v.y, this.z - v.z);
+	}
+
 	public getLength():number {
 		let num = this.x * this.x + this.y * this.y + this.z * this.z;
 		return Math.sqrt(num);

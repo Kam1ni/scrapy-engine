@@ -7,6 +7,7 @@ export class BoundingBox extends SimObject {
 	public color:Color = Color.white();
 	public shouldRender:boolean = false;
 
+
 	public render():void {
 		if (this.shouldRender || this.engine.renderBoundingBoxes) {
 			let m = Matrix4x4.translation(this.worldMatrix.getTranslation());
