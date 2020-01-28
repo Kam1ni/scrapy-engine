@@ -1,13 +1,13 @@
 {
 	"name": "scrapy-engine",
-	"version": "0.0.15",
+	"version": "0.1.0",
 	"description": "A typescript WebGL game engine.",
 	"main": "dist/main.js",
 	"scripts": {
 		"serve": "webpack-dev-server --mode=development",
 		"build": "webpack --mode=development",
 		"build-release": "webpack --mode=production",
-		"lint": "tslint --project . --fix",
+		"lint": "eslint . --fix",
 		"prepare": "npm run build-release"
 	},
 	"repository": {
@@ -27,6 +27,7 @@
 	},
 	"homepage": "https://github.com/Kam1ni/scrapy-engine#readme",
 	"devDependencies": {
+		"@typescript-eslint/eslint-plugin": "^2.18.0",
 		"clean-webpack-plugin": "^3.0.0",
 		"copy-webpack-plugin": "^5.0.5",
 		"file-loader": "^4.2.0",
@@ -34,7 +35,6 @@
 		"lint-staged": "^9.4.3",
 		"raw-loader": "^3.1.0",
 		"ts-loader": "^6.2.1",
-		"tslint": "^5.20.1",
 		"typescript": "^3.7.2",
 		"webpack": "^4.41.2",
 		"webpack-cli": "^3.3.10",
@@ -42,7 +42,7 @@
 	},
 	"lint-staged": {
 		"src/**/*.ts": [
-			"tslint --project . --fix"
+			"eslint . --fix"
 		]
 	},
 	"husky": {
@@ -50,10 +50,13 @@
 			"pre-commit": "lint-staged"
 		}
 	},
-	"files":[
+	"files": [
 		"dist/engine/*",
 		"dist/main.js",
 		"dist/main.js.map",
 		"dist/main.d.ts"
-	]
+	],
+	"dependencies": {
+		"eslint": "^6.8.0"
+	}
 }
