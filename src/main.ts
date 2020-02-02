@@ -1,11 +1,11 @@
 export {Engine} from "./engine/engine";
 
 export {
-	Asset, 
-	Audio, 
-	File, 
-	Material, 
-	Mesh, 
+	Asset,
+	Audio,
+	File,
+	Material,
+	Mesh,
 	Texture
 } from "./engine/assets";
 
@@ -18,7 +18,7 @@ export {
 } from "./engine/graphics";
 
 export {
-	degToRadians,
+	degToRad,
 	radToDeg,
 	approach,
 	Matrix4x4,

@@ -1,4 +1,4 @@
-export {degToRad as degToRadians, radToDeg} from "./angles";
+export {degToRad, radToDeg} from "./angles";
 export {approach} from "./approach";
 export {Matrix4x4} from "./matrix4x4";
 export {Transform} from "./transform";
