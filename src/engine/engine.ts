@@ -23,7 +23,11 @@ export class Engine{
 	public input:Input = new Input(this);
 	public assetLoaders:AssetLoaderBundle = new AssetLoaderBundle(this);
 	public renderBoundingBoxes:boolean = false;
+	public maxFrameTime:number = 250;
 	private hasPointerLock:boolean = false;
+
+	
+
 
 	public constructor(canvas:HTMLCanvasElement) {
 		this.canvas = canvas;
@@ -99,8 +103,8 @@ export class Engine{
 		let currentTime = new Date().getTime();
 		let dt = currentTime - this.prevFrameTime;
 		this.prevFrameTime = currentTime;
-		if (dt > 250) {
-			dt = 250;
+		if (dt > this.maxFrameTime) {
+			dt = this.maxFrameTime;
 		}
 		
 		this.world.update(dt);
