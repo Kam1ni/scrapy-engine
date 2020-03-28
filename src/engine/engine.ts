@@ -17,8 +17,7 @@ export class Engine{
 	private prevFrameTime:number = 0;
 	private clearColor:Color = Color.black();
 	private shader:Shader = new BasicShader(this);
-	private world:GameWorld = new GameWorld(this);
-	private camera:Camera = new OrthographicCamera(this);
+	private world:GameWorld;
 	public staticGraphics = new StaticAssets(this);
 	public input:Input = new Input(this);
 	public assetLoaders:AssetLoaderBundle = new AssetLoaderBundle(this);
@@ -33,6 +32,7 @@ export class Engine{
 		this.canvas = canvas;
 		this.canvas.style.userSelect = "none";
 		this.canvas.addEventListener("contextmenu", e=>e.preventDefault());
+		this.world = new GameWorld(this);
 	}
 
 	public get gl():WebGLRenderingContext {
@@ -77,7 +77,6 @@ export class Engine{
 			this.canvas.width = this.canvas.parentElement.clientWidth;
 			this.canvas.height = this.canvas.parentElement.clientHeight;
 		}
-		this.camera.updateMatrix();
 		this._gl.viewport(0, 0, this.canvas.width, this.canvas.height);
 	}
 
@@ -108,10 +107,9 @@ export class Engine{
 		}
 		
 		this.world.update(dt);
-		this.camera.update(dt);
 		this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 		let projectionPosition = this.shader.getUniformLocation("u_projection");
-		this.gl.uniformMatrix4fv(projectionPosition, false, this.camera.getViewMatrix().toFloat32Array());
+		this.gl.uniformMatrix4fv(projectionPosition, false, this.world.getCamera().getViewMatrix().toFloat32Array());
 
 		let uvOffset = this.shader.getUniformLocation("u_uvOffset");
 		this.gl.uniform2fv(uvOffset, new Float32Array([0.0,0.0]));
@@ -161,15 +159,6 @@ export class Engine{
 			this.world.destroy();
 		}
 		this.world = world;
-	}
-
-	public getCamera():Camera {
-		return this.camera;
-	}
-
-	public setCamera(cam:Camera):void {
-		this.camera = cam;
-		cam.updateMatrix();
 	}
 
 	public getCanvas():HTMLCanvasElement {

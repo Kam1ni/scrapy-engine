@@ -13,6 +13,7 @@ import { PerspectiveCamera } from "@/engine/world/perspective-camera";
 import { Engine } from "@/engine/engine";
 import { Audio } from "@/engine/assets/audio";
 import { BoundingBox } from "@/engine/world/bounding-box";
+import { FreeCamera } from "@/engine/world";
 
 export class World extends GameWorld {
 
@@ -22,6 +23,7 @@ export class World extends GameWorld {
 
 	public constructor(engine:Engine) {
 		super(engine);
+		this.setCamera(new FreeCamera(engine, 90));
 		this.ambientLight = new Color(25,25,25,255);
 
 		this.b3n = new B3N(this.engine);
@@ -72,12 +74,13 @@ export class World extends GameWorld {
 	}
 	
 	public update(dt:number):void {
+
 		if (this.engine.input.isKeyPressed(Keys.P)) {
 			this.audio.play();
 		}
 
 		if (this.engine.input.getMouseScroll()) {
-			let cam = this.engine.getCamera() as PerspectiveCamera;
+			let cam = this.getCamera() as PerspectiveCamera;
 			cam.fovDeg += (this.engine.input.getMouseScroll()/100);
 			console.log(cam.fovDeg);
 			cam.updateMatrix();
@@ -104,6 +107,7 @@ export class World extends GameWorld {
 			this.b3n.boundingBox.color = Color.white();
 			this.lampPost.boundingBox.color = Color.white();
 		}
+
 	}
 
 	private createBlock(textureName:string, position:Vector3):Sprite {

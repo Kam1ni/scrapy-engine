@@ -1,15 +1,13 @@
 import { Transform } from "../math/transform";
 import { Matrix4x4 } from "../math/matrix4x4";
 import { Engine } from "../engine";
+import { GameContainer } from "./game-container";
 
-export abstract class Camera{
-	public transform:Transform = new Transform();
-	public engine:Engine;
-	public worldMatrix:Matrix4x4;
+export abstract class Camera extends GameContainer{
 	protected matrix:Matrix4x4;
 
 	constructor(engine:Engine) {
-		this.engine = engine;
+		super(engine);
 	}
 
 	public getMatrix():Matrix4x4 {
@@ -24,5 +22,9 @@ export abstract class Camera{
 	
 	public update(dt:number):void {
 		this.worldMatrix = this.transform.getInvertedTransformationMatrix();
+	}
+
+	public render():void{
+		return;
 	}
 }
