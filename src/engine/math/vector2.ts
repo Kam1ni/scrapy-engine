@@ -42,6 +42,7 @@ export class Vector2 {
 	}
 
 	public toString():string{
-		return `x: ${this.x}; y: ${this.y}`
+		let n = this.toArray().map(i=>i.toFixed(2))
+		return `x: ${n[0]}; y: ${n[1]}`
 	}
 }
