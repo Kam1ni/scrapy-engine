@@ -8,6 +8,7 @@ import { StaticAssets } from "./assets/static-assets";
 import { Input } from "./utils/input";
 import { AssetLoaderBundle } from "./loaders/asset-loader-bundle";
 import { Vector2 } from "./math";
+import { ValueInspector } from "./utils/value-inspector";
 
 export class Engine{
 	private canvasSize:Vector2;
@@ -119,6 +120,8 @@ export class Engine{
 
 		this.world.render();
 		this.input.update();
+
+		ValueInspector.update();
 		requestAnimationFrame(this.loop.bind(this));
 	}
 

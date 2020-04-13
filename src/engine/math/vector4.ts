@@ -65,4 +65,10 @@ export class Vector4{
 		let w = a.w * b.w;
 		return x+y+z+w;
 	}
+
+	
+	public toString():string{
+		let n = this.toArray().map(i=>i.toFixed(2))
+		return `x: ${n[0]}; y: ${n[1]}; z: ${n[2]}; w: ${n[3]}`
+	}
 }

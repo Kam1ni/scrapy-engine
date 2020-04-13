@@ -71,4 +71,9 @@ export class Vector3 {
 	public static zero():Vector3 {
 		return new Vector3(0,0,0);
 	}
+
+	public toString():string{
+		let n = this.toArray().map(i=>i.toFixed(2))
+		return `x: ${n[0]}; y: ${n[1]}; z: ${n[2]}`
+	}
 }

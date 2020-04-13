@@ -40,4 +40,8 @@ export class Vector2 {
 	public static zero():Vector2 {
 		return new Vector2(0,0);
 	}
+
+	public toString():string{
+		return `x: ${this.x}; y: ${this.y}`
+	}
 }

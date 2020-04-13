@@ -1,8 +1,15 @@
 import { PerspectiveCamera } from "./perspective-camera";
 import { Keys, MouseButtons } from "../utils/input";
 import { Vector3 } from "../math/vector3";
+import { ValueInspector } from "../utils/value-inspector";
+import { Engine } from "../engine";
 
 export class FreeCamera extends PerspectiveCamera{
+
+	public constructor(e:Engine, fovDeg?:number){
+		super(e, fovDeg);
+		let i = new ValueInspector("Camera position", ()=>this.transform.getTransformationMatrix().getTranslation().toString())
+	}
 
 	public updateMatrix():void {
 		super.updateMatrix();
