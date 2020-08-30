@@ -126,16 +126,15 @@ export class Engine{
 	}
 
 	private initGL():void {
-		this._gl = this.canvas.getContext("webgl");
+		this._gl = this.canvas.getContext("webgl2");
 		if (!this.gl) {
-			throw new Error("WebGL is not available in this browser");
+			throw new Error("WebGL 2 is not available in this browser");
 		}
 
 		// Enables transparency
 		this.gl.enable(this.gl.BLEND);
 		this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
 		// Enables depth
-		this.gl.getExtension("EXT_frag_depth");
 		this.gl.enable(this.gl.DEPTH_TEST);
 
 		this.setClearColor(this.clearColor);
