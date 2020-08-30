@@ -6,6 +6,7 @@ import { Asset } from "./asset";
 export class Material extends Asset {
 	public diffuserColor:Color = Color.white();
 	public texture:Texture;
+	public normalMap:Texture;
 
 	public constructor(engine:Engine, name:string) {
 		super(engine, name);

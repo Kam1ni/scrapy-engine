@@ -14,9 +14,10 @@ import { Engine } from "@/engine/engine";
 import { Audio } from "@/engine/assets/audio";
 import { BoundingBox } from "@/engine/world/bounding-box";
 import { FreeCamera } from "@/engine/world";
+import { Cube } from "./cube";
 
 export class World extends GameWorld {
-
+	private cube:Cube;
 	private b3n:B3N;
 	private lampPost:LampPost;
 	private audio:Audio;
@@ -31,6 +32,9 @@ export class World extends GameWorld {
 		this.b3n.transform.position.x = 100;
 		this.b3n.transform.position.z = 0;
 		this.addChild(this.b3n);
+
+		this.cube = new Cube(engine);
+		this.addChild(this.cube);
 
 
 		let lampPost = new LampPost(this.engine);
