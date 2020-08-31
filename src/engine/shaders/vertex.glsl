@@ -1,7 +1,7 @@
 precision mediump float;
 attribute vec3 a_position;
 attribute vec2 a_texCoord;
-
+attribute vec3 a_normalVector;
 
 uniform mat4 u_transform;
 uniform mat4 u_projection;
@@ -11,6 +11,7 @@ uniform vec3 u_vertexScale;
 
 varying vec2 v_texCoord;
 varying vec4 v_worldCoord;
+varying vec3 v_normalVector;
 
 void main(){
 	vec3 position = u_vertexScale * a_position;
@@ -23,6 +24,8 @@ void main(){
 	if (texCoord.y == 0.0){
 		texCoord.y = 0.01;
 	}
+
+	v_normalVector = normalize(mat3(u_transform) * a_normalVector);
 	
 	v_texCoord = (texCoord * u_uvSize) + u_uvOffset;
 }

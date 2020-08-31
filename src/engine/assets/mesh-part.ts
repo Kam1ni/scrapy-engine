@@ -20,7 +20,7 @@ export class MeshPart extends Asset {
 		if (this.loaded) {
 			return;
 		}
-		this.buffer = new GLBuffer(this.engine, 5);
+		this.buffer = new GLBuffer(this.engine, 8);
 		this.buffer.bind();
 
 		let positionAttribute = this.engine.getShader().getAttributeLocation("a_position");
@@ -35,6 +35,13 @@ export class MeshPart extends Asset {
 		info.location = textCoordAttribute;
 		info.size = 2;
 		info.offset = 3;
+		this.buffer.addAttributeLocation(info);
+
+		let normalAttribute = this.engine.getShader().getAttributeLocation("a_normalVector");
+		info = new AttributeInfo();
+		info.location = normalAttribute;
+		info.size = 3;
+		info.offset = 5;
 		this.buffer.addAttributeLocation(info);
 
 		this.buffer.setData(this.vertices);

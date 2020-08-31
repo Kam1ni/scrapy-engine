@@ -306,16 +306,6 @@ export class Matrix4x4 {
 		
 		return new Vector3(x,y,z);
 		
-		let m11 = this.data[0];
-		let m12 = this.data[1];
-		let m13 = this.data[2];
-		let m21 = this.data[4];
-		let m22 = this.data[5];
-		let m23 = this.data[6];
-		let m31 = this.data[8];
-		let m32 = this.data[9];
-		let m33 = this.data[10];
-		return new Vector3(Math.hypot(m11,m12,m13), Math.hypot(m21,m22,m23), Math.hypot(m31,m32,m33));
 	}
 
 	public getRotationMatrix():Matrix4x4 {

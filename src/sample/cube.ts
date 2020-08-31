@@ -7,9 +7,6 @@ export class Cube extends SimObject {
 
 	public constructor(engine:Engine)	{
 		super(engine);
-		this.transform.position.y = 10;
-		this.transform.position.x = 150;
-		this.transform.position.z = 10;
 		this.transform.scale.x = 8
 		this.transform.scale.y = 8
 		this.transform.scale.z = 8

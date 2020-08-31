@@ -15,9 +15,10 @@ import { Audio } from "@/engine/assets/audio";
 import { BoundingBox } from "@/engine/world/bounding-box";
 import { FreeCamera } from "@/engine/world";
 import { Cube } from "./cube";
+import { LightTesting } from "./light-testing";
 
 export class World extends GameWorld {
-	private cube:Cube;
+	private lightTesting:LightTesting;
 	private b3n:B3N;
 	private lampPost:LampPost;
 	private audio:Audio;
@@ -25,6 +26,11 @@ export class World extends GameWorld {
 	public constructor(engine:Engine) {
 		super(engine);
 		this.setCamera(new FreeCamera(engine, 90));
+		this.getCamera().transform.position.z = -400;
+		this.getCamera().transform.position.y = -50;
+		this.getCamera().transform.position.x = 0;
+		this.getCamera().transform.rotation.x = .5;
+		this.getCamera().transform.rotation.y = Math.PI;
 		this.ambientLight = new Color(25,25,25,255);
 
 		this.b3n = new B3N(this.engine);
@@ -33,8 +39,8 @@ export class World extends GameWorld {
 		this.b3n.transform.position.z = 0;
 		this.addChild(this.b3n);
 
-		this.cube = new Cube(engine);
-		this.addChild(this.cube);
+		this.lightTesting = new LightTesting(this.engine);
+		this.addChild(this.lightTesting)
 
 
 		let lampPost = new LampPost(this.engine);
