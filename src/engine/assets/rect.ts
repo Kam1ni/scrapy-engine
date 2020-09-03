@@ -67,6 +67,11 @@ export class Rect extends Asset{
 		let diffuseLocation = this.engine.getShader().getUniformLocation("u_diffuse");
 		this.engine.gl.uniform1i(diffuseLocation, 0);
 
+		let normalMap = this.engine.staticGraphics.getNormalMap();
+		normalMap.activateAndBind(1);
+		let normalMapLocation = this.engine.getShader().getUniformLocation("u_normalMap");
+		this.engine.gl.uniform1i(normalMapLocation, 1);
+
 		let vertexScaleLocation = this.engine.getShader().getUniformLocation("u_vertexScale");
 		this.engine.gl.uniform3f(vertexScaleLocation, width, height, 1.0);
 
@@ -74,6 +79,7 @@ export class Rect extends Asset{
 		this.buffer.draw();
 		this.buffer.unbind();
 		texture.unbind();
+		normalMap.unbind();
 
 		this.engine.gl.uniform3f(vertexScaleLocation, 1, 1, 1);
 	}

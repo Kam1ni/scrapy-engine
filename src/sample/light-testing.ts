@@ -2,8 +2,10 @@ import { GameContainer, Rect } from "@/engine/world";
 import { Engine } from "@/engine/engine";
 import { Cube } from "./cube";
 import { PointLight, Color } from "@/engine/graphics";
+import { Keys } from "@/engine/utils/input";
 
 export class LightTesting extends GameContainer {
+	private paused:boolean = false;
 	public cube:Cube;
 	public cube2:Cube;
 
@@ -18,7 +20,7 @@ export class LightTesting extends GameContainer {
 		this.addChild(this.cube);
 		
 		this.cube2 = new Cube(engine);
-		this.cube2.transform.position.x = 100;
+		this.cube2.transform.position.x = 50;
 		this.addChild(this.cube2);
 
 		let plane = new Rect(this.engine);
@@ -32,6 +34,11 @@ export class LightTesting extends GameContainer {
 	}
 
 	public update(dt:number){
+		if (this.engine.input.isKeyPressed(Keys.G)){
+			this.paused = !this.paused;
+		}
+
+		if (this.paused) return;
 		let date = new Date().getTime() / 1000;
 		this.cube.transform.position.x = Math.sin(date) * 50;
 		this.cube.transform.position.z = Math.cos(date) * 50;

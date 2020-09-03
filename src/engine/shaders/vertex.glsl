@@ -18,12 +18,6 @@ void main(){
 	gl_Position = u_projection * u_transform * vec4(position, 1.0);
 	v_worldCoord = u_transform * vec4(position, 1.0);
 	vec2 texCoord = a_texCoord;
-	if (texCoord.x == 0.0){
-		texCoord.x = 0.01;
-	}
-	if (texCoord.y == 0.0){
-		texCoord.y = 0.01;
-	}
 
 	v_normalVector = normalize(mat3(u_transform) * a_normalVector);
 	
