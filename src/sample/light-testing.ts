@@ -1,9 +1,10 @@
-import { GameContainer, Rect } from "@/engine/world";
+import { GameContainer, Rect, Sprite } from "@/engine/world";
 import { Engine } from "@/engine/engine";
 import { Cube } from "./cube";
 import { PointLight, Color } from "@/engine/graphics";
 import { Keys } from "@/engine/utils/input";
 import { BaseWorld } from "./base-world";
+import { Vector3 } from "@/engine/math";
 
 export class LightTesting extends BaseWorld {
 	private paused:boolean = false;
@@ -22,8 +23,8 @@ export class LightTesting extends BaseWorld {
 		this.cube2.transform.position.x = 50;
 		this.addChild(this.cube2);
 
-		let plane = new Rect(this.engine);
-		plane.color = Color.green();
+		let plane = new Sprite(this.engine, "missing");
+		plane.transform.scale = new Vector3(8, 8, 8);
 		this.addChild(plane);
 		
 
