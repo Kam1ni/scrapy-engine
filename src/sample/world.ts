@@ -16,32 +16,20 @@ import { BoundingBox } from "@/engine/world/bounding-box";
 import { FreeCamera } from "@/engine/world";
 import { Cube } from "./cube";
 import { LightTesting } from "./light-testing";
+import { BaseWorld } from "./base-world";
 
-export class World extends GameWorld {
-	private lightTesting:LightTesting;
+export class World extends BaseWorld {
 	private b3n:B3N;
 	private lampPost:LampPost;
 	private audio:Audio;
 
 	public constructor(engine:Engine) {
 		super(engine);
-		this.setCamera(new FreeCamera(engine, 90));
-		this.getCamera().transform.position.z = -400;
-		this.getCamera().transform.position.y = -50;
-		this.getCamera().transform.position.x = 0;
-		this.getCamera().transform.rotation.x = .5;
-		this.getCamera().transform.rotation.y = Math.PI;
-		this.ambientLight = new Color(25,25,25,255);
-
 		this.b3n = new B3N(this.engine);
 		this.b3n.transform.position.y = 0;
 		this.b3n.transform.position.x = 100;
 		this.b3n.transform.position.z = 0;
 		this.addChild(this.b3n);
-
-		this.lightTesting = new LightTesting(this.engine);
-		this.addChild(this.lightTesting)
-
 
 		let lampPost = new LampPost(this.engine);
 		this.addChild(lampPost);
@@ -91,7 +79,7 @@ export class World extends GameWorld {
 
 		if (this.engine.input.getMouseScroll()) {
 			let cam = this.getCamera() as PerspectiveCamera;
-			cam.fovDeg += (this.engine.input.getMouseScroll()/100);
+			cam.fovDeg += (this.engine.input.getMouseScroll()/10);
 			console.log(cam.fovDeg);
 			cam.updateMatrix();
 		}

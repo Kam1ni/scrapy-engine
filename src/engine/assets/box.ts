@@ -86,8 +86,8 @@ export class Box extends Asset {
 		let colorLocation = this.engine.getShader().getUniformLocation("u_color");
 		this.engine.gl.uniform4fv(colorLocation, color.toFloat32Array());
 
-		let transformLocation = this.engine.getShader().getUniformLocation("u_transform");
-		this.engine.gl.uniformMatrix4fv(transformLocation, false, transform.toFloat32Array());
+		let modelLocation = this.engine.getShader().getUniformLocation("u_model");
+		this.engine.gl.uniformMatrix4fv(modelLocation, false, transform.toFloat32Array());
 
 		texture.activateAndBind(0);
 		let diffuseLocation = this.engine.getShader().getUniformLocation("u_diffuse");

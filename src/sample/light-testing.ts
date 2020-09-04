@@ -3,8 +3,9 @@ import { Engine } from "@/engine/engine";
 import { Cube } from "./cube";
 import { PointLight, Color } from "@/engine/graphics";
 import { Keys } from "@/engine/utils/input";
+import { BaseWorld } from "./base-world";
 
-export class LightTesting extends GameContainer {
+export class LightTesting extends BaseWorld {
 	private paused:boolean = false;
 	public cube:Cube;
 	public cube2:Cube;
@@ -13,8 +14,6 @@ export class LightTesting extends GameContainer {
 
 	public constructor(engine:Engine){
 		super(engine);
-
-		this.transform.position.z = 500;
 
 		this.cube = new Cube(engine);
 		this.addChild(this.cube);
@@ -29,7 +28,7 @@ export class LightTesting extends GameContainer {
 		
 
 		this.light = new PointLight(this.engine);
-		this.light.color = new Color(255,255,255,30000);
+		this.light.color = new Color(255,255,255,20000);
 		this.pointLights.push(this.light);
 	}
 
@@ -39,7 +38,7 @@ export class LightTesting extends GameContainer {
 		}
 
 		if (this.paused) return;
-		let date = new Date().getTime() / 1000;
+		let date = new Date().getTime() / 500;
 		this.cube.transform.position.x = Math.sin(date) * 50;
 		this.cube.transform.position.z = Math.cos(date) * 50;
 

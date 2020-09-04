@@ -106,4 +106,12 @@ export abstract class GameContainer {
 	public getChildren():GameContainer[] {
 		return [...this.children];
 	}
+
+	public getWorldMatrix():Matrix4x4{
+		return this.worldMatrix.clone();
+	}
+
+	public getLocalMatrix():Matrix4x4{
+		return this.localMatrix.clone();
+	}
 }

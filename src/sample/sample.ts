@@ -3,6 +3,7 @@ import { SimObject } from "@/engine/world/sim-object";
 import { SimpleRect } from "./simple-rect";
 import { World } from "./world";
 import { FreeCamera } from "@/engine/world/free-camera";
+import { LightTesting } from "./light-testing";
 
 let canvas = document.createElement("canvas");
 document.body.append(canvas);
@@ -10,7 +11,7 @@ let engine = new Engine(canvas);
 engine.init();
 
 
-let world = new World(engine);
+let world = new LightTesting(engine);
 //engine.getCamera().transform.scale.x = 4;
 //engine.getCamera().transform.scale.y = 4;
 //engine.getCamera().transform.scale.z = 4;

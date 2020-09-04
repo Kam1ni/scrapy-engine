@@ -6,6 +6,9 @@ import { Engine } from "../engine";
 
 export class FreeCamera extends PerspectiveCamera{
 
+	public speedMultiplier:number = 1;
+	public sensitivityMultiplier:number = 1;
+
 	public constructor(e:Engine, fovDeg?:number){
 		super(e, fovDeg);
 		let i = new ValueInspector("Camera position", ()=>this.transform.getTransformationMatrix().getTranslation().toString())
@@ -17,7 +20,7 @@ export class FreeCamera extends PerspectiveCamera{
 
 	public update(dt:number):void {
 		let input = this.engine.input;
-		let speed = 1 * dt;
+		let speed = 1 * dt * this.speedMultiplier;
 		
 		let translation = Vector3.zero();
 		if (input.isKeyDown(Keys.A)) {
@@ -45,8 +48,8 @@ export class FreeCamera extends PerspectiveCamera{
 
 		let rotation = this.transform.rotation;
 		if (this.engine.isPointerLocked() || input.isMouseButtonDown(MouseButtons.Middle)) {
-			let dx = input.getMouseDiffX() / 10000.0 *dt;
-			let dy = input.getMouseDiffY() / 10000.0 * dt;
+			let dx = input.getMouseDiffX() / 1000.0 * dt * this.sensitivityMultiplier;
+			let dy = input.getMouseDiffY() / 1000.0 * dt * this.sensitivityMultiplier;
 
 			rotation.x += dy;
 			rotation.y += dx;
