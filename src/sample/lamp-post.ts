@@ -16,7 +16,7 @@ export class LampPost extends Sprite {
 		this.light = new PointLight(this.engine);
 		this.light.transform.position.x = 64;
 		this.light.transform.position.y = 64;
-		this.light.transform.position.z = 5;
+		this.light.transform.position.z = 0;
 		this.light.color = new Color(255,255,255,30000);
 		
 		this.pointLights.push(this.light);
@@ -26,5 +26,11 @@ export class LampPost extends Sprite {
 		this.boundingBox.transform.position.x = 64;
 		this.boundingBox.transform.position.y = 32;
 		this.addChild(this.boundingBox);
+	}
+
+	public update(dt:number){
+		this.transform.position.z = Math.sin(new Date().getTime() / 1000) * 100;
+
+		super.update(dt);
 	}
 }

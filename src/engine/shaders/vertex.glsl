@@ -22,6 +22,7 @@ void main(){
 	vec2 texCoord = a_texCoord;
 
 	v_normalVector = normalize(mat3(u_model) * a_normalVector);
+	//v_normalVector =  a_normalVector;
 	
 	v_texCoord = (texCoord * u_uvSize) + u_uvOffset;
 }

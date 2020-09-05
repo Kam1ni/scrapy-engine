@@ -16,7 +16,6 @@ enum LineType {
 	DIFFUSE_COLOR,
 	TEXTURE,
 	UNUSED,
-	NORMAL_MAP
 }
 
 export class MaterialLoader extends AssetLoader<Material>{
@@ -65,9 +64,6 @@ export class MaterialLoader extends AssetLoader<Material>{
 			if (lineType == LineType.TEXTURE) {
 				material.texture = this.engine.assetLoaders.textureLoader.getAsset(this.getTextureSrc(line));
 			}
-			if (lineType == LineType.NORMAL_MAP) {
-				material.normalMap = this.engine.assetLoaders.textureLoader.getAsset(this.getTextureSrc(line));
-			}
 		}
 	}
 
@@ -80,9 +76,6 @@ export class MaterialLoader extends AssetLoader<Material>{
 		}
 		if (line.match(/^map_Kd\s/)) {
 			return LineType.TEXTURE;
-		}
-		if (line.match(/^norm\s/)) {
-			return LineType.NORMAL_MAP;
 		}
 		return LineType.UNUSED;
 	}

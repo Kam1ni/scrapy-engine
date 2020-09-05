@@ -43,7 +43,9 @@ export class LightTesting extends BaseWorld {
 		this.cube.transform.position.x = Math.sin(date) * 50;
 		this.cube.transform.position.z = Math.cos(date) * 50;
 
-		this.cube2.transform.rotation.y = Math.sin(date) * Math.PI;
+		this.cube2.transform.rotation.x = Math.sin(date) * Math.PI;
+		this.cube2.transform.rotation.y = Math.sin(date) * Math.PI / 2;
+		this.cube2.transform.rotation.z = Math.sin(date) * Math.PI / 4;
 
 		super.update(dt);
 	}

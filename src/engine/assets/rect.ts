@@ -20,7 +20,7 @@ export class Rect extends Asset{
 
 	public async load():Promise<void> {
 		if (this.loaded) return;
-		this.buffer = new GLBuffer(this.engine, 5);
+		this.buffer = new GLBuffer(this.engine, 8);
 		let positionAttribute = this.engine.getShader().getAttributeLocation("a_position");
 		let info = new AttributeInfo();
 		info.location = positionAttribute;
@@ -35,13 +35,20 @@ export class Rect extends Asset{
 		info.offset = 3;
 		this.buffer.addAttributeLocation(info);
 
+		let normalVectorAttribute = this.engine.getShader().getAttributeLocation("a_normalVector");
+		info = new AttributeInfo();
+		info.location = normalVectorAttribute;
+		info.size = 3;
+		info.offset = 5;
+		this.buffer.addAttributeLocation(info);
+		
 		let vertices = [
-			0, 0, 0, 0, 1,
-			0, 1, 0, 0, 0,
-			1, 1, 0, 1, 0,
-			1, 1, 0, 1, 0,
-			1, 0, 0, 1, 1,
-			0, 0, 0, 0, 1
+			0, 0, 0, 0, 1, 0, 0, -1,
+			0, 1, 0, 0, 0, 0, 0, -1,
+			1, 1, 0, 1, 0, 0, 0, -1,
+			1, 1, 0, 1, 0, 0, 0, -1,
+			1, 0, 0, 1, 1, 0, 0, -1,
+			0, 0, 0, 0, 1, 0, 0, -1,
 		];
 
 		let gl = this.engine.gl;
@@ -67,11 +74,6 @@ export class Rect extends Asset{
 		let diffuseLocation = this.engine.getShader().getUniformLocation("u_diffuse");
 		this.engine.gl.uniform1i(diffuseLocation, 0);
 
-		let normalMap = this.engine.staticGraphics.getNormalMap();
-		normalMap.activateAndBind(1);
-		let normalMapLocation = this.engine.getShader().getUniformLocation("u_normalMap");
-		this.engine.gl.uniform1i(normalMapLocation, 1);
-
 		let vertexScaleLocation = this.engine.getShader().getUniformLocation("u_vertexScale");
 		this.engine.gl.uniform3f(vertexScaleLocation, width, height, 1.0);
 
@@ -79,7 +81,6 @@ export class Rect extends Asset{
 		this.buffer.draw();
 		this.buffer.unbind();
 		texture.unbind();
-		normalMap.unbind();
 
 		this.engine.gl.uniform3f(vertexScaleLocation, 1, 1, 1);
 	}
