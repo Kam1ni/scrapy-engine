@@ -32,15 +32,7 @@ export class AnimatedSprite extends Sprite {
 	}
 
 	public render():void {
-		let uvOffset = this.engine.getShader().getUniformLocation("u_uvOffset");
-		this.engine.gl.uniform2fv(uvOffset, this.uvOffset.toFloat32Array());
-		let uvSize = this.engine.getShader().getUniformLocation("u_uvSize");
-		this.engine.gl.uniform2fv(uvSize, this.uvSize.toFloat32Array());
-
-		this.engine.staticGraphics.getRect().render(this.worldMatrix, this.uvSize.x * this.texture.getWidth(), this.uvSize.x * this.texture.getWidth(), Color.white(), this.texture);
-		
-		this.engine.gl.uniform2fv(uvOffset, new Float32Array([0.0,0.0]));
-		this.engine.gl.uniform2fv(uvSize, new Float32Array([1.0,1.0]));
+		this.engine.staticGraphics.getRect().render(this.worldMatrix, this.uvSize.x * this.texture.getWidth(), this.uvSize.x * this.texture.getWidth(), Color.white(), this.texture, this.uvOffset, this.uvSize);
 
 		for (let child of this.getChildren()) {
 			child.render();

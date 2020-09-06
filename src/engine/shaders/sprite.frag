@@ -10,7 +10,6 @@ uniform vec3 u_point_light_positions[16];
 uniform vec4 u_point_light_color[16];
 
 varying vec2 v_texCoord;
-varying vec3 v_normalVector;
 varying vec3 v_fragPos;
 
 void main(){
@@ -23,10 +22,9 @@ void main(){
 		float lightIntensity = lightColor.w;
 		float lightDistance = distance(lightPos, v_fragPos);
 		vec3 lightVector = normalize(lightPos - v_fragPos);
-		float normalDiff = max(dot(v_normalVector, lightVector), 0.0);
 
 		if (lightDistance < lightIntensity){
-			lightIntensity = ((lightIntensity - lightDistance) / lightIntensity)  * normalDiff;
+			lightIntensity = ((lightIntensity - lightDistance) / lightIntensity);
 			if (lightIntensity > 0.0){
 				vec3 lightAdd = vec3(lightColor.xyz) * vec3(lightIntensity);
 				light += lightAdd;

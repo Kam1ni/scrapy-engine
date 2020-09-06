@@ -15,7 +15,7 @@ let config = {
 				exclude: /node_modules/
 			},
 			{
-				test: /\.(glsl|obj|mtl)$/i,
+				test: /\.(glsl|obj|mtl|frag|vert)$/i,
 				use: "raw-loader"
 			},
 			{

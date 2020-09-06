@@ -1,6 +1,7 @@
 import { Engine } from "../engine";
 import { Color } from "../graphics/color";
 import { SimObject } from "./sim-object";
+import { Vector2 } from "../math";
 
 export class Rect extends SimObject{
 	private width:number;
@@ -18,6 +19,4 @@ export class Rect extends SimObject{
 		this.engine.staticGraphics.getRect().render(this.worldMatrix, this.width, this.height, this.color);
 		super.render();
 	}
-
-	
 }

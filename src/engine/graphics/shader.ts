@@ -1,6 +1,6 @@
 import { Engine } from "@/engine/engine";
 
-export abstract class Shader {
+export class Shader {
 	protected engine:Engine;
 	private vertexShader:WebGLShader;
 	private fragmentShader:WebGLShader;
@@ -9,13 +9,26 @@ export abstract class Shader {
 	private atributes:{[name:string]:number} = {};
 	private uniforms:{[name:string]:WebGLUniformLocation} = {};
 
-	public constructor(engine:Engine) {
+	private _vertexSrc:string;
+	private _fragmentSrc:string;
+	private _name:string;
+
+	public constructor(engine:Engine, vertexSrc:string = "", fragmentSrc:string = "", name:string) {
 		this.engine = engine;
+		this._vertexSrc = vertexSrc;
+		this._fragmentSrc = fragmentSrc;
+		this._name = name;
 	}
 
-	public abstract get vertexSrc():string;
-	public abstract get fragmentSrc():string;
-	public abstract get name():string;
+	public get vertexSrc():string{
+		return this._vertexSrc;
+	};
+	public get fragmentSrc():string{
+		return this._fragmentSrc;
+	};
+	public get name():string {
+		return this._name;
+	};
 
 	protected compileShader(shaderSrc:string, shaderType:number):WebGLShader {
 		let shader = this.engine.gl.createShader(shaderType);
@@ -56,6 +69,11 @@ export abstract class Shader {
 	public use():void {
 		this.engine.gl.useProgram(this.program);
 	}
+
+	public destroy():void {
+		// TODO: IMPLEMENT DESTROY
+		console.error("DESTROY NOT IMPLEMENTED YET");
+	}
 	
 	private detectAttributes():void {
 		let attribCount = this.engine.gl.getProgramParameter(this.program, this.engine.gl.ACTIVE_ATTRIBUTES);
@@ -79,5 +97,9 @@ export abstract class Shader {
 
 	public getUniformLocation(name:string):WebGLUniformLocation {
 		return this.uniforms[name];
+	}
+
+	public getIsloaded(){
+		return this.loaded;
 	}
 }

@@ -29,11 +29,13 @@ export class GameWorld extends GameContainer {
 	}
 
 	public render():void {
-		let shader = this.engine.getShader();
-		let location = shader.getUniformLocation("u_ambient_light");
-		this.engine.gl.uniform3fv(location, this.ambientLight.toLightFloat32Array());
-
-		this.setPointLightUniforms(shader);
+		// TODO: Optimize this
+		for (let shader of this.engine.staticGraphics.getShaders()){
+			shader.use();
+			let location = shader.getUniformLocation("u_ambient_light");
+			this.engine.gl.uniform3fv(location, this.ambientLight.toLightFloat32Array());
+			this.setPointLightUniforms(shader);
+		}
 		super.render();
 	}
 	
@@ -42,7 +44,7 @@ export class GameWorld extends GameContainer {
 		let lightColors:number[] = [];
 		
 		let lights = this.getPointLights();
-		for (let i = 0; i < 64; i++) {
+		for (let i = 0; i < 16; i++) {
 			let light = lights[i];
 			if (light) {
 				lightPositions.push(...light.worldTransform.getTranslation().toFloat32Array());

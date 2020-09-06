@@ -2,6 +2,7 @@ import { Color } from "../graphics/color";
 import { Texture } from "./texture";
 import { Engine } from "../engine";
 import { Asset } from "./asset";
+import { Shader } from "../graphics";
 
 export class Material extends Asset {
 	public diffuserColor:Color = Color.white();
@@ -34,12 +35,12 @@ export class Material extends Asset {
 		this.destroyTexture();
 	}
 
-	public bind():void {
-		let colorLocation = this.engine.getShader().getUniformLocation("u_color");
+	public bind(shader:Shader):void {
+		let colorLocation = shader.getUniformLocation("u_color");
 		this.engine.gl.uniform4fv(colorLocation, this.diffuserColor.toFloat32Array());
 
 		this.texture.activateAndBind(0);
-		let diffuseLocation = this.engine.getShader().getUniformLocation("u_diffuse");
+		let diffuseLocation = shader.getUniformLocation("u_diffuse");
 		this.engine.gl.uniform1i(diffuseLocation, 0);
 
 	}

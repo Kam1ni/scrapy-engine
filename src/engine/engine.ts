@@ -1,6 +1,6 @@
 import { Color } from "./graphics/color";
 import { Shader } from "./graphics/shader";
-import { BasicShader } from "./graphics/basic-shader";
+import { MeshShader } from "./graphics/mesh-shader";
 import { GameWorld } from "./world/game-world";
 import { OrthographicCamera } from "./world/orthographic-camera";
 import { Camera } from "./world/camera";
@@ -17,7 +17,6 @@ export class Engine{
 	private running:boolean;
 	private prevFrameTime:number = 0;
 	private clearColor:Color = Color.black();
-	private shader:Shader = new BasicShader(this);
 	private world:GameWorld;
 	public staticGraphics = new StaticAssets(this);
 	public input:Input = new Input(this);
@@ -42,11 +41,9 @@ export class Engine{
 
 	public init():void {
 		this.initGL();
-		this.shader.load();
-		this.shader.use();
-		
-		this.input.init();
 		this.staticGraphics.load();
+	
+		this.input.init();
 
 		this.applyCanvasSize = this.applyCanvasSize.bind(this);
 		this.onPointerLockChanged = this.onPointerLockChanged.bind(this);
@@ -109,17 +106,15 @@ export class Engine{
 		
 		this.world.update(dt);
 		this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
-		let projectionPosition = this.shader.getUniformLocation("u_projection");
-		this.gl.uniformMatrix4fv(projectionPosition, false, this.world.getCamera().getMatrix().toFloat32Array());
-		
-		let transformLocation = this.getShader().getUniformLocation("u_view");
-		this.gl.uniformMatrix4fv(transformLocation, false, this.getWorld().getCamera().getWorldMatrix().toFloat32Array());
 
-		let uvOffset = this.shader.getUniformLocation("u_uvOffset");
-		this.gl.uniform2fv(uvOffset, new Float32Array([0.0,0.0]));
-
-		let uvSize = this.shader.getUniformLocation("u_uvSize");
-		this.gl.uniform2fv(uvSize, new Float32Array([1.0,1.0]));
+		for (let shader of this.staticGraphics.getShaders()){
+			shader.use();
+			let projectionPosition = shader.getUniformLocation("u_projection");
+			this.gl.uniformMatrix4fv(projectionPosition, false, this.world.getCamera().getMatrix().toFloat32Array());
+			
+			let transformLocation = shader.getUniformLocation("u_view");
+			this.gl.uniformMatrix4fv(transformLocation, false, this.getWorld().getCamera().getWorldMatrix().toFloat32Array());
+		}
 
 		this.world.render();
 		this.input.update();
@@ -145,14 +140,6 @@ export class Engine{
 
 	private onPointerLockChanged():void {
 		this.hasPointerLock = document.pointerLockElement == this.canvas;
-	}
-
-	public getShader():Shader {
-		return this.shader;
-	}
-
-	public setShader(shader:Shader):void {
-		this.shader = shader;
 	}
 
 	public getWorld():GameWorld {

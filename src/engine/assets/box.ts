@@ -1,6 +1,6 @@
 import { Asset } from "./asset";
 import { Vector3, Matrix4x4 } from "../math";
-import { GLBuffer, Color } from "../graphics";
+import { GLBuffer, Color, Shader } from "../graphics";
 import { AttributeInfo } from "../graphics/gl-buffer";
 import { Texture } from "./texture";
 import { Engine } from "../engine";
@@ -12,11 +12,17 @@ export class Box extends Asset {
 		super(engine, "box");
 	}
 
+	public getShader():Shader {
+		return this.engine.staticGraphics.getMeshShader();
+	}
+
 	public async load():Promise<void> {
 		if (this.loaded) return;
 		let gl = this.engine.gl;
+		let shader = this.getShader();
+
 		this.buffer = new GLBuffer(this.engine, 5, gl.FLOAT, gl.ARRAY_BUFFER, gl.LINES);
-		let positionAttribute = this.engine.getShader().getAttributeLocation("a_position");
+		let positionAttribute = shader.getAttributeLocation("a_position");
 		let info = new AttributeInfo();
 		info.location = positionAttribute;
 		info.size = 3;
@@ -24,7 +30,7 @@ export class Box extends Asset {
 		this.buffer.addAttributeLocation(info);
 
 		
-		let textCoordAttribute = this.engine.getShader().getAttributeLocation("a_texCoord");
+		let textCoordAttribute = shader.getAttributeLocation("a_texCoord");
 		info = new AttributeInfo();
 		info.location = textCoordAttribute;
 		info.size = 2;
@@ -81,19 +87,21 @@ export class Box extends Asset {
 	}
 
 	public render(transform:Matrix4x4, size:Vector3, color:Color):void {
+		let shader = this.getShader();
+		shader.use();
 		let texture:Texture = this.engine.staticGraphics.getDiffuseTexture();
 
-		let colorLocation = this.engine.getShader().getUniformLocation("u_color");
+		let colorLocation = shader.getUniformLocation("u_color");
 		this.engine.gl.uniform4fv(colorLocation, color.toFloat32Array());
 
-		let modelLocation = this.engine.getShader().getUniformLocation("u_model");
+		let modelLocation = shader.getUniformLocation("u_model");
 		this.engine.gl.uniformMatrix4fv(modelLocation, false, transform.toFloat32Array());
 
 		texture.activateAndBind(0);
-		let diffuseLocation = this.engine.getShader().getUniformLocation("u_diffuse");
+		let diffuseLocation = shader.getUniformLocation("u_diffuse");
 		this.engine.gl.uniform1i(diffuseLocation, 0);
 
-		let vertexScaleLocation = this.engine.getShader().getUniformLocation("u_vertexScale");
+		let vertexScaleLocation = shader.getUniformLocation("u_vertexScale");
 		this.engine.gl.uniform3f(vertexScaleLocation, size.x, size.y, size.z);
 
 		this.buffer.bind();
