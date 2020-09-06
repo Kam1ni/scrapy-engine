@@ -8,6 +8,7 @@ export abstract class Camera extends GameContainer{
 
 	constructor(engine:Engine) {
 		super(engine);
+		this.transform.rotation.x = Math.PI / 2;
 	}
 
 	public getMatrix():Matrix4x4 {

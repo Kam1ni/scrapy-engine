@@ -10,8 +10,8 @@ export abstract class BaseWorld extends GameWorld {
 		cam.transform.position.z = 100;
 		cam.transform.position.y = -50;
 		cam.transform.position.x = 0;
-		cam.transform.rotation.x = .5;
-		cam.transform.rotation.y = Math.PI;
+		//cam.transform.rotation.x = .5;
+		//cam.transform.rotation.y = Math.PI;
 		cam.speedMultiplier = .1;
 		cam.sensitivityMultiplier = .5;
 		this.setCamera(cam);

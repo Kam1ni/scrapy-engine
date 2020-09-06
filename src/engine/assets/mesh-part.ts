@@ -51,8 +51,6 @@ export class MeshPart extends Asset {
 		info.offset = 5;
 		this.buffer.addAttributeLocation(info);
 
-		console.log(this.vertices[5], this.vertices[6], this.vertices[7])
-
 		this.buffer.setData(this.vertices);
 		this.buffer.upload();
 		this.buffer.unbind();

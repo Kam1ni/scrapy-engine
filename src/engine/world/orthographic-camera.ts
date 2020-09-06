@@ -6,6 +6,8 @@ export class OrthographicCamera extends Camera {
 	public farClip:number = 1000;
 
 	public updateMatrix():void {
-		this.matrix = Matrix4x4.orthographic(0, this.engine.getCanvas().width, 0, this.engine.getCanvas().height, this.nearClip, this.farClip);
+		let halfWidth = this.engine.getCanvas().width / 2;
+		let halfHeight = this.engine.getCanvas().height / 2;
+		this.matrix = Matrix4x4.orthographic(-halfWidth, halfWidth, -halfHeight, halfHeight, this.nearClip, this.farClip);
 	}
 }

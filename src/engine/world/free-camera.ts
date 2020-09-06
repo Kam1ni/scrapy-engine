@@ -30,15 +30,15 @@ export class FreeCamera extends PerspectiveCamera{
 		}
 
 		if (input.isKeyDown(Keys.W)) {
-			translation.z += speed;
+			translation.y += speed;
 		}else if (input.isKeyDown(Keys.S)) {
-			translation.z -= speed;
+			translation.y -= speed;
 		}
 
 		if (input.isKeyDown(Keys.Space)) {
-			translation.y -= speed;
+			translation.z += speed;
 		}else if (input.isKeyDown(Keys.LeftShift)) {
-			translation.y += speed;
+			translation.z -= speed;
 		}
 
 		if (input.isMouseButtonPressed(MouseButtons.Left)) {
@@ -52,10 +52,10 @@ export class FreeCamera extends PerspectiveCamera{
 			let dy = input.getMouseDiffY() / 1000.0 * dt * this.sensitivityMultiplier;
 
 			rotation.x += dy;
-			rotation.y += dx;
+			rotation.z -= dx;
 		}
 
-		this.transform.position = this.transform.position.add(translation.rotateY(-rotation.y));
+		this.transform.position = this.transform.position.add(translation.rotateZ(-rotation.z));
 
 		this.worldMatrix = this.transform.getInvertedTransformationMatrix();
 	}

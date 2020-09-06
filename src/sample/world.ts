@@ -66,7 +66,8 @@ export class World extends BaseWorld {
 			}
 		}
 
-		let matTest = new MaterialsTest(this.engine);
+		let matTest = new Cube(this.engine);
+		matTest.transform.position.x = 100;
 		this.addChild(matTest);
 		this.audio = this.engine.assetLoaders.audioLoader.getAsset("test-audio.wav");
 	}
