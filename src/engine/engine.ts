@@ -113,7 +113,7 @@ export class Engine{
 			this.gl.uniformMatrix4fv(projectionPosition, false, this.world.getCamera().getMatrix().toFloat32Array());
 			
 			let transformLocation = shader.getUniformLocation("u_view");
-			this.gl.uniformMatrix4fv(transformLocation, false, this.getWorld().getCamera().getWorldMatrix().toFloat32Array());
+			this.gl.uniformMatrix4fv(transformLocation, false, this.getWorld().getCamera().getViewMatrix().toFloat32Array());
 		}
 
 		this.world.render();

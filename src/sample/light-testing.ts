@@ -21,6 +21,7 @@ export class LightTesting extends BaseWorld {
 		
 		this.cube2 = new Cube(engine);
 		this.cube2.transform.position.x = 50;
+		this.cube2.transform.position.z = 50;
 		this.addChild(this.cube2);
 
 		let plane = new Sprite(this.engine, "missing");
@@ -31,6 +32,18 @@ export class LightTesting extends BaseWorld {
 		this.light = new PointLight(this.engine);
 		this.light.color = new Color(255,255,255,20000);
 		this.pointLights.push(this.light);
+
+		let light = new PointLight(this.engine);
+		light.color = new Color(255,255,255,200000);
+		light.transform.position.z = 50;
+		this.pointLights.push(light);
+
+		this.getCamera().transform.position.x = 0;
+		this.getCamera().transform.position.y = 0;
+		this.getCamera().transform.position.z = 100;
+		this.getCamera().transform.rotation.x = 0;
+		this.getCamera().transform.rotation.y = 0;
+		this.getCamera().transform.rotation.z = 0;
 	}
 
 	public update(dt:number){

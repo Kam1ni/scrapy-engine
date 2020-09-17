@@ -1,3 +1,5 @@
+#version 300 es
+
 precision mediump float;
 
 uniform vec4 u_color;
@@ -9,9 +11,11 @@ uniform mat4 u_model;
 uniform vec3 u_point_light_positions[16];
 uniform vec4 u_point_light_color[16];
 
-varying vec2 v_texCoord;
-varying vec3 v_normalVector;
-varying vec3 v_fragPos;
+in vec2 v_texCoord;
+in vec3 v_normalVector;
+in vec3 v_fragPos;
+
+out vec4 fragColor;
 
 void main(){
 	vec3 light = vec3(u_ambient_light);
@@ -35,8 +39,8 @@ void main(){
 	}
 	
 
-	gl_FragColor = vec4(light, 1.0) * u_color * texture2D(u_diffuse, v_texCoord);
-	if (gl_FragColor.w == 0.0){
+	fragColor = vec4(light, 1.0) * u_color * texture(u_diffuse, v_texCoord);
+	if (fragColor.w == 0.0){
 		discard;
 	}
 }

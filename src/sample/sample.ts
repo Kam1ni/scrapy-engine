@@ -13,7 +13,7 @@ let engine = new Engine(canvas);
 engine.init();
 
 
-let world = new OrientationWorld(engine);
+let world = new LightTesting(engine);
 //engine.getCamera().transform.scale.x = 4;
 //engine.getCamera().transform.scale.y = 4;
 //engine.getCamera().transform.scale.z = 4;

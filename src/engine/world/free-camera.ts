@@ -3,6 +3,7 @@ import { Keys, MouseButtons } from "../utils/input";
 import { Vector3 } from "../math/vector3";
 import { ValueInspector } from "../utils/value-inspector";
 import { Engine } from "../engine";
+import { Matrix4x4 } from "../math";
 
 export class FreeCamera extends PerspectiveCamera{
 
@@ -24,9 +25,9 @@ export class FreeCamera extends PerspectiveCamera{
 		
 		let translation = Vector3.zero();
 		if (input.isKeyDown(Keys.A)) {
-			translation.x += speed;
-		}else if (input.isKeyDown(Keys.D)) {
 			translation.x -= speed;
+		}else if (input.isKeyDown(Keys.D)) {
+			translation.x += speed;
 		}
 
 		if (input.isKeyDown(Keys.W)) {
@@ -51,12 +52,12 @@ export class FreeCamera extends PerspectiveCamera{
 			let dx = input.getMouseDiffX() / 1000.0 * dt * this.sensitivityMultiplier;
 			let dy = input.getMouseDiffY() / 1000.0 * dt * this.sensitivityMultiplier;
 
-			rotation.x += dy;
 			rotation.z -= dx;
+			rotation.x -= dy;
 		}
 
-		this.transform.position = this.transform.position.add(translation.rotateZ(-rotation.z));
+		this.transform.position = this.transform.position.add(translation.rotateZ(rotation.z));
 
-		this.worldMatrix = this.transform.getInvertedTransformationMatrix();
+		super.update(dt);
 	}
 }

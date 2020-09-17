@@ -13,17 +13,17 @@ export class Transform {
 		this.scale.copyFrom(transform.scale);
 	}
 
-	public getTransformationMatrix():Matrix4x4 {
+	public getTransformationMatrix(rotationOrder:string = "XYZ"):Matrix4x4 {
 		let translation = Matrix4x4.translation(this.position);
-		let rotation = Matrix4x4.rotationXYZ(this.rotation);
+		let rotation = Matrix4x4.rotation(this.rotation, rotationOrder);
 		let scale = Matrix4x4.scale(this.scale);
 
 		return translation.multiply(rotation).multiply(scale);
 	}
 
-	public getInvertedTransformationMatrix():Matrix4x4 {
+	public getInvertedTransformationMatrix(rotationOrder:string = "XYZ"):Matrix4x4 {
 		let translation = Matrix4x4.translation(this.position);
-		let rotation = Matrix4x4.rotationXYZ(this.rotation);
+		let rotation = Matrix4x4.rotation(this.rotation, rotationOrder);
 		let scale = Matrix4x4.scale(this.scale);
 
 		return rotation.multiply(translation).multiply(scale);

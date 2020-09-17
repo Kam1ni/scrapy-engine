@@ -18,11 +18,11 @@ export abstract class Camera extends GameContainer{
 	public abstract updateMatrix():void;
 
 	public getViewMatrix():Matrix4x4 {
-		return this.getMatrix().multiply(this.worldMatrix);
+		return this.worldMatrix;
 	}
 
 	public update(dt:number):void {
-		this.worldMatrix = this.transform.getInvertedTransformationMatrix();
+		this.worldMatrix = this.transform.getTransformationMatrix("ZXY");
 	}
 
 	public render():void{

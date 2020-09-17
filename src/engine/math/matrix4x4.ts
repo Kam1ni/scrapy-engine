@@ -283,6 +283,19 @@ export class Matrix4x4 {
 		return rx.multiply(ry).multiply(rz);
 	}
 
+	public static rotation(rotation:Vector3, order:string = "XYZ"):Matrix4x4 {
+		let getRotationMatrix = function(axis:string):Matrix4x4{
+			if (axis == "X") {
+				return Matrix4x4.rotationX(rotation.x);
+			}else if (axis == "Y") {
+				return Matrix4x4.rotationY(rotation.y);
+			}else{
+				return Matrix4x4.rotationZ(rotation.z);
+			}
+		}
+		return getRotationMatrix(order[0]).multiply(getRotationMatrix(order[1])).multiply(getRotationMatrix(order[2]));
+	}
+
 
 	public static scale(scale:Vector3):Matrix4x4 {
 		let m = new Matrix4x4();
