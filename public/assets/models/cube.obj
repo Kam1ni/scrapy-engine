@@ -1,6 +1,6 @@
 # Blender v2.90.0 OBJ File: ''
 # www.blender.org
-mtllib cube.mtl.mtl
+mtllib cube.mtl
 o Cube.001
 v -1.000000 1.000000 1.000000
 v -1.000000 -1.000000 -1.000000
