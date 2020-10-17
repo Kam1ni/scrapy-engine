@@ -13,7 +13,7 @@ import { ValueInspector } from "./utils/value-inspector";
 export class Engine{
 	private canvasSize:Vector2;
 	private canvas:HTMLCanvasElement;
-	private _gl:WebGLRenderingContext;
+	private _gl:WebGL2RenderingContext;
 	private running:boolean;
 	private prevFrameTime:number = 0;
 	private clearColor:Color = Color.black();
@@ -24,6 +24,7 @@ export class Engine{
 	public renderBoundingBoxes:boolean = false;
 	public maxFrameTime:number = 250;
 	private hasPointerLock:boolean = false;
+	private frameBuffer:WebGLFramebuffer;
 
 	
 
@@ -35,7 +36,7 @@ export class Engine{
 		this.world = new GameWorld(this);
 	}
 
-	public get gl():WebGLRenderingContext {
+	public get gl():WebGL2RenderingContext {
 		return this._gl;
 	}
 
@@ -105,7 +106,6 @@ export class Engine{
 		}
 		
 		this.world.update(dt);
-		this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 
 		for (let shader of this.staticGraphics.getShaders()){
 			shader.use();
@@ -116,11 +116,92 @@ export class Engine{
 			this.gl.uniformMatrix4fv(transformLocation, false, this.getWorld().getCamera().getViewMatrix().toFloat32Array());
 		}
 
+		this.frameBuffer = this.gl.createFramebuffer();
+		this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, this.frameBuffer);
+
+		let fragColorTexture = this.createFrameBufferTexture(true);
+		this.gl.framebufferTexture2D(this.gl.FRAMEBUFFER, this.gl.COLOR_ATTACHMENT0, this.gl.TEXTURE_2D, fragColorTexture, 0);
+
+		let fragPosTexture = this.createFrameBufferTexture(true);
+		this.gl.framebufferTexture2D(this.gl.FRAMEBUFFER, this.gl.COLOR_ATTACHMENT1, this.gl.TEXTURE_2D, fragPosTexture, 0);
+
+		let normalVectorTexture = this.createFrameBufferTexture(true);
+		this.gl.framebufferTexture2D(this.gl.FRAMEBUFFER, this.gl.COLOR_ATTACHMENT2, this.gl.TEXTURE_2D, normalVectorTexture, 0);
+
+		let depthTexture = this.createDepthTexture()
+		this.gl.framebufferTexture2D(this.gl.FRAMEBUFFER, this.gl.DEPTH_ATTACHMENT, this.gl.TEXTURE_2D, depthTexture, 0);
+
+		let status = this.gl.checkFramebufferStatus(this.gl.FRAMEBUFFER);
+		if (status != this.gl.FRAMEBUFFER_COMPLETE){
+			console.error(status);
+		}
+		
+		this.gl.drawBuffers([
+			this.gl.COLOR_ATTACHMENT0,
+			this.gl.COLOR_ATTACHMENT1,
+			this.gl.COLOR_ATTACHMENT2,
+		])
+		
+		this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 		this.world.render();
+
+		let lightingFrameBuffer = this.gl.createFramebuffer();
+		this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, lightingFrameBuffer);
+
+		let lightIntensityTexture = this.createFrameBufferTexture(false);
+		this.gl.framebufferTexture2D(this.gl.FRAMEBUFFER, this.gl.COLOR_ATTACHMENT0, this.gl.TEXTURE_2D, lightIntensityTexture, 0);
+
+		this.gl.drawBuffers([
+			this.gl.COLOR_ATTACHMENT0
+		]);
+
+		this.gl.blendFunc(this.gl.ONE, this.gl.ONE);
+
+		this.staticGraphics.getAmbientLightRect().render(this.world.ambientLight);
+		let lights = this.world.getPointLights();
+		for (let light of lights) {
+			light.render(fragPosTexture, normalVectorTexture);
+		}
+
+		this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+
+		this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
+		this.staticGraphics.getCombineShaderRect().render(fragColorTexture, lightIntensityTexture);
+
+		this.gl.deleteTexture(fragColorTexture);
+		this.gl.deleteTexture(fragPosTexture);
+		this.gl.deleteTexture(normalVectorTexture);
+		this.gl.deleteTexture(lightIntensityTexture);
+		this.gl.deleteTexture(depthTexture);
+		this.gl.deleteFramebuffer(this.frameBuffer);
+		this.gl.deleteFramebuffer(lightingFrameBuffer);
+
 		this.input.update();
 
 		ValueInspector.update();
+
 		requestAnimationFrame(this.loop.bind(this));
+	}
+
+	private createFrameBufferTexture(isStorage:boolean):WebGLTexture{
+		let tex = this.gl.createTexture();
+		this.gl.bindTexture(this.gl.TEXTURE_2D, tex);
+		if (isStorage){
+			this.gl.pixelStorei(this.gl.UNPACK_FLIP_Y_WEBGL, false);
+			this.gl.texStorage2D(this.gl.TEXTURE_2D, 1, this.gl.RGBA16F, this.getCanvas().width, this.getCanvas().height);
+		}else{
+			this.gl.texImage2D(this.gl.TEXTURE_2D, 0, this.gl.RGBA, this.getCanvas().width, this.getCanvas().height, 0, this.gl.RGBA, this.gl.UNSIGNED_BYTE, null);
+		}
+		this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MIN_FILTER, this.gl.LINEAR);
+		this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MAG_FILTER, this.gl.LINEAR);
+		return tex;
+	}
+
+	private createDepthTexture():WebGLTexture{
+		let tex = this.gl.createTexture();
+		this.gl.bindTexture(this.gl.TEXTURE_2D, tex);
+		this.gl.texImage2D(this.gl.TEXTURE_2D, 0, this.gl.DEPTH_COMPONENT16, this.getCanvas().width, this.getCanvas().height, 0, this.gl.DEPTH_COMPONENT, this.gl.UNSIGNED_SHORT, null);
+		return tex
 	}
 
 	private initGL():void {
@@ -135,7 +216,13 @@ export class Engine{
 		// Enables depth
 		this.gl.enable(this.gl.DEPTH_TEST);
 
+		if (!this.gl.getExtension('EXT_color_buffer_float') == null) {
+			console.log('No EXT_color_buffer_float not supported, this test will fail');
+		}
+
 		this.setClearColor(this.clearColor);
+
+		this.frameBuffer = this.gl.createFramebuffer();
 	}
 
 	private onPointerLockChanged():void {

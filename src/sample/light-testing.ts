@@ -30,9 +30,9 @@ export class LightTesting extends BaseWorld {
 		
 
 		this.light = new PointLight(this.engine);
-		this.light.color = new Color(255,255,255,20000);
+		this.light.color = new Color(255,255,255,200000);
 		this.pointLights.push(this.light);
-
+		
 		let light = new PointLight(this.engine);
 		light.color = new Color(255,255,255,200000);
 		light.transform.position.z = 50;
@@ -44,6 +44,9 @@ export class LightTesting extends BaseWorld {
 		this.getCamera().transform.rotation.x = 0;
 		this.getCamera().transform.rotation.y = 0;
 		this.getCamera().transform.rotation.z = 0;
+
+		//this.ambientLight = new Color(125,125,125,1.0);
+		//this.ambientLight = Color.white();
 	}
 
 	public update(dt:number){

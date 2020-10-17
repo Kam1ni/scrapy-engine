@@ -8,7 +8,6 @@ in vec3 a_normalVector;
 uniform mat4 u_model;
 uniform mat4 u_view;
 uniform mat4 u_projection;
-uniform vec3 u_point_light_positions[16];
 
 out vec2 v_texCoord;
 out vec3 v_normalVector;

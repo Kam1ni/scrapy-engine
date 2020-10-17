@@ -15,4 +15,13 @@ export class PointLight{
 	public constructor(engine:Engine) {
 		this.engine = engine;
 	}
+	
+	render(fragPosTexture:WebGLTexture, normalVectorTexture:WebGLTexture){
+		let rect = this.engine.staticGraphics.getLightingRect();
+
+		let location = this.worldTransform.getTranslation();
+		let intensity = this.color;
+
+		rect.render(location, intensity, fragPosTexture, normalVectorTexture);
+	}
 }

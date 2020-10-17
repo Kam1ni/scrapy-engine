@@ -71,4 +71,8 @@ export class Vector4{
 		let n = this.toArray().map(i=>i.toFixed(2))
 		return `x: ${n[0]}; y: ${n[1]}; z: ${n[2]}; w: ${n[3]}`
 	}
+
+	public toFloat32Array():Float32Array {
+		return new Float32Array(this.toArray());
+	}
 }

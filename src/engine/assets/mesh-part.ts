@@ -72,6 +72,7 @@ export class MeshPart extends Asset {
 	public render(transform:Matrix4x4):void {
 		let shader = this.getShader();
 		shader.use();
+
 		let modelLocation = shader.getUniformLocation("u_model");
 		this.engine.gl.uniformMatrix4fv(modelLocation, false, transform.toFloat32Array());
 

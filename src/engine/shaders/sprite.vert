@@ -10,7 +10,6 @@ uniform mat4 u_projection;
 uniform vec2 u_uvOffset;
 uniform vec2 u_uvSize;
 uniform vec3 u_vertexScale;
-uniform vec3 u_point_light_positions[16];
 
 out vec2 v_texCoord;
 out vec3 v_fragPos;
