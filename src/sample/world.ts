@@ -25,6 +25,7 @@ export class World extends BaseWorld {
 
 	public constructor(engine:Engine) {
 		super(engine);
+		this.ambientLight = new Color(0, 0, 0, 0);
 		this.b3n = new B3N(this.engine);
 		this.b3n.transform.position.y = 0;
 		this.b3n.transform.position.x = 100;
@@ -67,7 +68,8 @@ export class World extends BaseWorld {
 		}
 
 		let matTest = new Cube(this.engine);
-		matTest.transform.position.x = 100;
+		matTest.transform.position.x = 120;
+		matTest.transform.position.y = 80;
 		this.addChild(matTest);
 		this.audio = this.engine.assetLoaders.audioLoader.getAsset("test-audio.wav");
 	}

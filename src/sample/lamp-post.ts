@@ -4,6 +4,7 @@ import { Color } from "@/engine/graphics/color";
 import { Engine } from "@/engine/engine";
 import { BoundingBox } from "@/engine/world/bounding-box";
 import { Vector3 } from "@/engine/math";
+import { ValueInspector } from "@/engine/utils/value-inspector";
 
 export class LampPost extends Sprite {
 	private light:PointLight;
@@ -18,6 +19,7 @@ export class LampPost extends Sprite {
 		this.light.transform.position.y = 64;
 		this.light.transform.position.z = 0;
 		this.light.color = new Color(255,255,255,30000);
+
 		
 		this.pointLights.push(this.light);
 
@@ -29,7 +31,7 @@ export class LampPost extends Sprite {
 	}
 
 	public update(dt:number){
-		this.transform.position.z = Math.sin(new Date().getTime() / 1000) * 100;
+		this.transform.position.x = 50 + Math.sin(new Date().getTime() / 1000) * 50;
 
 		super.update(dt);
 	}

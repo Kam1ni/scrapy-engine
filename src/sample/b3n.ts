@@ -5,6 +5,7 @@ import { AnimatedSprite } from "@/engine/world/animated-sprite";
 import { Engine } from "@/engine/engine";
 import { SimObject } from "@/engine/world/sim-object";
 import { BoundingBox } from "@/engine/world/bounding-box";
+import { ValueInspector } from "@/engine/utils/value-inspector";
 
 export class B3N extends SimObject {
 	public velocity:Vector3 = new Vector3();
@@ -15,6 +16,10 @@ export class B3N extends SimObject {
 
 	public constructor(engine:Engine) {
 		super(engine);
+		let posInspector = new ValueInspector("B3N Pos", ()=>
+			this.transform.position.toString()
+		)
+
 		this.sprite = new AnimatedSprite(engine, "b3n-animated.png", 2,2);
 		this.sprite.transform.position.x = -8;
 		this.addChild(this.sprite);

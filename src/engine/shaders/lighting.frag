@@ -20,7 +20,6 @@ void main(){
 	vec4 normalVector4 = texelFetch(u_normal_vector, coord, 0);
 
 	vec3 fragPos = vec3(fragPos4.x, fragPos4.y, fragPos4.z);
-	vec3 normalVector = vec3(normalVector4.x, normalVector4.y, normalVector4.z);
 
 
 	vec3 lightPos = u_point_light_position;
@@ -32,6 +31,19 @@ void main(){
 	vec3 lightVector = normalize(lightPos - fragPos);
 
 
+	if (normalVector4.x == 2.0) {
+		if (lightDistance < lightIntensity){
+			lightIntensity = ((lightIntensity - lightDistance) / lightIntensity);
+			if (lightIntensity > 0.0){
+				vec3 lightAdd = vec3(lightColor.xyz) * vec3(lightIntensity);
+				lightIntensityOut =  vec4(lightAdd, 1.0);
+				return;
+			}
+		}
+	}
+
+
+	vec3 normalVector = vec3(normalVector4.x, normalVector4.y, normalVector4.z);
 	float normalDiff = max(dot(normalVector, lightVector), 0.0);
 	if (lightDistance < lightIntensity){
 		lightIntensity = ((lightIntensity - lightDistance) / lightIntensity)  * normalDiff;

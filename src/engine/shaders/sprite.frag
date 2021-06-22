@@ -41,5 +41,5 @@ void main(){
 	}
 	// TODO: Updated this
 	fragPos = vec4(v_fragPos, 1.0);
-	normalVector = vec4(1.0);
+	normalVector = vec4(2.0,0.0,0.0, 1.0);
 }
