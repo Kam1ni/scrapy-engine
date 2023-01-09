@@ -16,9 +16,6 @@ export class B3N extends SimObject {
 
 	public constructor(engine:Engine) {
 		super(engine);
-		let posInspector = new ValueInspector("B3N Pos", ()=>
-			this.transform.position.toString()
-		)
 
 		this.sprite = new AnimatedSprite(engine, "b3n-animated.png", 2,2);
 		this.sprite.transform.position.x = -8;

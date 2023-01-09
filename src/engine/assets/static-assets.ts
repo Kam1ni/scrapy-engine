@@ -6,7 +6,6 @@ import { Rect } from "./rect";
 import { Box } from "./box";
 import { MeshShader } from "../graphics/mesh-shader";
 import { SpriteShader } from "../graphics/sprite-shader";
-import { Sprite } from "../world";
 import { Shader } from "../graphics";
 import { LightingShader } from "../graphics/lighting-shader";
 import { LightingRect } from "./lighting-rect";
@@ -14,6 +13,8 @@ import { CombineShader } from "../graphics/combine-shader";
 import { CombineShaderRect } from "./combine-shader-rect";
 import { AmbientLightShader } from "../graphics/ambient-light-shader";
 import { AmbientLightShaderRect } from "./ambient-light-shader-rect";
+import { LineShader } from "../graphics/line-shader";
+import { Line } from "./line";
 
 
 export class StaticAssets {
@@ -25,12 +26,14 @@ export class StaticAssets {
 	private combineShaderRect:CombineShaderRect;
 	private rect:Rect;
 	private box:Box;
+	private line:Line;
 
 	private meshShader:MeshShader;
 	private spriteShader:SpriteShader;
 	private lightingShader:LightingShader;
 	private ambientLightShader:AmbientLightShader;
 	private combineShader:CombineShader;
+	private lineShader:LineShader;
 
 	constructor(engine:Engine) {
 		this.engine = engine;
@@ -39,6 +42,7 @@ export class StaticAssets {
 		this.lightingShader = new LightingShader(this.engine);
 		this.ambientLightRect = new AmbientLightShaderRect(this.engine);
 		this.combineShader = new CombineShader(this.engine);
+		this.lineShader = new LineShader(this.engine);
 
 		this.missingTexture = new MissingTexture(this.engine);
 		this.diffuseTexture = new DiffuseTexture(this.engine);
@@ -47,6 +51,7 @@ export class StaticAssets {
 		this.ambientLightShader = new AmbientLightShader(this.engine);
 		this.box = new Box(engine);
 		this.rect = new Rect(engine);
+		this.line = new Line(engine);
 
 	}
 
@@ -56,6 +61,7 @@ export class StaticAssets {
 		this.lightingShader.load();
 		this.ambientLightShader.load();
 		this.combineShader.load();
+		this.lineShader.load();
 		
 		this.missingTexture.load();
 		this.diffuseTexture.load();
@@ -64,6 +70,7 @@ export class StaticAssets {
 		this.combineShaderRect.load();
 		this.rect.load();
 		this.box.load();
+		this.line.load();
 	}
 
 	public getMissingTexture():Texture {
@@ -76,6 +83,10 @@ export class StaticAssets {
 
 	public getRect():Rect {
 		return this.rect;
+	}
+
+	public getLine():Line {
+		return this.line;
 	}
 
 	public getLightingRect():LightingRect{
@@ -114,8 +125,12 @@ export class StaticAssets {
 		return this.combineShader;
 	}
 
+	public getLineShader():Shader {
+		return this.lineShader;
+	}
+
 	public getShaders():Shader[] {
-		return [this.spriteShader, this.meshShader];
+		return [this.spriteShader, this.meshShader, this.lineShader];
 	}
 
 	public destroy():void {

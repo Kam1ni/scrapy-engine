@@ -66,4 +66,8 @@ export class Color {
 	public static blue():Color {
 		return new Color(0,0,255,255);
 	}
+
+	public static random():Color {
+		return new Color(Math.random() * 255, Math.random() * 255, Math.random() * 255, Math.random() * 255);
+	}
 }
