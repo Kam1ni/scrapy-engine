@@ -35,7 +35,7 @@ export class Vector3 {
 	}
 
 	public sub(v:Vector3):Vector3 {
-		return new Vector3(this.x - v.y, this.y - v.y, this.z - v.z);
+		return new Vector3(this.x - v.x, this.y - v.y, this.z - v.z);
 	}
 
 	public getLength():number {

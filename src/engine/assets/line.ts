@@ -46,7 +46,7 @@ export class Line extends Asset {
 	public render(pos1:Vector3, pos2:Vector3, color:Color){
 		let shader = this.getShader();
 		shader.use();
-		let transform = Matrix4x4.translation(pos1).scale(pos2);
+		let transform = Matrix4x4.translation(pos1).scale(pos2.sub(pos1));
 
 		let colorLocation = shader.getUniformLocation("u_color");
 		this.engine.gl.uniform4fv(colorLocation, color.toFloat32Array());
