@@ -8,6 +8,7 @@ import { ShaderTest } from "./shader-test";
 import { OrientationWorld } from "./orientation-world";
 import { degToRad } from "@/main";
 import { Lines } from "./lines";
+import { CastleWorld } from "./castle-world"
 
 let canvas = document.createElement("canvas");
 document.body.append(canvas);
@@ -15,7 +16,7 @@ let engine = new Engine(canvas);
 engine.init();
 
 
-let world = new Lines(engine);
+let world = new World(engine);
 //engine.getCamera().transform.scale.x = 4;
 //engine.getCamera().transform.scale.y = 4;
 //engine.getCamera().transform.scale.z = 4;

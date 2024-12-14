@@ -41,10 +41,8 @@ let config = {
 		path: path.resolve(__dirname, "dist"),
 	},
 	devServer: {
-		contentBase: path.join(__dirname, "dist"),
 		compress: true,
 		port: 8080,
-		writeToDisk: true
 	},
 	target: "node"
 };
@@ -53,9 +51,9 @@ module.exports = (env, argv) => {
 	if (argv.mode == "development"){
 		config.entry.sample = "./src/sample/sample.ts";
 		config.plugins=[
-			new CopyPlugin([
+			new CopyPlugin({patterns: [
 				{from: path.resolve(__dirname, "public"), to: path.resolve(__dirname, "dist")}
-			])
+			]})
 		],
 		config.target = undefined;
 		config.output.library = undefined;
