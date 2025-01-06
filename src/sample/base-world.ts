@@ -13,7 +13,6 @@ export abstract class BaseWorld extends GameWorld {
 		//cam.transform.rotation.x = .5;
 		//cam.transform.rotation.y = Math.PI;
 		cam.speedMultiplier = .1;
-		cam.sensitivityMultiplier = .5;
 		this.setCamera(cam);
 		this.ambientLight = new Color(25,25,25,255);
 	}

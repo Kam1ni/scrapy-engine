@@ -8,7 +8,6 @@ export abstract class Camera extends GameContainer{
 
 	constructor(engine:Engine) {
 		super(engine);
-		this.transform.rotation.x;
 	}
 
 	public getMatrix():Matrix4x4 {
@@ -22,7 +21,7 @@ export abstract class Camera extends GameContainer{
 	}
 
 	public update(dt:number):void {
-		this.worldMatrix = this.transform.getTransformationMatrix("ZXY");
+		this.worldMatrix = this.transform.getTransformationMatrix();
 	}
 
 	public render():void{

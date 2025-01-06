@@ -41,9 +41,9 @@ export class LightTesting extends BaseWorld {
 		this.getCamera().transform.position.x = 0;
 		this.getCamera().transform.position.y = 0;
 		this.getCamera().transform.position.z = 100;
-		this.getCamera().transform.rotation.x = 0;
-		this.getCamera().transform.rotation.y = 0;
-		this.getCamera().transform.rotation.z = 0;
+		// this.getCamera().transform.rotation.x = 0;
+		// this.getCamera().transform.rotation.y = 0;
+		// this.getCamera().transform.rotation.z = 0;
 
 		//this.ambientLight = new Color(125,125,125,1.0);
 		//this.ambientLight = Color.white();
@@ -59,9 +59,9 @@ export class LightTesting extends BaseWorld {
 		this.cube.transform.position.x = Math.sin(date) * 50;
 		this.cube.transform.position.y = Math.cos(date) * 50;
 
-		this.cube2.transform.rotation.x = Math.sin(date) * Math.PI;
-		this.cube2.transform.rotation.y = Math.sin(date) * Math.PI / 2;
-		this.cube2.transform.rotation.z = Math.sin(date) * Math.PI / 4;
+		// this.cube2.transform.rotation.x = Math.sin(date) * Math.PI;
+		// this.cube2.transform.rotation.y = Math.sin(date) * Math.PI / 2;
+		// this.cube2.transform.rotation.z = Math.sin(date) * Math.PI / 4;
 
 		super.update(dt);
 	}

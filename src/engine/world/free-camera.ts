@@ -1,14 +1,17 @@
 import { PerspectiveCamera } from "./perspective-camera";
 import { Keys, MouseButtons } from "../utils/input";
 import { Vector3 } from "../math/vector3";
-import { ValueInspector } from "../utils/value-inspector";
 import { Engine } from "../engine";
-import { Matrix4x4 } from "../math";
+import { Quaternion } from "../math/quaternion";
+import { degToRad, radToDeg } from "../math";
+
 
 export class FreeCamera extends PerspectiveCamera{
-
 	public speedMultiplier:number = 1;
-	public sensitivityMultiplier:number = 1;
+	public sensitivityMultiplier:number = 5;
+
+	public pitch:number = 90;
+	public yaw:number = 0;
 
 	public constructor(e:Engine, fovDeg?:number){
 		super(e, fovDeg);
@@ -45,18 +48,19 @@ export class FreeCamera extends PerspectiveCamera{
 			this.engine.requestPointerLock();
 		}
 
-
-		let rotation = this.transform.rotation;
 		if (this.engine.isPointerLocked() || input.isMouseButtonDown(MouseButtons.Middle)) {
-			let dx = input.getMouseDiffX() / 1000.0 * dt * this.sensitivityMultiplier;
-			let dy = input.getMouseDiffY() / 1000.0 * dt * this.sensitivityMultiplier;
+			let dx = input.getMouseDiffX() / 1000.0 * dt;
+			let dy = input.getMouseDiffY() / 1000.0 * dt;
 
-			rotation.z -= dx;
-			rotation.x -= dy;
+			this.yaw += dx * this.sensitivityMultiplier;
+			this.pitch -= dy * this.sensitivityMultiplier;
+			this.pitch = Math.min(180, Math.max(0, this.pitch))
 		}
 
-		this.transform.position = this.transform.position.add(translation.rotateZ(rotation.z));
-
+		
+		this.transform.rotation = Quaternion.multiply(Quaternion.fromEuler(new Vector3(0,0,-this.pitch)), Quaternion.fromEuler(new Vector3(0, this.yaw, 0)));
+		this.transform.position = this.transform.position.add(translation.rotateZ(degToRad(-this.yaw)));
+		console.log(this.transform.position.toString())
 		super.update(dt);
 	}
 }

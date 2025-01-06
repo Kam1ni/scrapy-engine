@@ -1,7 +1,6 @@
 export class Vector2 {
 	public x:number;
 	public y:number;
-	public z:number;
 
 	constructor(x:number = 0, y:number = 0) {
 		this.x = x;
@@ -29,6 +28,20 @@ export class Vector2 {
 		return new Vector2(this.x + v.x, this.y + v.y);
 	}
 
+	public getUniform():Vector2 {
+		if (this.x == 0 && this.y == 0){
+			return new Vector2(1,0);
+		}
+		let length = this.getLength();
+		let result = new Vector2(this.x / length, this.y / length);
+		return result;
+	}
+
+	public getLength():number {
+		let num = this.x * this.x + this.y * this.y;
+		return Math.sqrt(num);
+	}
+
 	public sub(v:Vector2):Vector2 {
 		return new Vector2(this.x - v.y, this.y - v.y);
 	}
@@ -46,3 +59,5 @@ export class Vector2 {
 		return `x: ${n[0]}; y: ${n[1]}`
 	}
 }
+
+(window as any).Vector2 = Vector2

@@ -6,7 +6,7 @@ export class Vector4{
 	public z:number;
 	public w:number;
 
-	public constructor(x:number = 0, y:number = 0, z:number = 0, w:number) {
+	public constructor(x:number = 0, y:number = 0, z:number = 0, w:number = 0) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
@@ -43,6 +43,21 @@ export class Vector4{
 	public static zero():Vector4 {
 		return new Vector4(0,0,0, 0);
 	}
+
+	public getLength():number {
+		let num = this.x * this.x + this.y * this.y + this.z * this.z + this.w * this.w;
+		return Math.sqrt(num);
+	}
+
+	public getUniform():Vector4 {
+		if (this.x == 0 && this.y == 0 && this.z == 0, this.w == 0){
+			return new Vector4(1,0,0, 0);
+		}
+		let length = this.getLength();
+		let result = new Vector4(this.x / length, this.y / length, this.z / length, this.w / length);
+		return result;
+	}
+
 
 	public multiplyAndAddToOneValue(b:Vector4):number {
 		return Vector4.multiplyAndAddToOneValue(this, b);

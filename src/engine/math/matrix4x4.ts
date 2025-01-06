@@ -1,8 +1,9 @@
+import { Quaternion } from "./quaternion";
 import { Vector3 } from "./vector3";
 import { Vector4 } from "./vector4";
 
 export class Matrix4x4 {
-	protected data:number[] = [];
+	public data:number[] = [];
 
 	protected constructor() {
 		this.data = [
@@ -294,6 +295,31 @@ export class Matrix4x4 {
 			}
 		}
 		return getRotationMatrix(order[0]).multiply(getRotationMatrix(order[1])).multiply(getRotationMatrix(order[2]));
+	}
+
+	public static quaternionRotation(q:Quaternion):Matrix4x4{
+		let ww = q.w * q.w; 
+		let xx = q.x * q.x;
+		let yy = q.y * q.y;
+		let zz = q.z * q.z;
+		let wx = q.w * q.x;
+		let wy = q.w * q.y; 
+		let wz = q.w * q.z;
+		let xy = q.x * q.y;
+		let xz = q.x * q.z; 
+		let yz = q.y * q.z;
+	
+		let mat = Matrix4x4.identity();
+		mat.data[0] = 1 - 2 * (yy + zz);
+		mat.data[1] = 2 * (xy - wz);
+		mat.data[2] = 2 * (xz + wy);
+		mat.data[4] = 2 * (xy + wz);
+		mat.data[5] = 1 - 2 * (xx + zz);
+		mat.data[6] = 2 * (yz - wx);
+		mat.data[8] = 2 * (xz - wy);
+		mat.data[9] = 2 * (yz + wx);
+		mat.data[10] = 1 - 2 * (xx + yy);
+		return mat;
 	}
 
 

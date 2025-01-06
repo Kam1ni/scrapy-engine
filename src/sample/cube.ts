@@ -10,7 +10,7 @@ export class Cube extends SimObject {
 		this.transform.scale.x = 8
 		this.transform.scale.y = 8
 		this.transform.scale.z = 8
-		this.mesh = new Object3D(engine, "cube");
+		this.mesh = new Object3D(engine, "coordinates-block");
 		this.addChild(this.mesh);
 	}
 }

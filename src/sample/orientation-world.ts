@@ -14,7 +14,6 @@ export class OrientationWorld extends GameWorld {
 		let camera = new FreeCamera(this.engine, 90);
 		this.setCamera(camera);
 		camera.speedMultiplier = .1;
-		camera.sensitivityMultiplier = .5;
 		camera.transform.position.y = -10;
 
 		this.freeCam = camera;

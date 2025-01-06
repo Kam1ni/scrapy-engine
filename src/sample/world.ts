@@ -25,7 +25,7 @@ export class World extends BaseWorld {
 
 	public constructor(engine:Engine) {
 		super(engine);
-		this.ambientLight = new Color(0, 0, 0, 0);
+		this.ambientLight = new Color(100, 100, 100, 0);
 		this.b3n = new B3N(this.engine);
 		this.b3n.transform.position.y = 0;
 		this.b3n.transform.position.x = 100;
@@ -83,7 +83,12 @@ export class World extends BaseWorld {
 		if (this.engine.input.getMouseScroll()) {
 			let cam = this.getCamera() as PerspectiveCamera;
 			cam.fovDeg += (this.engine.input.getMouseScroll()/10);
-			console.log(cam.fovDeg);
+			if (cam.fovDeg > 170) {
+				cam.fovDeg = 170;
+			}
+			if (cam.fovDeg < 10) {
+				cam.fovDeg = 10;
+			}
 			cam.updateMatrix();
 		}
 

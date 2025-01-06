@@ -42,6 +42,16 @@ export class Vector3 {
 		let num = this.x * this.x + this.y * this.y + this.z * this.z;
 		return Math.sqrt(num);
 	}
+
+	public getUniform():Vector3 {
+		if (this.x == 0 && this.y == 0 && this.z == 0){
+			return new Vector3(1,0,0);
+		}
+		let length = this.getLength();
+		let result = new Vector3(this.x / length, this.y / length, this.z / length);
+		return result;
+	}
+
 	
 	public rotateX(angle:number):Vector3 {
 		let m = Matrix4x4.rotationX(angle);
@@ -77,3 +87,5 @@ export class Vector3 {
 		return `x: ${n[0]}; y: ${n[1]}; z: ${n[2]}`
 	}
 }
+
+(window as any).Vector3 = Vector3
