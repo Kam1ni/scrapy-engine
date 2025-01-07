@@ -1,4 +1,3 @@
-import { Transform } from "../math/transform";
 import { Matrix4x4 } from "../math/matrix4x4";
 import { Engine } from "../engine";
 import { GameContainer } from "./game-container";
