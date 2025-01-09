@@ -36,7 +36,7 @@ let config = {
 	},
 	output: {
 		filename: "[name].js",
-		library: "atrium-react-plugin-beta",
+		library: undefined,
 		libraryTarget: "commonjs2",
 		path: path.resolve(__dirname, "dist"),
 	},
