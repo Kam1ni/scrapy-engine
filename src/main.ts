@@ -26,6 +26,7 @@ export {
 	Vector2,
 	Vector3,
 	Vector4,
+	Quaternion,
 } from "./engine/math";
 
 export {
