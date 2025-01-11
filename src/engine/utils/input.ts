@@ -83,7 +83,7 @@ export class Input {
 		if (this.ignoreInputs) return true;
 		if (this.autoIgnoreInputs) {
 			if (document.activeElement){
-				return ["input", "select", "textarea", "button"].indexOf(document.activeElement.tagName) != -1
+				return ["input", "select", "textarea", "button"].indexOf(document.activeElement.tagName.toLowerCase()) != -1
 			}
 		}
 		return false;
