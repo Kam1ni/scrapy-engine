@@ -28,6 +28,9 @@ export class Input {
 	private newTouches:ScrapyTouch[] = [];
 	private releasedTouches:ScrapyTouch[] = [];
 
+	public ignoreInputs:boolean = false;
+	public autoIgnoreInputs:boolean = true;
+
 	constructor(engine:Engine) {
 		this.engine = engine;
 	}
@@ -49,32 +52,45 @@ export class Input {
 	}
 
 	private onKeyDown(event:KeyboardEvent):void {
+		if (this.shouldIgnoreInputs()) return;
 		event.preventDefault();
 		Input.addToArray(this.keysDown, event.code);
 		Input.addToArray(this.keysPressed, event.code);
 	}
 
 	private onKeyUp(event:KeyboardEvent):void {
+		if (this.shouldIgnoreInputs()) return;
 		event.preventDefault();
 		Input.removeFromArray(this.keysDown, event.code);
 		Input.addToArray(this.keysReleased,  event.code);
 	}
 
 	private onMouseButtonDown(event:MouseEvent):void {
+		if (this.shouldIgnoreInputs()) return;
 		event.preventDefault();
 		Input.addToArray(this.mouseButtonsDown, event.button);
 		Input.addToArray(this.mouseButtonsPressed, event.button);
 	}
 
 	private onMouseButtonUp(event:MouseEvent):void {
+		if (this.shouldIgnoreInputs()) return;
 		event.preventDefault();
 		Input.removeFromArray(this.mouseButtonsDown, event.button);
 		Input.addToArray(this.mouseButtonsReleased, event.button);
 	}
 
+	private shouldIgnoreInputs():boolean {
+		if (this.ignoreInputs) return true;
+		if (this.autoIgnoreInputs) {
+			if (document.activeElement){
+				return ["input", "select", "textarea", "button"].indexOf(document.activeElement.tagName) != -1
+			}
+		}
+		return false;
+	}
+
 	private onMouseMove(event:MouseEvent):void {
 		event.preventDefault();
-		let currentPos = this.mousePos;
 		this.mousePos = {
 			x:event.clientX,
 			y:event.clientY
@@ -142,6 +158,7 @@ export class Input {
 
 
 	public update():void {
+		if (this.ignoreInputs) return;
 		this.keysPressed = [];
 		this.keysReleased = [];
 		this.mouseButtonsPressed = [];
