@@ -19,8 +19,8 @@ export class TextureLoader extends AssetLoader<Texture>{
 	protected loadAsset(asset: string): ILoadedAsset<Texture> {
 		let texture = new Texture(this.engine, asset, this.urlConverter(asset, this.engine.assetLoaders.getBaseUrl()));
 		let result = {
-			asset:texture,
-			refCount:0,
+			asset: texture,
+			refCount: 0,
 		};
 		texture.load().then(()=> {
 			this.emit(`/loaded/${asset}`);

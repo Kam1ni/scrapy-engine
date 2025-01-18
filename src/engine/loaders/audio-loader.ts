@@ -24,8 +24,8 @@ export class AudioLoader extends AssetLoader<Audio>{
 			this.emit(`/loaded/${asset}`);
 		});
 		return {
-			asset:audio,
-			refCount:0
+			asset: audio,
+			refCount: 0
 		};
 	}
 

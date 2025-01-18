@@ -91,7 +91,7 @@ export abstract class GameContainer {
 		return lights;
 	}
 
-	
+
 	private updateWorldMatrix(parentWorldMatrix:Matrix4x4):void {
 		if (parentWorldMatrix) {
 			this.worldMatrix = parentWorldMatrix.multiply(this.localMatrix);

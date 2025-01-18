@@ -6,6 +6,6 @@ import { Engine } from "../engine";
 export class MeshShader extends Shader{
 
 	public constructor(engine:Engine){
-		super(engine, vertexSrc, fragmentSrc, "MeshShader")
+		super(engine, vertexSrc, fragmentSrc, "MeshShader");
 	}
 }

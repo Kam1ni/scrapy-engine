@@ -1,7 +1,6 @@
 import { Engine } from "../engine";
 import { Color } from "../graphics/color";
 import { SimObject } from "./sim-object";
-import { Vector2 } from "../math";
 
 export class Rect extends SimObject{
 	private width:number;

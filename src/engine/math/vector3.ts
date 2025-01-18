@@ -52,7 +52,7 @@ export class Vector3 {
 		return result;
 	}
 
-	
+
 	public rotateX(angle:number):Vector3 {
 		let m = Matrix4x4.rotationX(angle);
 		let v4 = new Vector4(this.x, this.y, this.z, 0);
@@ -83,9 +83,9 @@ export class Vector3 {
 	}
 
 	public toString():string{
-		let n = this.toArray().map(i=>i.toFixed(2))
-		return `x: ${n[0]}; y: ${n[1]}; z: ${n[2]}`
+		let n = this.toArray().map(i=>i.toFixed(2));
+		return `x: ${n[0]}; y: ${n[1]}; z: ${n[2]}`;
 	}
 }
 
-(window as any).Vector3 = Vector3
+(window as any).Vector3 = Vector3;

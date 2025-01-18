@@ -1,18 +1,12 @@
+const typescriptObj = require("@typescript-eslint/eslint-plugin");
+const typescriptParser = require("@typescript-eslint/parser");
+
 module.exports = {
-	root: true,
-	env: {
-		es6: true
-	},
 	rules: {
 		indent: ["error", "tab"],
 		semi: ["error", "always"],
 		quotes: ["error", "double", {avoidEscape: true, allowTemplateLiterals: true}],
 		"no-irregular-whitespace": ["error", {skipStrings: true}],
-		"max-len": ["warn", 180, {
-			ignorePattern: "^import |^export"
-		}],
-		"max-lines": ["warn", 500],
-		"max-lines-per-function": ["warn", 40],
 		"no-return-await": ["warn"],
 		"no-lonely-if": ["warn"],
 		"no-dupe-else-if": ["warn"],
@@ -27,13 +21,32 @@ module.exports = {
 			beforeColon: false,
 			afterColon: true,
 			mode: "strict"
-		}]
+		}],
+		"no-unused-vars":"off",
+		"@typescript-eslint/no-unused-vars":[
+			"warn", 
+			{
+				"argsIgnorePattern":".*",
+				"caughtErrorsIgnorePattern":".*",
+				"varsIgnorePattern": "^_",
+			}
+		]
 	},
-	parserOptions: {
-		sourceType:"module",
-		parser: "@typescript-eslint/parser"
+	languageOptions:{
+		parser:typescriptParser,
+		parserOptions: {
+			projectService:true,
+			sourceType:"module",
+		},
 	},
-	plugins: [
-		"@typescript-eslint"
+	plugins: {
+		"@typescript-eslint":typescriptObj
+	},
+	ignores:[
+		"node_modules/*",
+		"dist/*"
+	],
+	files:[
+		"src/**/*.ts",
 	]
 };

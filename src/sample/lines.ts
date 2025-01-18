@@ -1,6 +1,5 @@
 import { Color, Engine, OrthographicCamera, Vector3 } from "@/main";
 import { BaseWorld } from "./base-world";
-import { B3N } from "./b3n";
 import { Line } from "@/engine/world/line";
 import { Particle } from "./particle";
 
@@ -16,7 +15,7 @@ export class Lines extends BaseWorld {
 		this.setCamera(cam);
 
 		this.ambientLight = Color.white();
-		
+
 		let maxX = this.engine.getCanvas().width / 2 / 10;
 		let maxY = this.engine.getCanvas().height / 2 / 10;
 		let minX = -maxX;

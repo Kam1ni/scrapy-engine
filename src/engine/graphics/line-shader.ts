@@ -6,7 +6,7 @@ import { Engine } from "../engine";
 
 export class LineShader extends Shader {
 	public constructor(engine:Engine) {
-		super(engine, vertexSrc, fragmentSrc, "LineShader")
+		super(engine, vertexSrc, fragmentSrc, "LineShader");
 	}
 
 }

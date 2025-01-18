@@ -6,6 +6,6 @@ import { Engine } from "../engine";
 
 export class SpriteShader extends Shader {
 	public constructor(engine:Engine){
-		super(engine, vertexSrc, fragmentSrc, "SpriteShader")
+		super(engine, vertexSrc, fragmentSrc, "SpriteShader");
 	}
 }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Engine } from "@/engine/engine";
 import { SimObject } from "@/engine/world/sim-object";
 import { SimpleRect } from "./simple-rect";
@@ -8,7 +9,7 @@ import { ShaderTest } from "./shader-test";
 import { OrientationWorld } from "./orientation-world";
 import { degToRad } from "@/main";
 import { Lines } from "./lines";
-import { CastleWorld } from "./castle-world"
+import { CastleWorld } from "./castle-world";
 
 let canvas = document.createElement("canvas");
 document.body.append(canvas);

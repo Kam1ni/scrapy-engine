@@ -1,9 +1,9 @@
 import { Asset } from "./asset";
 import { Vector3, Matrix4x4 } from "../math";
 import { GLBuffer, Color, Shader } from "../graphics";
-import { AttributeInfo } from "../graphics/gl-buffer";
 import { Texture } from "./texture";
 import { Engine } from "../engine";
+import { GlBufferAttributeInfo } from "../graphics/gl-buffer-attribute-info";
 
 export class Box extends Asset {
 	protected buffer:GLBuffer;
@@ -23,15 +23,15 @@ export class Box extends Asset {
 
 		this.buffer = new GLBuffer(this.engine, 5, gl.FLOAT, gl.ARRAY_BUFFER, gl.LINES);
 		let positionAttribute = shader.getAttributeLocation("a_position");
-		let info = new AttributeInfo();
+		let info = new GlBufferAttributeInfo();
 		info.location = positionAttribute;
 		info.size = 3;
 		info.offset = 0;
 		this.buffer.addAttributeLocation(info);
 
-		
+
 		let textCoordAttribute = shader.getAttributeLocation("a_texCoord");
-		info = new AttributeInfo();
+		info = new GlBufferAttributeInfo();
 		info.location = textCoordAttribute;
 		info.size = 2;
 		info.offset = 3;
@@ -78,7 +78,7 @@ export class Box extends Asset {
 		this.buffer.pushBackData(vertices);
 		this.buffer.upload();
 		this.buffer.unbind();
-		
+
 		this.loaded = true;
 	}
 

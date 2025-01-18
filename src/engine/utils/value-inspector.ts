@@ -43,7 +43,7 @@ export class ValueInspector{
 	private createLabel():void{
 		this.labelEl = document.createElement("span");
 		this.labelEl.innerHTML = this.label;
-		this.el.append(this.labelEl)
+		this.el.append(this.labelEl);
 	}
 
 	private createValue():void{
@@ -53,18 +53,18 @@ export class ValueInspector{
 
 	private static createContainer():void{
 		if (ValueInspector.container) return;
-		console.log("CREATING CONTAINER")
+		console.log("CREATING CONTAINER");
 		ValueInspector.container = document.createElement("div");
 		ValueInspector.container.style.position = "absolute";
-		ValueInspector.container.style.top = "0"
-		ValueInspector.container.style.left = "0"
+		ValueInspector.container.style.top = "0";
+		ValueInspector.container.style.left = "0";
 		ValueInspector.container.style.width = "100vw";
 		ValueInspector.container.style.color = "white";
 		ValueInspector.container.style.backgroundColor = "black";
 		ValueInspector.container.style.padding = "5px";
 		ValueInspector.container.style.fontFamily = "sans-serif";
 		ValueInspector.container.style.fontSize = "20px";
-		ValueInspector.container.className = "scrapy-value-inspector-container"
+		ValueInspector.container.className = "scrapy-value-inspector-container";
 		document.body.append(ValueInspector.container);
 	}
 

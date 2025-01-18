@@ -25,7 +25,7 @@ export abstract class AssetLoader<T extends Asset> extends EventEmitter{
 			asset = this.loadAsset(assetName);
 			this.assets[assetName] = asset;
 		}
-		
+
 		asset.refCount++;
 		return asset.asset;
 	}

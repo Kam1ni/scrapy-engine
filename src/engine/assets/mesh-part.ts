@@ -1,10 +1,10 @@
 import { Engine } from "../engine";
-import { GLBuffer, AttributeInfo } from "../graphics/gl-buffer";
+import { GLBuffer } from "../graphics/gl-buffer";
 import { Asset } from "./asset";
-import { Color } from "../graphics/color";
 import { Matrix4x4 } from "../math/matrix4x4";
 import { Material } from "./material";
 import { Shader } from "../graphics";
+import { GlBufferAttributeInfo } from "../graphics/gl-buffer-attribute-info";
 
 export class MeshPart extends Asset {
 	protected buffer:GLBuffer;
@@ -31,21 +31,21 @@ export class MeshPart extends Asset {
 		this.buffer.bind();
 
 		let positionAttribute = shader.getAttributeLocation("a_position");
-		let info = new AttributeInfo();
+		let info = new GlBufferAttributeInfo();
 		info.location = positionAttribute;
 		info.size = 3;
 		info.offset = 0;
 		this.buffer.addAttributeLocation(info);
 
 		let textCoordAttribute = shader.getAttributeLocation("a_texCoord");
-		info = new AttributeInfo();
+		info = new GlBufferAttributeInfo();
 		info.location = textCoordAttribute;
 		info.size = 2;
 		info.offset = 3;
 		this.buffer.addAttributeLocation(info);
 
 		let normalAttribute = shader.getAttributeLocation("a_normalVector");
-		info = new AttributeInfo();
+		info = new GlBufferAttributeInfo();
 		info.location = normalAttribute;
 		info.size = 3;
 		info.offset = 5;

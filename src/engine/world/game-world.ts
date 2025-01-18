@@ -1,9 +1,6 @@
 import { Engine } from "../engine";
 import { GameContainer } from "./game-container";
 import { Color } from "../graphics/color";
-import { Vector3 } from "../math/vector3";
-import { Vector4 } from "../math/vector4";
-import { Shader } from "../graphics/shader";
 import { Camera } from "./camera";
 import { OrthographicCamera } from "./orthographic-camera";
 
@@ -31,5 +28,5 @@ export class GameWorld extends GameContainer {
 	public render():void {
 		super.render();
 	}
-	
-} 
+
+}

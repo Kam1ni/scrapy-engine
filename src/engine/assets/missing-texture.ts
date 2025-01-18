@@ -28,7 +28,7 @@ export class MissingTexture extends Texture{
 	public bind():void {
 		this.engine.gl.bindTexture(this.engine.gl.TEXTURE_2D, this.handle);
 	}
-	
+
 	public unbind():void {
 		this.engine.gl.bindTexture(this.engine.gl.TEXTURE_2D, undefined);
 	}

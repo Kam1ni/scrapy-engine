@@ -6,7 +6,7 @@ import { Color } from "../graphics/color";
 export class AnimatedSprite extends Sprite {
 	private rows:number = 1;
 	private cols:number = 1;
-	private renderedLocation:{x:number, y:number} = {x:0, y:0};
+	private renderedLocation:{x:number, y:number} = {x: 0, y: 0};
 	private uvOffset:Vector2 = Vector2.zero();
 	private uvSize:Vector2 = Vector2.one();
 
@@ -26,8 +26,8 @@ export class AnimatedSprite extends Sprite {
 
 	public getRenderedLocation():{x:number, y:number} {
 		return {
-			x:this.renderedLocation.x,
-			y:this.renderedLocation.y
+			x: this.renderedLocation.x,
+			y: this.renderedLocation.y
 		};
 	}
 

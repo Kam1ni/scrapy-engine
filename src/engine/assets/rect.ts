@@ -1,11 +1,12 @@
 import { Asset } from "./asset";
 import { Color } from "../graphics/color";
-import { GLBuffer, AttributeInfo } from "../graphics/gl-buffer";
+import { GLBuffer } from "../graphics/gl-buffer";
 import { Engine } from "../engine";
 import { Matrix4x4 } from "../math/matrix4x4";
 import { Texture } from "./texture";
 import { Shader } from "../graphics";
 import { Vector2 } from "../math";
+import { GlBufferAttributeInfo } from "../graphics/gl-buffer-attribute-info";
 
 export class Rect extends Asset{
 	private buffer:GLBuffer;
@@ -28,20 +29,20 @@ export class Rect extends Asset{
 		let shader = this.getShader();
 		this.buffer = new GLBuffer(this.engine, 5);
 		let positionAttribute = shader.getAttributeLocation("a_position");
-		let info = new AttributeInfo();
+		let info = new GlBufferAttributeInfo();
 		info.location = positionAttribute;
 		info.size = 3;
 		info.offset = 0;
 		this.buffer.addAttributeLocation(info);
 
 		let textCoordAttribute = shader.getAttributeLocation("a_texCoord");
-		info = new AttributeInfo();
+		info = new GlBufferAttributeInfo();
 		info.location = textCoordAttribute;
 		info.size = 2;
 		info.offset = 3;
 		this.buffer.addAttributeLocation(info);
 
-		
+
 		let vertices = [
 			0, 0, 0, 0, 1,
 			0, 1, 0, 0, 0,
@@ -55,11 +56,11 @@ export class Rect extends Asset{
 		this.buffer.pushBackData(vertices);
 		this.buffer.upload();
 		this.buffer.unbind();
-		
+
 		this.engine.staticGraphics.getDiffuseTexture().bind();
 		gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1,1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([255,255,255,255]));
 		this.engine.staticGraphics.getDiffuseTexture().unbind();
-		
+
 		this.loaded = true;
 	}
 
@@ -76,7 +77,7 @@ export class Rect extends Asset{
 
 		let modelLocation = shader.getUniformLocation("u_model");
 		this.engine.gl.uniformMatrix4fv(modelLocation, false, transform.toFloat32Array());
-		
+
 		texture.activateAndBind(0);
 		let diffuseLocation = shader.getUniformLocation("u_diffuse");
 		this.engine.gl.uniform1i(diffuseLocation, 0);

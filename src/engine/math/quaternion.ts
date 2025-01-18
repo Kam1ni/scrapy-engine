@@ -23,8 +23,8 @@ export class Quaternion {
 		let result = new Quaternion();
 		result.w = q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z;
 		result.x = q1.w * q2.x + q1.x * q2.w + q1.y * q2.z - q1.z * q2.y;
-        result.y = q1.w * q2.y - q1.x * q2.z + q1.y * q2.w + q1.z * q2.x;
-        result.z = q1.w * q2.z + q1.x * q2.y - q1.y * q2.x + q1.z * q2.w;
+		result.y = q1.w * q2.y - q1.x * q2.z + q1.y * q2.w + q1.z * q2.x;
+		result.z = q1.w * q2.z + q1.x * q2.y - q1.y * q2.x + q1.z * q2.w;
 		return result;
 	}
 
@@ -53,31 +53,31 @@ export class Quaternion {
 		let result = new Quaternion();
 
 		switch (order) {
-			case 'XYZ':
-				result.w = cr * cp * cy + sr * sp * sy;
-				result.x = sr * cp * cy - cr * sp * sy;
-				result.y = cr * sp * cy + sr * cp * sy;
-				result.z = cr * cp * sy - sr * sp * cy;
-				break;
-			case 'YXZ':
-				result.w = cr * cp * cy + sr * sp * sy;
-				result.x = sr * cp * cy + cr * sp * sy;
-				result.y = cr * sp * cy - sr * cp * sy;
-				result.z = cr * cp * sy - sr * sp * cy;
-				break;
-			case 'ZYX':
-				result.w = cr * cp * cy + sr * sp * sy;
-				result.x = sr * cp * cy - cr * sp * sy;
-				result.y = cr * sp * cy - sr * cp * sy;
-				result.z = cr * cp * sy + sr * sp * cy;
-				break;
-			default:
-				throw new Error('Invalid rotation order');
+		case "XYZ":
+			result.w = cr * cp * cy + sr * sp * sy;
+			result.x = sr * cp * cy - cr * sp * sy;
+			result.y = cr * sp * cy + sr * cp * sy;
+			result.z = cr * cp * sy - sr * sp * cy;
+			break;
+		case "YXZ":
+			result.w = cr * cp * cy + sr * sp * sy;
+			result.x = sr * cp * cy + cr * sp * sy;
+			result.y = cr * sp * cy - sr * cp * sy;
+			result.z = cr * cp * sy - sr * sp * cy;
+			break;
+		case "ZYX":
+			result.w = cr * cp * cy + sr * sp * sy;
+			result.x = sr * cp * cy - cr * sp * sy;
+			result.y = cr * sp * cy - sr * cp * sy;
+			result.z = cr * cp * sy + sr * sp * cy;
+			break;
+		default:
+			throw new Error("Invalid rotation order");
 		}
 		return result;
 	}
 
 	public toString(precision:number = 10):string{
-		return `w:${this.w.toFixed(precision)}, x:${this.x.toFixed(precision)}, y:${this.y.toFixed(precision)}, z:${this.z.toFixed(precision)}`
+		return `w:${this.w.toFixed(precision)}, x:${this.x.toFixed(precision)}, y:${this.y.toFixed(precision)}, z:${this.z.toFixed(precision)}`;
 	}
 }

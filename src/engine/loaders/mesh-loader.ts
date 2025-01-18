@@ -3,7 +3,6 @@ import { Mesh } from "../assets/mesh";
 import { Engine } from "../engine";
 import { Vector3 } from "../math/vector3";
 import { MeshPart } from "../assets/mesh-part";
-import { Material } from "../assets/material";
 
 export type MeshNameToObjConverter = (engine:Engine, name:string)=>Promise<string>;
 
@@ -44,8 +43,8 @@ export class MeshLoader extends AssetLoader<Mesh>{
 		});
 
 		return {
-			asset:mesh,
-			refCount:0
+			asset: mesh,
+			refCount: 0
 		};
 	}
 
@@ -66,23 +65,23 @@ export class MeshLoader extends AssetLoader<Mesh>{
 				normals.push(this.decodeVertexNormalPart(line));
 			}
 		}
-	
+
 		return {
 			vertices,
 			uvCoords,
 			normals
 		};
 	}
-	
+
 	private getLineType(line:string):LineType {
 		if (line.match(/^v\s/)) {
 			return LineType.VERTEX;
 		}
-	
+
 		if (line.match(/^f\s/)) {
 			return LineType.FACE;
 		}
-	
+
 		if (line.match(/^vt\s/)) {
 			return LineType.UV_COORDS;
 		}
@@ -98,8 +97,8 @@ export class MeshLoader extends AssetLoader<Mesh>{
 		}
 		return LineType.UNUSED;
 	}
-	
-	
+
+
 	private decodeVertexLine(line:string):Vector3 {
 		let vec = new Vector3();
 		let part = line.split(" ");
@@ -108,7 +107,7 @@ export class MeshLoader extends AssetLoader<Mesh>{
 		vec.z = parseFloat(part[3]);
 		return vec;
 	}
-	
+
 	private decodeUVCoordLine(line:string):Vector3 {
 		let vec = new Vector3();
 		let part = line.split(" ");
@@ -126,7 +125,7 @@ export class MeshLoader extends AssetLoader<Mesh>{
 		vector.z = parseFloat(part[3]);
 		return vector;
 	}
-	
+
 	private decodeFaceLine(line:string, faces:IMeshVericesUVsAndNormals):number[] {
 		let parts = line.split(" ");
 		let v1 = this.decodeFacePart(parts[1]);
@@ -138,20 +137,20 @@ export class MeshLoader extends AssetLoader<Mesh>{
 		let normal1 = this.decodeFaceNormalPart(parts[1]);
 		let normal2 = this.decodeFaceNormalPart(parts[2]);
 		let normal3 = this.decodeFaceNormalPart(parts[3]);
-	
+
 		return [
 			...faces.vertices[v1-1].toArray(), ...this.getUVs(faces.uvCoords[uv1-1]), ...this.getNormals(faces.normals[normal1 - 1]),
 			...faces.vertices[v2-1].toArray(), ...this.getUVs(faces.uvCoords[uv2-1]), ...this.getNormals(faces.normals[normal2 - 1]),
 			...faces.vertices[v3-1].toArray(), ...this.getUVs(faces.uvCoords[uv3-1]), ...this.getNormals(faces.normals[normal3 - 1]),
 		];
-	
+
 	}
-	
+
 	private decodeFacePart(part:string):number {
 		let parts = part.split("/");
 		return parseFloat(parts[0]);
 	}
-	
+
 	private decodeFaceUVPart(part:string):number {
 		let parts = part.split("/");
 		return parseFloat(parts[1]);
@@ -161,7 +160,7 @@ export class MeshLoader extends AssetLoader<Mesh>{
 		let parts = part.split("/");
 		return parseFloat(parts[2]);
 	}
-	
+
 	private getUVs(vector:Vector3):number[] {
 		return [vector.x, -vector.y];
 	}
@@ -177,13 +176,13 @@ export class MeshLoader extends AssetLoader<Mesh>{
 	private getMaterialFileName(line:string):string {
 		return line.split(" ")[1];
 	}
-	
-	
+
+
 	private loadObjWithMtl(mesh:Mesh, obj:string):void {
 		let meshParts:MeshPart[] = [];
 		let verticesAndUVs = this.getMeshVerticesAndUVs(obj);
 		let lines = obj.split("\n");
-	
+
 		let meshVertices:number[];
 		let materialName:string;
 		let materialFileName:string;
@@ -203,11 +202,11 @@ export class MeshLoader extends AssetLoader<Mesh>{
 				meshVertices.push(...this.decodeFaceLine(line, verticesAndUVs));
 			}
 		}
-	
+
 		if (meshVertices) {
 			meshParts.push(new MeshPart(this.engine, meshVertices, materialName));
 		}
-	
+
 		mesh.load(meshParts);
 	}
 }

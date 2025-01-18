@@ -1,10 +1,7 @@
 import { Engine } from "../engine";
+import { GlBufferAttributeInfo } from "./gl-buffer-attribute-info";
 
-export class AttributeInfo{
-	public location:number;
-	public size:number;
-	public offset:number;
-}
+
 
 export class GLBuffer {
 	private engine:Engine;
@@ -16,9 +13,9 @@ export class GLBuffer {
 	private dataType:number;
 	private mode:number;
 	private typeSize:number;
-	
+
 	private data:number[] = [];
-	private attributes:AttributeInfo[] = [];
+	private attributes:GlBufferAttributeInfo[] = [];
 
 	public constructor(engine:Engine, elementSize:number, dataType:number = engine.gl.FLOAT, bufferType:number = engine.gl.ARRAY_BUFFER, mode:number = engine.gl.TRIANGLES) {
 		this.engine = engine;
@@ -36,7 +33,7 @@ export class GLBuffer {
 		this.engine.gl.deleteBuffer(this.buffer);
 	}
 
-	
+
 	public bind(normalized:boolean = false):void {
 		this.engine.gl.bindBuffer(this.bufferType, this.buffer);
 
@@ -53,7 +50,7 @@ export class GLBuffer {
 		this.engine.gl.bindBuffer(this.bufferType, undefined);
 	}
 
-	public addAttributeLocation(info:AttributeInfo):void {
+	public addAttributeLocation(info:GlBufferAttributeInfo):void {
 		this.attributes.push(info);
 	}
 
@@ -82,20 +79,20 @@ export class GLBuffer {
 
 	private static dataToArrayBuffer(gl:WebGLRenderingContext, dataType:number, data:number[]):ArrayBuffer {
 		switch (dataType){
-			case gl.FLOAT:
-				return new Float32Array(data);
-			case gl.INT:
-				return new Int32Array(data);
-			case gl.UNSIGNED_INT:
-				return new Uint32Array(data);
-			case gl.SHORT:
-				return new Int16Array(data);
-			case gl.UNSIGNED_SHORT:
-				return new Uint16Array(data);
-			case gl.BYTE:
-				return new Int8Array(data);
-			case gl.UNSIGNED_BYTE: 
-				return new Uint8Array(data);
+		case gl.FLOAT:
+			return new Float32Array(data);
+		case gl.INT:
+			return new Int32Array(data);
+		case gl.UNSIGNED_INT:
+			return new Uint32Array(data);
+		case gl.SHORT:
+			return new Int16Array(data);
+		case gl.UNSIGNED_SHORT:
+			return new Uint16Array(data);
+		case gl.BYTE:
+			return new Int8Array(data);
+		case gl.UNSIGNED_BYTE:
+			return new Uint8Array(data);
 		}
 		throw new Error(`Invalid datatype ${dataType}`);
 	}
@@ -103,18 +100,18 @@ export class GLBuffer {
 
 	private static getDataSize(gl:WebGLRenderingContext, dataType:number):number {
 		switch (dataType){
-			case gl.FLOAT:
-			case gl.INT:
-			case gl.UNSIGNED_INT:
-				return 4;
-			case gl.SHORT:
-			case gl.UNSIGNED_SHORT:
-				return 2;
-			case gl.BYTE:
-			case gl.UNSIGNED_BYTE: 
-				return 1;
-			default:
-				throw new Error(`Unrecognized data type ${dataType}`);
+		case gl.FLOAT:
+		case gl.INT:
+		case gl.UNSIGNED_INT:
+			return 4;
+		case gl.SHORT:
+		case gl.UNSIGNED_SHORT:
+			return 2;
+		case gl.BYTE:
+		case gl.UNSIGNED_BYTE:
+			return 1;
+		default:
+			throw new Error(`Unrecognized data type ${dataType}`);
 		}
 	}
 }

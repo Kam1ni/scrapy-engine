@@ -6,6 +6,6 @@ import { Engine } from "../engine";
 
 export class CombineShader extends Shader{
 	public constructor(engine:Engine){
-		super(engine, vertexSrc, fragmentSrc, "CombineShader")
+		super(engine, vertexSrc, fragmentSrc, "CombineShader");
 	}
 }

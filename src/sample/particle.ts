@@ -50,5 +50,5 @@ export class Particle extends GameContainer {
 		this.pos.y = -(this.engine.input.getMousePosY() - canvas.height / 2) / 10;
 		super.update(dt);
 	}
-	
+
 }

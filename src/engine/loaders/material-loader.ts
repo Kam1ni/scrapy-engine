@@ -10,7 +10,7 @@ async function defaultMaterialNameToMtlConverer(engine:Engine, name:string):Prom
 	let file = await engine.assetLoaders.fileLoader.getLoadedAsset(`${engine.assetLoaders.getBaseUrl()}/assets/models/${fileName}`);
 	return file.getContent();
 }
-	
+
 enum LineType {
 	NEW_MATERIAL,
 	DIFFUSE_COLOR,
@@ -34,8 +34,8 @@ export class MaterialLoader extends AssetLoader<Material>{
 			this.emit(`/loaded/${asset}`);
 		});
 		return {
-			asset:material,
-			refCount:0
+			asset: material,
+			refCount: 0
 		};
 	}
 

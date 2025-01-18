@@ -1,9 +1,9 @@
 import { PerspectiveCamera } from "./perspective-camera";
-import { Keys, MouseButtons } from "../utils/input";
 import { Vector3 } from "../math/vector3";
 import { Engine } from "../engine";
 import { Quaternion } from "../math/quaternion";
 import { degToRad } from "../math";
+import { Keys, MouseButtons } from "@/main";
 
 
 export class FreeCamera extends PerspectiveCamera{
@@ -24,7 +24,7 @@ export class FreeCamera extends PerspectiveCamera{
 	public update(dt:number):void {
 		let input = this.engine.input;
 		let speed = 1 * dt * this.speedMultiplier;
-		
+
 		let translation = Vector3.zero();
 		if (input.isKeyDown(Keys.A)) {
 			translation.x -= speed;
@@ -54,10 +54,10 @@ export class FreeCamera extends PerspectiveCamera{
 
 			this.yaw += dx * this.sensitivityMultiplier;
 			this.pitch -= dy * this.sensitivityMultiplier;
-			this.pitch = Math.min(90, Math.max(-90, this.pitch))
+			this.pitch = Math.min(90, Math.max(-90, this.pitch));
 		}
 
-		
+
 		this.transform.rotation = Quaternion.multiply(Quaternion.fromEuler(new Vector3(0,0,-this.pitch)), Quaternion.fromEuler(new Vector3(this.yaw, 0, 0)));
 		this.transform.position = this.transform.position.add(translation.rotateY(degToRad(-this.yaw)));
 		super.update(dt);

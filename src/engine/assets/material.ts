@@ -30,7 +30,7 @@ export class Material extends Asset {
 		}
 		this.texture.destroy();
 	}
-	
+
 	public destroy():void {
 		this.destroyTexture();
 	}

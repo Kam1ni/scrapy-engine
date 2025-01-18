@@ -48,5 +48,7 @@ export {
 	Input,
 	Keys,
 	MouseButtons,
-	ScrapyTouch
-} from "./engine/utils/input";
+	ScrapyTouch,
+	Ray,
+	ValueInspector
+} from "./engine/utils";

@@ -1,4 +1,4 @@
-import { Color, Engine, FreeCamera, PerspectiveCamera, Vector3 } from "@/main";
+import { Color, Engine, FreeCamera, Vector3 } from "@/main";
 import { BaseWorld } from "./base-world";
 import { Castle } from "./castle";
 import { Line } from "@/engine/world/line";

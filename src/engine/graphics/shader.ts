@@ -74,7 +74,7 @@ export class Shader {
 		// TODO: IMPLEMENT DESTROY
 		console.error("DESTROY NOT IMPLEMENTED YET");
 	}
-	
+
 	private detectAttributes():void {
 		let attribCount = this.engine.gl.getProgramParameter(this.program, this.engine.gl.ACTIVE_ATTRIBUTES);
 		for (let i = 0; i < attribCount; i++) {

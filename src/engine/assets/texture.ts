@@ -1,9 +1,7 @@
 import { Engine } from "../engine";
-import { EventEmitter } from "../utils/event-emitter";
 import { Asset } from "./asset";
 
 const LEVEL:number = 0;
-const BORDER:number = 0;
 
 export enum TextureState{
 	INITIAL,
@@ -22,7 +20,7 @@ export class Texture extends Asset{
 	public constructor(engine:Engine, name:string, textureUrl?:string) {
 		super(engine, name);
 		this.textureUrl = textureUrl;
-		
+
 	}
 
 	public async load():Promise<void> {
@@ -52,7 +50,7 @@ export class Texture extends Asset{
 		};
 		img.src = this.textureUrl;
 	}
-	
+
 	public activateAndBind(textureUnit:number = 0):void {
 		this.engine.gl.activeTexture(this.engine.gl.TEXTURE0 + textureUnit);
 		this.bind();
@@ -65,7 +63,7 @@ export class Texture extends Asset{
 			this.engine.staticGraphics.getMissingTexture().bind();
 		}
 	}
-	
+
 	public unbind():void {
 		if (this.state == TextureState.LOADED) {
 			this.engine.gl.bindTexture(this.engine.gl.TEXTURE_2D, undefined);

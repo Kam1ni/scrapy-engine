@@ -1,10 +1,7 @@
 import { Color } from "./color";
-import { Vector3 } from "../math/vector3";
 import { Transform } from "../math/transform";
-import { GameContainer } from "../world/game-container";
 import { Engine } from "../engine";
 import { Matrix4x4 } from "../math/matrix4x4";
-import { Vector4 } from "../math/vector4";
 
 export class PointLight{
 	public engine:Engine;
@@ -15,7 +12,7 @@ export class PointLight{
 	public constructor(engine:Engine) {
 		this.engine = engine;
 	}
-	
+
 	render(fragPosTexture:WebGLTexture, normalVectorTexture:WebGLTexture){
 		let rect = this.engine.staticGraphics.getLightingRect();
 

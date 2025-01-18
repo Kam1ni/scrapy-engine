@@ -23,7 +23,7 @@ export class BoundingBox extends SimObject {
 		result.z = pos.z;
 		return result;
 	}
-	
+
 	public getMinPoint():Vector3 {
 		let result = new Vector3();
 		let pos = this.worldMatrix.getTranslation();
@@ -41,7 +41,7 @@ export class BoundingBox extends SimObject {
 		result.z = pos.z + this.size.z / 2;
 		return result;
 	}
-	
+
 	public isTouching(box:BoundingBox):Vector3 {
 		let bMin = box.getMinPoint();
 		let bMax = box.getMaxPoint();
@@ -74,7 +74,7 @@ export class BoundingBox extends SimObject {
 		if (zOverlap < 0) {
 			return null;
 		}
-		
+
 		if (Math.abs(aMin.x - bMax.x) < Math.abs(bMin.x - aMax.x)) {
 			xOverlap = -xOverlap;
 		}

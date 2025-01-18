@@ -1,9 +1,5 @@
 import { Color } from "./graphics/color";
-import { Shader } from "./graphics/shader";
-import { MeshShader } from "./graphics/mesh-shader";
 import { GameWorld } from "./world/game-world";
-import { OrthographicCamera } from "./world/orthographic-camera";
-import { Camera } from "./world/camera";
 import { StaticAssets } from "./assets/static-assets";
 import { Input } from "./utils/input";
 import { AssetLoaderBundle } from "./loaders/asset-loader-bundle";
@@ -26,7 +22,7 @@ export class Engine{
 	private hasPointerLock:boolean = false;
 	private frameBuffer:WebGLFramebuffer;
 
-	
+
 
 
 	public constructor(canvas:HTMLCanvasElement) {
@@ -43,7 +39,7 @@ export class Engine{
 	public init():void {
 		this.initGL();
 		this.staticGraphics.load();
-	
+
 		this.input.init();
 
 		this.applyCanvasSize = this.applyCanvasSize.bind(this);
@@ -67,7 +63,7 @@ export class Engine{
 	public isRunning():boolean {
 		return this.running;
 	}
-	
+
 	public applyCanvasSize():void {
 		if (this.canvasSize) {
 			this.canvas.width = this.canvasSize.x;
@@ -104,14 +100,14 @@ export class Engine{
 		if (dt > this.maxFrameTime) {
 			dt = this.maxFrameTime;
 		}
-		
+
 		this.world.update(dt);
 
 		for (let shader of this.staticGraphics.getShaders()){
 			shader.use();
 			let projectionPosition = shader.getUniformLocation("u_projection");
 			this.gl.uniformMatrix4fv(projectionPosition, false, this.world.getCamera().getMatrix().toFloat32Array());
-			
+
 			let transformLocation = shader.getUniformLocation("u_view");
 			this.gl.uniformMatrix4fv(transformLocation, false, this.getWorld().getCamera().getViewMatrix().toFloat32Array());
 		}
@@ -128,20 +124,20 @@ export class Engine{
 		let normalVectorTexture = this.createFrameBufferTexture(true);
 		this.gl.framebufferTexture2D(this.gl.FRAMEBUFFER, this.gl.COLOR_ATTACHMENT2, this.gl.TEXTURE_2D, normalVectorTexture, 0);
 
-		let depthTexture = this.createDepthTexture()
+		let depthTexture = this.createDepthTexture();
 		this.gl.framebufferTexture2D(this.gl.FRAMEBUFFER, this.gl.DEPTH_ATTACHMENT, this.gl.TEXTURE_2D, depthTexture, 0);
 
 		let status = this.gl.checkFramebufferStatus(this.gl.FRAMEBUFFER);
 		if (status != this.gl.FRAMEBUFFER_COMPLETE){
 			console.error(status);
 		}
-		
+
 		this.gl.drawBuffers([
 			this.gl.COLOR_ATTACHMENT0,
 			this.gl.COLOR_ATTACHMENT1,
 			this.gl.COLOR_ATTACHMENT2,
-		])
-		
+		]);
+
 		this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 		this.world.render();
 
@@ -201,7 +197,7 @@ export class Engine{
 		let tex = this.gl.createTexture();
 		this.gl.bindTexture(this.gl.TEXTURE_2D, tex);
 		this.gl.texImage2D(this.gl.TEXTURE_2D, 0, this.gl.DEPTH_COMPONENT16, this.getCanvas().width, this.getCanvas().height, 0, this.gl.DEPTH_COMPONENT, this.gl.UNSIGNED_SHORT, null);
-		return tex
+		return tex;
 	}
 
 	private initGL():void {
@@ -216,8 +212,8 @@ export class Engine{
 		// Enables depth
 		this.gl.enable(this.gl.DEPTH_TEST);
 
-		if (!this.gl.getExtension('EXT_color_buffer_float') == null) {
-			console.log('No EXT_color_buffer_float not supported, this test will fail');
+		if (!this.gl.getExtension("EXT_color_buffer_float") == null) {
+			console.log("No EXT_color_buffer_float not supported, this test will fail");
 		}
 
 		this.setClearColor(this.clearColor);

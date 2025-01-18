@@ -6,7 +6,7 @@ import fragmentSrc from "@/engine/shaders/lighting.frag";
 export class LightingShader extends Shader{
 
 	public constructor(engine:Engine){
-		super(engine, vertexSrc, fragmentSrc, "LightingShader")
+		super(engine, vertexSrc, fragmentSrc, "LightingShader");
 	}
 
 }

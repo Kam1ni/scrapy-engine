@@ -17,10 +17,8 @@ export class Audio extends Asset {
 			rawFile.open("GET", this.audioUrl, true);
 			rawFile.responseType = "blob";
 			rawFile.onreadystatechange = ()=> {
-				if (rawFile.readyState === 4)
-				{
-					if (rawFile.status === 200 || rawFile.status == 0)
-					{
+				if (rawFile.readyState === 4) {
+					if (rawFile.status === 200 || rawFile.status == 0) {
 						obj.fetchedAudioUrl = URL.createObjectURL(rawFile.response);
 						obj.loaded = true;
 						resolve();
@@ -31,9 +29,9 @@ export class Audio extends Asset {
 		});
 	}
 
-	
+
 	private convertDataURIToBinary(data:string):Uint8Array {
-		let BASE64_MARKER = ';base64,';
+		let BASE64_MARKER = ";base64,";
 		let base64Index = data.indexOf(BASE64_MARKER) + BASE64_MARKER.length;
 		let base64 = data.substring(base64Index);
 		let raw = window.btoa(base64);

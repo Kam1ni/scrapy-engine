@@ -1,6 +1,6 @@
 import { Engine } from "../engine";
 import { Color, GLBuffer, Shader } from "../graphics";
-import { AttributeInfo } from "../graphics/gl-buffer";
+import { GlBufferAttributeInfo } from "../graphics/gl-buffer-attribute-info";
 import { Matrix4x4, Vector3 } from "../math";
 import { Asset } from "./asset";
 
@@ -22,7 +22,7 @@ export class Line extends Asset {
 
 		this.buffer = new GLBuffer(this.engine, 3, gl.FLOAT, gl.ARRAY_BUFFER, gl.LINES);
 		let positionAttribute = shader.getAttributeLocation("a_position");
-		let info = new AttributeInfo();
+		let info = new GlBufferAttributeInfo();
 		info.location = positionAttribute;
 		info.size = 3;
 		info.offset = 0;

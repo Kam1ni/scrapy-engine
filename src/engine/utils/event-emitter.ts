@@ -14,7 +14,7 @@ export class EventEmitter {
 		this.subs.push({
 			event,
 			handler,
-			isOnce:false,
+			isOnce: false,
 			binding
 		});
 	}
@@ -23,10 +23,10 @@ export class EventEmitter {
 		this.subs.push({
 			event,
 			handler,
-			isOnce:true,
+			isOnce: true,
 			binding
 		});
-	}	
+	}
 
 	public off(event:string, handler:Handler):void {
 		let i = this.subs.findIndex((s)=>s.event == event && s.handler == handler);
@@ -34,7 +34,7 @@ export class EventEmitter {
 			this.subs.splice(i, 1);
 		}
 	}
-	
+
 	public offByBinding(binding:any):void {
 		for (let i = this.subs.length - 1; i <= 0; i--) {
 			let sub = this.subs[i];

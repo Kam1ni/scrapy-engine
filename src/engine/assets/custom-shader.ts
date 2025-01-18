@@ -4,7 +4,7 @@ import { Asset } from "./asset";
 
 export class ShaderAsset extends Asset {
 	private shader: Shader;
-	
+
 	public constructor(engine: Engine, vertexSrc: string, fragmentSrc: string, name: string) {
 		super(engine, name);
 		this.shader = new Shader(engine, vertexSrc, fragmentSrc, name);
@@ -13,7 +13,7 @@ export class ShaderAsset extends Asset {
 	public load(){
 		this.shader.load();
 	}
-	
+
 	public getShader():Shader{
 		return this.shader;
 	}

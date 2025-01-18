@@ -55,9 +55,9 @@ export class Vector2 {
 	}
 
 	public toString():string{
-		let n = this.toArray().map(i=>i.toFixed(2))
-		return `x: ${n[0]}; y: ${n[1]}`
+		let n = this.toArray().map(i=>i.toFixed(2));
+		return `x: ${n[0]}; y: ${n[1]}`;
 	}
 }
 
-(window as any).Vector2 = Vector2
+(window as any).Vector2 = Vector2;

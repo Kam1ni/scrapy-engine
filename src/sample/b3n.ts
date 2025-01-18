@@ -1,11 +1,11 @@
 import { Vector3 } from "@/engine/math/vector3";
-import { Keys, ScrapyTouch } from "@/engine/utils/input";
 import { approach } from "@/engine/math/approach";
 import { AnimatedSprite } from "@/engine/world/animated-sprite";
 import { Engine } from "@/engine/engine";
 import { SimObject } from "@/engine/world/sim-object";
 import { BoundingBox } from "@/engine/world/bounding-box";
-import { ValueInspector } from "@/engine/utils/value-inspector";
+import { Keys } from "@/main";
+import { ScrapyTouch } from "@/engine/utils/scrap-touch";
 
 export class B3N extends SimObject {
 	public velocity:Vector3 = new Vector3();
@@ -40,7 +40,7 @@ export class B3N extends SimObject {
 			justIsLeft = this.isTouchLeft(touch);
 			justIsRight = !justIsLeft;
 		}
-		
+
 		if (justIsLeft) {
 			if (this.transform.scale.x == 1) {
 				this.transform.scale.x = -1;
@@ -67,7 +67,7 @@ export class B3N extends SimObject {
 		}else {
 			this.velocity.y = approach(this.velocity.y, 0, dt / 3.0);
 		}
-		
+
 		if (goLeft || goRight) {
 			if (goLeft) {
 				this.velocity.x = approach(this.velocity.x, -speed, dt / 3.0);

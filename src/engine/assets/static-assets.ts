@@ -37,7 +37,7 @@ export class StaticAssets {
 
 	constructor(engine:Engine) {
 		this.engine = engine;
-		this.meshShader = new MeshShader(this.engine)
+		this.meshShader = new MeshShader(this.engine);
 		this.spriteShader = new SpriteShader(this.engine);
 		this.lightingShader = new LightingShader(this.engine);
 		this.ambientLightRect = new AmbientLightShaderRect(this.engine);
@@ -62,7 +62,7 @@ export class StaticAssets {
 		this.ambientLightShader.load();
 		this.combineShader.load();
 		this.lineShader.load();
-		
+
 		this.missingTexture.load();
 		this.diffuseTexture.load();
 		this.lightingRect.load();

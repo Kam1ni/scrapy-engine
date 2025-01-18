@@ -149,7 +149,7 @@ export class Matrix4x4 {
 		let tmp_21 = m20 * m01;
 		let tmp_22 = m00 * m11;
 		let tmp_23 = m10 * m01;
-	
+
 		let t0 = (tmp_0 * m11 + tmp_3 * m21 + tmp_4 * m31) -
 			(tmp_1 * m11 + tmp_2 * m21 + tmp_5 * m31);
 		let t1 = (tmp_1 * m01 + tmp_6 * m21 + tmp_9 * m31) -
@@ -158,9 +158,9 @@ export class Matrix4x4 {
 			(tmp_3 * m01 + tmp_6 * m11 + tmp_11 * m31);
 		let t3 = (tmp_5 * m01 + tmp_8 * m11 + tmp_11 * m21) -
 			(tmp_4 * m01 + tmp_9 * m11 + tmp_10 * m21);
-	
+
 		let d = 1.0 / (m00 * t0 + m10 * t1 + m20 * t2 + m30 * t3);
-	
+
 		let matrix = new Matrix4x4();
 		matrix.data= [
 			d * t0,
@@ -224,7 +224,7 @@ export class Matrix4x4 {
 
 	public static translation(position:Vector3):Matrix4x4 {
 		let m = new Matrix4x4();
-		
+
 		m.data[12] = position.x;
 		m.data[13] = position.y;
 		m.data[14] = position.z;
@@ -232,7 +232,7 @@ export class Matrix4x4 {
 		return m;
 	}
 
-	
+
 	public static rotationX(angleInRadians:number):Matrix4x4 {
 		let m = Matrix4x4.identity();
 
@@ -247,7 +247,7 @@ export class Matrix4x4 {
 		return m;
 	}
 
-	
+
 	public static rotationY(angleInRadians:number):Matrix4x4 {
 		let m = Matrix4x4.identity();
 
@@ -290,25 +290,24 @@ export class Matrix4x4 {
 				return Matrix4x4.rotationX(rotation.x);
 			}else if (axis == "Y") {
 				return Matrix4x4.rotationY(rotation.y);
-			}else{
-				return Matrix4x4.rotationZ(rotation.z);
 			}
-		}
+			return Matrix4x4.rotationZ(rotation.z);
+
+		};
 		return getRotationMatrix(order[0]).multiply(getRotationMatrix(order[1])).multiply(getRotationMatrix(order[2]));
 	}
 
 	public static quaternionRotation(q:Quaternion):Matrix4x4{
-		let ww = q.w * q.w; 
 		let xx = q.x * q.x;
 		let yy = q.y * q.y;
 		let zz = q.z * q.z;
 		let wx = q.w * q.x;
-		let wy = q.w * q.y; 
+		let wy = q.w * q.y;
 		let wz = q.w * q.z;
 		let xy = q.x * q.y;
-		let xz = q.x * q.z; 
+		let xz = q.x * q.z;
 		let yz = q.y * q.z;
-	
+
 		let mat = Matrix4x4.identity();
 		mat.data[0] = 1 - 2 * (yy + zz);
 		mat.data[1] = 2 * (xy - wz);
@@ -325,7 +324,7 @@ export class Matrix4x4 {
 
 	public static scale(scale:Vector3):Matrix4x4 {
 		let m = new Matrix4x4();
-		
+
 		m.data[0] = scale.x;
 		m.data[5] = scale.y;
 		m.data[10] = scale.z;
@@ -337,59 +336,13 @@ export class Matrix4x4 {
 		return new Vector3(this.data[12], this.data[13], this.data[14]);
 	}
 
-	public getScaling():Vector3 {
-		
-		let x = new Vector3(this.data[0], this.data[1], this.data[2]).getLength();
-		let y = new Vector3(this.data[4], this.data[5], this.data[6]).getLength();
-		let z = new Vector3(this.data[8], this.data[9], this.data[10]).getLength();
-		
-		return new Vector3(x,y,z);
-		
-	}
-
-	public getRotationMatrix():Matrix4x4 {
-		let scale = this.getScaling();
-		let m = new Matrix4x4();
-		
-		m.data[0] = this.data[0] / scale.x;
-		m.data[1] = this.data[1] / scale.x;
-		m.data[2] = this.data[2] / scale.x;
-		m.data[3] = 0;
-
-		m.data[4] = this.data[4] / scale.y;
-		m.data[5] = this.data[5] / scale.y;
-		m.data[6] = this.data[6] / scale.y;
-		m.data[7] = 0;
-	
-		m.data[8] = this.data[8] / scale.z;
-		m.data[9] = this.data[9] / scale.z;
-		m.data[10] = this.data[10] / scale.z;
-		m.data[11] = 0;
-	
-		m.data[12] = 0;
-		m.data[13] = 0;
-		m.data[14] = 0;
-		m.data[15] = 1;
-
-		return m;		
-	}
-
-	public getRotation():Vector3 {		
-		// TODO: IS UNSTABLE
-		let m = this.getRotationMatrix();
-		let rx = Math.atan2(this.data[6], this.data[10]);
-		let ry = Math.atan2(-this.data[2], Math.sqrt(this.data[6] * this.data[6] + this.data[10] * this.data[10]));
-		let rz = Math.atan2(this.data[1], this.data[0]);
-		return new Vector3(rx, ry, -rz);
-	}
-
 	public vectorMultiply(vec:Vector4):Vector4 {
 		let x0 = this.data[0] * vec.x;
 		let x1 = this.data[4] * vec.y;
 		let x2 = this.data[8] * vec.z;
 		let x3 = this.data[12] * vec.w;
 		let x = x0+x1+x2+x3;
-		
+
 		let y0 = this.data[1] * vec.x;
 		let y1 = this.data[5] * vec.y;
 		let y2 = this.data[9] * vec.z;
@@ -414,7 +367,7 @@ export class Matrix4x4 {
 	public toFloat32Array():Float32Array {
 		return new Float32Array(this.data);
 	}
-	
+
 	public clone():Matrix4x4 {
 		let m = new Matrix4x4();
 		m.copyFrom(this);

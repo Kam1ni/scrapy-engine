@@ -2,7 +2,7 @@ import { Texture, TextureState } from "./texture";
 import { Engine } from "../engine";
 
 export class DiffuseTexture extends Texture{
-	
+
 	constructor(engine:Engine) {
 		super(engine, "diffuse");
 	}
@@ -16,7 +16,7 @@ export class DiffuseTexture extends Texture{
 
 		this.bind();
 		gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1,1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([255,255,255,255]));
-	
+
 		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
 		this.state = TextureState.LOADED;
 	}
@@ -24,7 +24,7 @@ export class DiffuseTexture extends Texture{
 	public bind():void {
 		this.engine.gl.bindTexture(this.engine.gl.TEXTURE_2D, this.handle);
 	}
-	
+
 	public unbind():void {
 		this.engine.gl.bindTexture(this.engine.gl.TEXTURE_2D, undefined);
 	}

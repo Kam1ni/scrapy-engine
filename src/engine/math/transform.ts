@@ -1,6 +1,5 @@
 import { Vector3 } from "./vector3";
 import { Matrix4x4 } from "./matrix4x4";
-import { Vector4 } from "./vector4";
 import { Quaternion } from "./quaternion";
 
 export type EulerRotationOrder = "XYZ" | "YXZ" | "ZYX"
@@ -32,14 +31,4 @@ export class Transform {
 		return rotation.multiply(translation).multiply(scale);
 	}
 
-	public static fromMatrix(matrix:Matrix4x4):Transform {
-		let t = new Transform();
-		t.position = matrix.getTranslation();
-		// t.rotation = matrix.getRotation();
-		// TODO: Implement rotation
-		t.scale = matrix.getScaling();
-		return t;
-	}
-
-	
 }

@@ -1,5 +1,3 @@
-import { SimObject } from "@/engine/world/sim-object";
-import { Mesh } from "@/engine/assets/mesh";
 import { Object3D } from "@/engine/world/object-3d";
 import { Engine } from "@/engine/engine";
 

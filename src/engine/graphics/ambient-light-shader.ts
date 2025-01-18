@@ -5,6 +5,6 @@ import { Engine } from "../engine";
 
 export class AmbientLightShader extends Shader{
 	public constructor(engine:Engine){
-		super(engine, vertexSrc, fragmentSrc, "AmbientLightShader")
+		super(engine, vertexSrc, fragmentSrc, "AmbientLightShader");
 	}
 }

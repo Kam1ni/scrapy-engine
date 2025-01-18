@@ -1,7 +1,7 @@
 import { GameWorld, FreeCamera, OrthographicCamera } from "@/engine/world";
 import { Cube } from "./cube";
 import { Engine } from "@/engine/engine";
-import { Keys } from "@/engine/utils/input";
+import { Keys } from "@/main";
 
 export class OrientationWorld extends GameWorld {
 	freeCam:FreeCamera;
@@ -19,7 +19,7 @@ export class OrientationWorld extends GameWorld {
 		this.freeCam = camera;
 		this.ortCam = new OrthographicCamera(this.engine);
 
-		this.ortCam.transform = this.freeCam.transform
+		this.ortCam.transform = this.freeCam.transform;
 
 		let cube = new Cube(this.engine);
 		this.addChild(cube);
@@ -27,7 +27,7 @@ export class OrientationWorld extends GameWorld {
 	}
 
 	update(dt:number){
-		super.update(dt)
+		super.update(dt);
 
 		if (this.engine.input.isKeyPressed(Keys.Q)){
 			this.setCamera(this.ortCam);

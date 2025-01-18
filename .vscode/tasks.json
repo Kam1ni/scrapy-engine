@@ -8,6 +8,15 @@
 			"script": "build-release",
 			"group": "build",
 			"problemMatcher": []
+		},
+		{
+			"type": "npm",
+			"script": "lint",
+			"problemMatcher": [
+				"$eslint-compact"
+			],
+			"label": "npm: lint",
+			"detail": "eslint . --fix"
 		}
 	]
 }

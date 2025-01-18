@@ -1,22 +1,15 @@
-import { GameWorld } from "@/engine/world/game-world";
 import { SimObject } from "@/engine/world/sim-object";
 import { Sprite } from "@/engine/world/sprite";
 import { Vector3 } from "@/engine/math/vector3";
 import { B3N } from "./b3n";
 import { LampPost } from "./lamp-post";
-import { Keys, MouseButtons } from "@/engine/utils/input";
 import { Color } from "@/engine/graphics/color";
-import { degToRad } from "@/engine/math/angles";
-import { MaterialsTest } from "./materials-test";
-import { Camera } from "@/engine/world/camera";
 import { PerspectiveCamera } from "@/engine/world/perspective-camera";
 import { Engine } from "@/engine/engine";
 import { Audio } from "@/engine/assets/audio";
-import { BoundingBox } from "@/engine/world/bounding-box";
-import { FreeCamera } from "@/engine/world";
 import { Cube } from "./cube";
-import { LightTesting } from "./light-testing";
 import { BaseWorld } from "./base-world";
+import { Keys } from "@/main";
 
 export class World extends BaseWorld {
 	private b3n:B3N;
@@ -73,7 +66,7 @@ export class World extends BaseWorld {
 		this.addChild(matTest);
 		this.audio = this.engine.assetLoaders.audioLoader.getAsset("test-audio.wav");
 	}
-	
+
 	public update(dt:number):void {
 
 		if (this.engine.input.isKeyPressed(Keys.P)) {

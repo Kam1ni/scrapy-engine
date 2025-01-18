@@ -1,4 +1,4 @@
-import { GameWorld, Rect } from "@/engine/world";
+import { Rect } from "@/engine/world";
 import { Engine } from "@/engine/engine";
 import { BaseWorld } from "./base-world";
 import { Color } from "@/engine/graphics";
