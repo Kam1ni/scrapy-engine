@@ -364,6 +364,11 @@ export class Matrix4x4 {
 		return new Vector4(x,y,z,w);
 	}
 
+	public vector3Multiply(vec:Vector3):Vector3{
+		let result = this.vectorMultiply(new Vector4(vec.x,vec.y,vec.z, 1));
+		return new Vector3(result.x,result.y, result.z);
+	}
+
 	public toFloat32Array():Float32Array {
 		return new Float32Array(this.data);
 	}

@@ -62,4 +62,5 @@ export class FreeCamera extends PerspectiveCamera{
 		this.transform.position = this.transform.position.add(translation.rotateY(degToRad(-this.yaw)));
 		super.update(dt);
 	}
+
 }
