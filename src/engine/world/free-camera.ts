@@ -58,8 +58,8 @@ export class FreeCamera extends PerspectiveCamera{
 		}
 
 
-		this.transform.rotation = Quaternion.multiply(Quaternion.fromEuler(new Vector3(0,0,-this.pitch)), Quaternion.fromEuler(new Vector3(this.yaw, 0, 0)));
-		this.transform.position = this.transform.position.add(translation.rotateY(degToRad(-this.yaw)));
+		this.transform.rotation = Quaternion.multiply(Quaternion.fromEuler(new Vector3(-this.pitch, 0, 0)), Quaternion.fromEuler(new Vector3(0,this.yaw,0)));
+		this.transform.position = this.transform.position.add(translation.rotateY(degToRad(this.yaw)));
 		super.update(dt);
 	}
 

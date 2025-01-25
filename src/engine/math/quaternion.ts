@@ -51,25 +51,23 @@ export class Quaternion {
 		let sr = Math.sin(roll * 0.5);
 
 		let result = new Quaternion();
+		result.w = cr * cp * cy + sr * sp * sy;
 
 		switch (order) {
 		case "XYZ":
-			result.w = cr * cp * cy + sr * sp * sy;
-			result.x = sr * cp * cy - cr * sp * sy;
-			result.y = cr * sp * cy + sr * cp * sy;
-			result.z = cr * cp * sy - sr * sp * cy;
+			result.x = cr * sp * cy + sr * cp * sy;
+			result.y = cr * cp * sy - sr * sp * cy;
+			result.z = sr * cp * cy - cr * sp * sy;
 			break;
 		case "YXZ":
-			result.w = cr * cp * cy + sr * sp * sy;
-			result.x = sr * cp * cy + cr * sp * sy;
-			result.y = cr * sp * cy - sr * cp * sy;
-			result.z = cr * cp * sy - sr * sp * cy;
+			result.x = cr * sp * cy - sr * cp * sy;
+			result.y = cr * cp * sy - sr * sp * cy;
+			result.z = sr * cp * cy + cr * sp * sy;
 			break;
 		case "ZYX":
-			result.w = cr * cp * cy + sr * sp * sy;
-			result.x = sr * cp * cy - cr * sp * sy;
-			result.y = cr * sp * cy - sr * cp * sy;
-			result.z = cr * cp * sy + sr * sp * cy;
+			result.x = cr * sp * cy - sr * cp * sy;
+			result.y = cr * cp * sy + sr * sp * cy;
+			result.z = sr * cp * cy - cr * sp * sy;
 			break;
 		default:
 			throw new Error("Invalid rotation order");

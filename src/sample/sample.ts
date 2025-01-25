@@ -1,13 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Engine } from "@/engine/engine";
-import { SimObject } from "@/engine/world/sim-object";
-import { SimpleRect } from "./simple-rect";
 import { World } from "./world";
 import { FreeCamera } from "@/engine/world/free-camera";
 import { LightTesting } from "./light-testing";
 import { ShaderTest } from "./shader-test";
 import { OrientationWorld } from "./orientation-world";
-import { degToRad } from "@/main";
 import { Lines } from "./lines";
 import { CastleWorld } from "./castle-world";
 import { Rays3D } from "./rays-3d";

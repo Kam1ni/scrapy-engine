@@ -61,6 +61,7 @@ export class Vector3 {
 	}
 
 	public rotateY(angle:number):Vector3 {
+		angle = -angle;
 		let m = Matrix4x4.rotationY(angle);
 		let v4 = new Vector4(this.x, this.y, this.z, 0);
 		v4 = m.vectorMultiply(v4);
@@ -68,6 +69,7 @@ export class Vector3 {
 	}
 
 	public rotateZ(angle:number):Vector3 {
+		angle = -angle;
 		let m = Matrix4x4.rotationZ(angle);
 		let v4 = new Vector4(this.x, this.y, this.z, 0);
 		v4 = m.vectorMultiply(v4);

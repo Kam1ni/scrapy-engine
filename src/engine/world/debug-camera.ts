@@ -13,6 +13,12 @@ export class DebugCamera extends FreeCamera {
 
 	public update(dt:number){
 		super.update(dt);
+		if (Math.abs(this.pitch) > 360){
+			this.pitch = this.pitch % 360;
+		}
+		if (Math.abs(this.yaw) > 360) {
+			this.yaw = this.yaw % 360;
+		}
 		sessionStorage.setItem("debug-camera-position", JSON.stringify(this.transform.position.toArray()));
 		sessionStorage.setItem("debug-camera-rotation", JSON.stringify([this.pitch, this.yaw]));
 	}

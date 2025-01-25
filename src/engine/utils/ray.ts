@@ -43,7 +43,9 @@ export class Ray {
 	}
 
 	// Checks if ray intersects with plane.
-	public intersectsWithPlane(points:number[]):Vector3 | null {
+	public intersectsWithPlane(points:Vector3[]):Vector3 | null {
+
+
 		return null;
 	}
 }
